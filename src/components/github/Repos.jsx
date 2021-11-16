@@ -6,7 +6,7 @@ import { MdCopyAll } from "react-icons/md";
 import colors from "../../colors.json";
 import ProgressLine from "../progress/ProgressLine";
 import ReactLoading from "react-loading";
-
+import LineEllipsis from "react-lines-ellipsis";
 const Repos = () => {
   const [repos, setRepos] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -78,7 +78,14 @@ const Repos = () => {
               {item?.name}
             </a>
             {item?.description ? (
-              <div className="description">{item?.description}</div>
+              <LineEllipsis
+                className="description"
+                text={item?.description}
+                maxLine="2"
+                ellipsis="..."
+                trimRight
+                basedOn="letters"
+              />
             ) : null}
             <div className="clone">
               <div className="">{item?.clone_url}</div>
@@ -162,8 +169,6 @@ const Container = styled.div`
     }
     .description {
       text-align: left;
-      max-height: 30px;
-      overflow: hidden;
       font-size: 0.8rem;
       padding: 5px 5px;
     }

@@ -1,13 +1,13 @@
 import styled from "styled-components";
 import { useContext } from "react";
 import Context from "../../context/Context";
-
+import Avatar from "../../assets/img/avatar.jpg";
 const Header = () => {
   const { data } = useContext(Context);
   return (
     <Container>
       <div className="profile">
-        <img className="profile-img" src={data?.person?.avatar} alt="" />
+        <img className="profile-img" src={Avatar} alt="" />
         <div className="title">{data?.person?.fullName}</div>
       </div>
 
