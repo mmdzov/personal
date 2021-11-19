@@ -15,14 +15,24 @@ export const Container = styled.div`
     display: flex;
     align-items: center;
     padding-bottom: 10px;
-    > img {
+    justify-content: space-between;
+    img {
       height: 50px;
       width: 50px;
       border-radius: 100px;
     }
-    > div {
+    div > div {
       padding: 0 15px;
       font-size: 1rem;
+    }
+    > div {
+      display: flex;
+      align-items: center;
+    }
+    .chatlistIcon {
+      font-size: 1.7rem;
+      padding: 5px;
+      cursor: pointer;
     }
   }
   .chat {

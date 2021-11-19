@@ -3,6 +3,7 @@ import Context from "../../context/Context";
 import { Container } from "./Chat.styled";
 import { Input, Button } from "antd";
 import { IoSend } from "react-icons/io5";
+import { IoReturnUpForward } from "react-icons/io5";
 const { TextArea } = Input;
 
 const Chat = () => {
@@ -17,8 +18,16 @@ const Chat = () => {
   return (
     <Container>
       <div className="header">
-        <img src={user.avatar} alt="" />
-        <div className="username">{user.username}</div>
+        <div className="">
+          <img src={user.avatar} alt="" />
+          <div className="username">{user.username}</div>
+        </div>
+
+        {/* //! need admin access to show blow button */}
+        <div className="chatlistIcon">
+          <IoReturnUpForward />
+        </div>
+
       </div>
       <div className="content"></div>
       <form className="chat">
