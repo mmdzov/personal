@@ -1,14 +1,19 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import ContactUs from "./components/Personal/ContactUs";
-import Header from "./components/Personal/Header";
-import Skills from "./components/Personal/Skills";
 import "./App.css";
 import Context from "./context/Context";
 import axios from "axios";
-import Repos from "./components/github/Repos";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Resume from "./components/Resume/Resume";
+import Chat from "./components/Chat/Chat";
+import Avatar from "./assets/img/avatar.jpg";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
+  const [user] = useState({
+    avatar: Avatar,
+    username: "Reza",
+  });
   const [data, setData] = useState({
     person: {
       fullName: "Mohammad-Ali Zoveydat",
@@ -50,22 +55,25 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <Context.Provider value={{ data }}>
-      <Container className="App">
-        <Header />
-        <Body>
-          <Skills />
-          <div className="">
-            <Repos />
-            <ContactUs />
-          </div>
-        </Body>
-        <div className="sec">
-          <div className="sec-title">Location</div>
-          <div className="sec-list">Iran / Khuzestan / Abadan</div>
-        </div>
-      </Container>
-    </Context.Provider>
+    <Router>
+      <Context.Provider value={{ data, user }}>
+        <Container className="App">
+          <Routes>
+            <Route path="personal" exact element={<Resume />} />
+            <Route path="/" exact element={<Chat />} />
+            <Route
+              path="chat"
+              exact
+              element={
+                <PrivateRoute>
+                  <Chat />
+                </PrivateRoute>
+              }
+            />
+          </Routes>
+        </Container>
+      </Context.Provider>
+    </Router>
   );
 }
 
@@ -110,20 +118,6 @@ const Container = styled.div`
       > span {
         padding: 5px 0px;
       }
-    }
-  }
-`;
-
-const Body = styled.div`
-  @media (min-width: 640px) {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    max-width: 760px;
-    margin: 0 auto;
-    margin-top: 30px;
-    margin-bottom: 30px;
-    & > .sec {
-      border-bottom: 0px !important;
     }
   }
 `;
