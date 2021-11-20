@@ -10,6 +10,7 @@ import {
   IoChatbubbles,
 } from 'react-icons/io5';
 import { AiFillClockCircle } from 'react-icons/ai';
+import { useNavigate } from 'react-router-dom';
 
 const { TextArea } = Input;
 
@@ -239,7 +240,7 @@ const Chat = () => {
       // console.log();
     }
   };
-
+  const navigate = useNavigate();
   return (
     <Container>
       <div className="header">
@@ -249,7 +250,7 @@ const Chat = () => {
         </div>
 
         {/* //! need admin access to show blow button */}
-        <div className="chatlistIcon">
+        <div className="chatlistIcon" onClick={() => navigate('/chatlist', { replace: true })}>
           <IoReturnUpForward />
         </div>
       </div>
@@ -274,10 +275,10 @@ const Chat = () => {
                     <div className="chatitem-btm-msg">
                       <div className="chatitem-date">3:29</div>
                       <div className="chatitem-seen">
-                        {item.seen ? (
-                          <IoCheckmarkDoneOutline />
-                        ) : item?.sending ? (
+                        {item?.sending ? (
                           <AiFillClockCircle />
+                        ) : item.seen ? (
+                          <IoCheckmarkDoneOutline />
                         ) : (
                           <IoCheckmarkOutline />
                         )}

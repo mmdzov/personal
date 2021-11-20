@@ -1,45 +1,46 @@
-import { useEffect, useState } from "react";
-import styled from "styled-components";
-import "./App.css";
-import Context from "./context/Context";
-import axios from "axios";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Resume from "./components/Resume/Resume";
-import Chat from "./components/Chat/Chat";
-import Avatar from "./assets/img/avatar.jpg";
-import PrivateRoute from "./components/PrivateRoute";
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import './App.css';
+import Context from './context/Context';
+import axios from 'axios';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Resume from './components/Resume/Resume';
+import Chat from './components/Chat/Chat';
+import Avatar from './assets/img/avatar.jpg';
+import PrivateRoute from './components/PrivateRoute';
+import ChatList from './components/Chat/ChatList';
 
 function App() {
   const [user] = useState({
     avatar: Avatar,
-    username: "Reza",
+    username: 'Reza',
   });
   const [data, setData] = useState({
     person: {
-      fullName: "Mohammad-Ali Zoveydat",
-      avatar: "",
-      bio: ["Looking To implement New IDEAS"],
+      fullName: 'Mohammad-Ali Zoveydat',
+      avatar: '',
+      bio: ['Looking To implement New IDEAS'],
     },
     skills: [
-      { name: "Javascript", knowledge: "99", color: "#d1ac17" },
-      { name: "React.Js", knowledge: "95", color: "#2656bd" },
-      { name: "Typescript", knowledge: "65", color: "#391182" },
-      { name: "Node.Js", knowledge: "60", color: "#0ad195" },
-      { name: "Express.Js", knowledge: "80", color: "#d1350a" },
-      { name: "TDD", knowledge: "19", color: "#d11b1b" },
-      { name: "MongoDB - Mongoose", knowledge: "50", color: "#0ad135" },
-      { name: "Postman", knowledge: "98", color: "#d1670a" },
-      { name: "TelegramBot Api", knowledge: "100", color: "#0a88d1" },
-      { name: "TelegramBot Client", knowledge: "30", color: "#45b3d1" },
+      { name: 'Javascript', knowledge: '99', color: '#d1ac17' },
+      { name: 'React.Js', knowledge: '95', color: '#2656bd' },
+      { name: 'Typescript', knowledge: '65', color: '#391182' },
+      { name: 'Node.Js', knowledge: '60', color: '#0ad195' },
+      { name: 'Express.Js', knowledge: '80', color: '#d1350a' },
+      { name: 'TDD', knowledge: '19', color: '#d11b1b' },
+      { name: 'MongoDB - Mongoose', knowledge: '50', color: '#0ad135' },
+      { name: 'Postman', knowledge: '98', color: '#d1670a' },
+      { name: 'TelegramBot Api', knowledge: '100', color: '#0a88d1' },
+      { name: 'TelegramBot Client', knowledge: '30', color: '#45b3d1' },
     ],
     contact_us: [
-      { title: "Call", value: "+989356597910" },
-      { title: "Email", value: "Mzov939@gmail.com" },
+      { title: 'Call', value: '+989356597910' },
+      { title: 'Email', value: 'Mzov939@gmail.com' },
     ],
   });
   const getUser = async () => {
     try {
-      const { data } = await axios.get("https://api.github.com/users/mmdzov");
+      const { data } = await axios.get('https://api.github.com/users/mmdzov');
       setData((prev) => ({
         ...prev,
         person: { ...prev.person, avatar: data.avatar_url },
@@ -62,6 +63,28 @@ function App() {
             <Route path="/" exact element={<Chat />} />
             <Route
               path="chat"
+              exact
+              element={
+                <PrivateRoute>
+                  <Chat />
+                </PrivateRoute>
+              }
+            />
+          </Routes>
+
+          {/* //!need admin access */}
+          <Routes>
+            <Route
+              path="chatlist"
+              exact
+              element={
+                <PrivateRoute>
+                  <ChatList />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="chat/:uid"
               exact
               element={
                 <PrivateRoute>
