@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { IoLogoInstagram } from "react-icons/io5";
 import { FaTelegramPlane, FaGithub } from "react-icons/fa";
 import Context from "../../context/Context";
+
 const ContactUs = () => {
   const { data } = useContext(Context);
   return (

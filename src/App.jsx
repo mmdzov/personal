@@ -52,7 +52,6 @@ function App() {
 
   useEffect(() => {
     getUser();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <Router>
@@ -81,7 +80,6 @@ const Container = styled.div`
   position: fixed;
   width: 100%;
   height: 100%;
-  padding: 10px 15px;
   box-sizing: border-box;
   background: #19203e;
   color: whitesmoke;

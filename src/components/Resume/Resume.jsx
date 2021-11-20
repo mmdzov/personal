@@ -1,12 +1,12 @@
-import styled from "styled-components";
-import Repos from "../github/Repos";
-import ContactUs from "../Personal/ContactUs";
-import Header from "../Personal/Header";
-import Skills from "../Personal/Skills";
+import styled from 'styled-components';
+import Repos from '../github/Repos';
+import ContactUs from '../Personal/ContactUs';
+import Header from '../Personal/Header';
+import Skills from '../Personal/Skills';
 
 const Resume = () => {
   return (
-    <div>
+    <Container>
       <Header />
       <Body>
         <Skills />
@@ -19,9 +19,14 @@ const Resume = () => {
         <div className="sec-title">Location</div>
         <div className="sec-list">Iran / Khuzestan / Abadan</div>
       </div>
-    </div>
+    </Container>
   );
 };
+
+const Container = styled.div`
+  padding: 10px 15px;
+`;
+
 const Body = styled.div`
   @media (min-width: 640px) {
     display: grid;

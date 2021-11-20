@@ -7,6 +7,7 @@ import colors from "../../colors.json";
 import ProgressLine from "../progress/ProgressLine";
 import ReactLoading from "react-loading";
 import LineEllipsis from "react-lines-ellipsis";
+
 const Repos = () => {
   const [repos, setRepos] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -58,7 +59,6 @@ const Repos = () => {
 
   useEffect(() => {
     getRepos();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (loading)

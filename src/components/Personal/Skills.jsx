@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Context from "../../context/Context";
 import ProgressLine from "../progress/ProgressLine";
 import { useContext } from "react";
+
 const Skills = () => {
   const { data } = useContext(Context);
 

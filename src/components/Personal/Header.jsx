@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useContext } from "react";
 import Context from "../../context/Context";
 import Avatar from "../../assets/img/avatar.jpg";
+
 const Header = () => {
   const { data } = useContext(Context);
   return (

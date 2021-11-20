@@ -1,13 +1,12 @@
-import { Navigate } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
-import SignModal from "./Sign/SignModal";
-import { useState } from "react";
-import { useEffect } from "react";
+import { Navigate } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
+import SignModal from './Sign/SignModal';
+import { useEffect, useState } from 'react';
 
 function PrivateRoute({ children }) {
   const [showModal, setShowModal] = useState(true);
   useEffect(() => {
-    console.log("test");
+    console.log('test');
   }, []);
   const auth = useAuth();
   return auth ? (
@@ -15,10 +14,10 @@ function PrivateRoute({ children }) {
   ) : (
     <div
       style={{
-        background: "#19203e",
-        position: "fixed",
-        width: "100%",
-        height: "100%",
+        background: '#19203e',
+        position: 'fixed',
+        width: '100%',
+        height: '100%',
         top: 0,
         left: 0,
       }}
