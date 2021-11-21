@@ -1,12 +1,12 @@
-import axios from "axios";
-import { useState, useEffect } from "react";
-import styled from "styled-components";
-import { AiOutlineFork, AiOutlineEye } from "react-icons/ai";
-import { MdCopyAll } from "react-icons/md";
-import colors from "../../colors.json";
-import ProgressLine from "../progress/ProgressLine";
-import ReactLoading from "react-loading";
-import LineEllipsis from "react-lines-ellipsis";
+import axios from 'axios';
+import { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import { AiOutlineFork, AiOutlineEye } from 'react-icons/ai';
+import { MdCopyAll } from 'react-icons/md';
+import colors from '../../colors.json';
+import ProgressLine from '../progress/ProgressLine';
+import ReactLoading from 'react-loading';
+import LineEllipsis from 'react-lines-ellipsis';
 
 const Repos = () => {
   const [repos, setRepos] = useState([]);
@@ -14,7 +14,7 @@ const Repos = () => {
   const [limitShow, setLimitShow] = useState(3);
   const color = (lang) => {
     let list = colors;
-    let clr = "";
+    let clr = '';
     for (let i in list) {
       if (i === lang) clr = list[i]?.color;
     }
@@ -24,9 +24,7 @@ const Repos = () => {
   const getRepos = async () => {
     try {
       setLoading(true);
-      let { data: repos } = await axios.get(
-        "https://api.github.com/users/mmdzov/repos"
-      );
+      let { data: repos } = await axios.get('https://api.github.com/users/mmdzov/repos');
 
       for (let b in repos) {
         const item = repos[b];
@@ -36,20 +34,18 @@ const Repos = () => {
         Object.values(langs).reduce(
           // eslint-disable-next-line no-loop-func
           (prev, curr) => (total += curr),
-          0
+          0,
         );
         for (let i in langs) {
           lngs.push({
-            percentage: (langs[i] * 100) / total + "%",
+            percentage: (langs[i] * 100) / total + '%',
             color: color(i),
           });
         }
         item.langs = lngs;
         repos[b] = item;
       }
-      repos = repos.filter(
-        (item) => !item.fork && item?.description && item?.langs?.length > 0
-      );
+      repos = repos.filter((item) => !item.fork && item?.description && item?.langs?.length > 0);
       setLoading(false);
       setRepos(repos);
     } catch (e) {
@@ -64,7 +60,7 @@ const Repos = () => {
   if (loading)
     return (
       <LoadingContainer className="">
-        <ReactLoading type={"spin"} color={color} height={50} width={50} />
+        <ReactLoading type={'spin'} color={color} height={50} width={50} />
       </LoadingContainer>
     );
 
@@ -92,10 +88,7 @@ const Repos = () => {
               <MdCopyAll />
             </div>
             {item?.langs?.length > 0 ? (
-              <div
-                className="langs"
-                style={{ textAlign: "left", marginTop: 9 }}
-              >
+              <div className="langs" style={{ textAlign: 'left', marginTop: 9 }}>
                 <ProgressLine visualParts={item?.langs} />
               </div>
             ) : null}
@@ -118,11 +111,9 @@ const Repos = () => {
         {repos.length > 0 ? (
           <div
             className="seeMore"
-            onClick={() =>
-              setLimitShow((prev) => (prev === repos.length ? 4 : repos.length))
-            }
+            onClick={() => setLimitShow((prev) => (prev === repos.length ? 4 : repos.length))}
           >
-            {limitShow === repos.length ? "Hide more..." : "See more..."}
+            {limitShow === repos.length ? 'Hide more...' : 'See more...'}
           </div>
         ) : null}
       </div>
@@ -134,6 +125,7 @@ const LoadingContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 25px;
 `;
 
 const Container = styled.div`

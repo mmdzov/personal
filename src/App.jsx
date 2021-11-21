@@ -9,6 +9,7 @@ import Chat from './components/Chat/Chat';
 import Avatar from './assets/img/avatar.jpg';
 import PrivateRoute from './components/PrivateRoute';
 import ChatList from './components/Chat/ChatList';
+import Home from './components/Home/Home';
 
 function App() {
   const [user] = useState({
@@ -37,6 +38,28 @@ function App() {
       { title: 'Call', value: '+989356597910' },
       { title: 'Email', value: 'Mzov939@gmail.com' },
     ],
+    about: [
+      {
+        date: '1397/4',
+        title: 'Basic PHP',
+        subtitle: 'Here I started php from zero',
+      },
+      {
+        date: '1397/4',
+        title: 'Basic PHP',
+        subtitle: 'Here I started php from zero',
+      },
+      {
+        date: '1397/4',
+        title: 'Basic PHP',
+        subtitle: 'Here I started php from zero',
+      },
+      {
+        date: '1397/4',
+        title: 'Basic PHP',
+        subtitle: 'Here I started php from zero',
+      },
+    ],
   });
   const getUser = async () => {
     try {
@@ -56,11 +79,11 @@ function App() {
   }, []);
   return (
     <Router>
-      <Context.Provider value={{ data, user }}>
+      <Context.Provider value={{ data, user, about: data.about }}>
         <Container className="App">
           <Routes>
             <Route path="personal" exact element={<Resume />} />
-            <Route path="/" exact element={<Chat />} />
+            <Route path="/" exact element={<Home />} />
             <Route
               path="chat"
               exact
@@ -113,6 +136,7 @@ const Container = styled.div`
       max-width: 800px;
       margin: 0 auto !important;
     }
+
     padding: 10px 10px;
     margin: 12px 0px;
     width: 100%;

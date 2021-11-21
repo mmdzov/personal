@@ -43,6 +43,7 @@
     "object-shorthand": "off",
     "react/jsx-no-duplicate-props": "off",
     "no-nested-ternary": "off",
-    "no-unsafe-optional-chaining": "off"
+    "no-unsafe-optional-chaining": "off",
+    "no-nonoctal-decimal-escape": "off"
   }
 }
