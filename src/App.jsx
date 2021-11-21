@@ -3,13 +3,8 @@ import styled from 'styled-components';
 import './App.css';
 import Context from './context/Context';
 import axios from 'axios';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Resume from './components/Resume/Resume';
-import Chat from './components/Chat/Chat';
 import Avatar from './assets/img/avatar.jpg';
-import PrivateRoute from './components/PrivateRoute';
-import ChatList from './components/Chat/ChatList';
-import Home from './components/Home/Home';
+import Routes from './Routes';
 
 function App() {
   const [user] = useState({
@@ -78,47 +73,11 @@ function App() {
     getUser();
   }, []);
   return (
-    <Router>
-      <Context.Provider value={{ data, user, about: data.about }}>
-        <Container className="App">
-          <Routes>
-            <Route path="personal" exact element={<Resume />} />
-            <Route path="/" exact element={<Home />} />
-            <Route
-              path="chat"
-              exact
-              element={
-                <PrivateRoute>
-                  <Chat />
-                </PrivateRoute>
-              }
-            />
-          </Routes>
-
-          {/* //!need admin access */}
-          <Routes>
-            <Route
-              path="chatlist"
-              exact
-              element={
-                <PrivateRoute>
-                  <ChatList />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="chat/:uid"
-              exact
-              element={
-                <PrivateRoute>
-                  <Chat />
-                </PrivateRoute>
-              }
-            />
-          </Routes>
-        </Container>
-      </Context.Provider>
-    </Router>
+    <Context.Provider value={{ data, user, about: data.about }}>
+      <Container className="App">
+        <Routes />
+      </Container>
+    </Context.Provider>
   );
 }
 
@@ -136,7 +95,6 @@ const Container = styled.div`
       max-width: 800px;
       margin: 0 auto !important;
     }
-
     padding: 10px 10px;
     margin: 12px 0px;
     width: 100%;

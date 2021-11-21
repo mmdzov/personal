@@ -26,6 +26,7 @@ const Container = styled.div`
   .link {
     color: #03a9f4;
     font-size: 1rem;
+    cursor: pointer;
   }
   a {
     padding: 0 15px;

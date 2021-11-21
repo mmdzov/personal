@@ -11,7 +11,6 @@
     "jest": true
   },
   "rules": {
-    "max-len": ["error", { "code": 100 }],
     "prefer-promise-reject-errors": ["off"],
     "react/jsx-filename-extension": ["off"],
     "react/prop-types": "off",
@@ -44,6 +43,7 @@
     "react/jsx-no-duplicate-props": "off",
     "no-nested-ternary": "off",
     "no-unsafe-optional-chaining": "off",
-    "no-nonoctal-decimal-escape": "off"
+    "no-nonoctal-decimal-escape": "off",
+    "jsx-a11y/no-noninteractive-element-interactions": "off"
   }
 }
