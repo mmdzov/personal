@@ -1,6 +1,6 @@
 import { Container } from './BlogAdd.styled';
 import { Input, Tag, Button } from 'antd';
-import { useState, Fragment } from 'react';
+import { useState } from 'react';
 import { AiOutlinePlus, AiOutlineClose } from 'react-icons/ai';
 
 const { TextArea, Group } = Input;
