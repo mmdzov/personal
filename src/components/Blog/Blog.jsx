@@ -6,6 +6,7 @@ import LineEllipsis from 'react-lines-ellipsis';
 import { AiFillHeart, AiFillMessage } from 'react-icons/ai';
 import Navigation from '../Navigation/Navigation';
 import { useNavigate } from 'react-router-dom';
+import PostImage from '../../assets/img/post.jpg'
 
 const { Option } = Select;
 
@@ -61,7 +62,7 @@ const Blog = () => {
           'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex, libero voluptatibus! Odio, illum? Ad placeat vel doloribus neque. Consequuntur delectus aliquam dolorum doloribus sint alias impedit placeat reprehenderit voluptate blanditiis.',
         date: Date.now(),
         image:
-          'https://netseo.co.uk/wp-content/uploads/2021/06/What_is_Information_Technology-11-1536x838.jpg',
+          PostImage,
         likes: 1223,
         comments: 342342,
         tags: [
@@ -87,7 +88,7 @@ const Blog = () => {
           'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex, libero voluptatibus! Odio, illum? Ad placeat vel doloribus neque. Consequuntur delectus aliquam dolorum doloribus sint alias impedit placeat reprehenderit voluptate blanditiis.',
         date: Date.now(),
         image:
-          'https://netseo.co.uk/wp-content/uploads/2021/06/What_is_Information_Technology-11-1536x838.jpg',
+          PostImage,
         likes: 1223,
         comments: 342342,
         tags: [
@@ -113,7 +114,7 @@ const Blog = () => {
           'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex, libero voluptatibus! Odio, illum? Ad placeat vel doloribus neque. Consequuntur delectus aliquam dolorum doloribus sint alias impedit placeat reprehenderit voluptate blanditiis.',
         date: Date.now(),
         image:
-          'https://netseo.co.uk/wp-content/uploads/2021/06/What_is_Information_Technology-11-1536x838.jpg',
+          PostImage,
         likes: 1223,
         comments: 342342,
         tags: [

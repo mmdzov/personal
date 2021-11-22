@@ -155,11 +155,12 @@ export const Container = styled.div`
       padding: 10px;
       border-radius: 5px;
       margin-bottom: 10px;
-      .comment-date {
-        margin-bottom: 5px;
-      }
+      margin-bottom: 5px;
       > .comment-footer {
         flex-direction: row-reverse;
+        > .comment-date {
+          height: 30px;
+        }
       }
 
       > .comment-header {
@@ -175,7 +176,7 @@ export const Container = styled.div`
     .comment-date {
       text-align: right;
       font-size: 0.8rem;
-      height: 30px;
+      /* height: 30px; */
       align-items: center;
       display: flex;
       justify-content: end;
@@ -198,8 +199,9 @@ export const Container = styled.div`
     .comment-reply {
       margin: 0 5px;
       background: #607d8b;
-      padding: 10px;
+      padding: 5px 10px;
       border-radius: 5px;
+      margin-bottom: 5px;
     }
 
     .comment-header {

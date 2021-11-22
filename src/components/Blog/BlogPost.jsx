@@ -1,9 +1,10 @@
 import { Container } from './BlogPost.styled';
-import { useContext, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import Context from '../../context/Context';
 import { AiFillHeart, AiOutlineHeart, AiOutlineClose } from 'react-icons/ai';
 import { Button, Input } from 'antd';
 import { FaReply } from 'react-icons/fa';
+import PostImage from '../../assets/img/post.jpg';
 
 const { TextArea } = Input;
 
@@ -17,12 +18,12 @@ const BlogPost = () => {
       // eslint-disable-next-line max-len
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex, libero voluptatibus! Odio, illum? Ad placeat vel doloribus neque. Consequuntur delectus aliquam dolorum doloribus sint alias impedit placeat reprehenderit voluptate blanditiis.',
     date: Date.now(),
-    image:
-      'https://netseo.co.uk/wp-content/uploads/2021/06/What_is_Information_Technology-11-1536x838.jpg',
+    image: PostImage,
     likes: 1223,
     liked: false,
     comments: [
       {
+        id: '525365fdsfwef',
         from: {
           ...user,
         },
@@ -30,6 +31,7 @@ const BlogPost = () => {
         date: Date.now(),
         replies: [
           {
+            id: 'dfsvx525365fdsfwef',
             from: {
               ...user,
             },
@@ -43,6 +45,7 @@ const BlogPost = () => {
         ],
       },
       {
+        id: '5asdasc25365fdsfwef',
         from: {
           ...user,
         },
@@ -50,6 +53,7 @@ const BlogPost = () => {
         date: Date.now(),
         replies: [
           {
+            id: 'dfsvxc525365fdsfwef',
             from: {
               ...user,
             },
@@ -98,6 +102,15 @@ const BlogPost = () => {
     }));
   };
 
+  useEffect(() => {
+    const app = document.getElementsByClassName('App')[0];
+    app.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'auto',
+    });
+  }, []);
+
   const [value, setValue] = useState('');
   const [reply, setReply] = useState({});
 
@@ -109,18 +122,38 @@ const BlogPost = () => {
     setValue(target.value);
   };
 
-  const handleSendMessage = () => {
+  const handleSendComment = () => {
+    const comment = {
+      from: {
+        ...user,
+      },
+      comment: value,
+      date: Date.now(),
+      replies: [],
+    };
+    if (Object.keys(reply)?.length > 0) {
+      comment.to = reply.from;
+      const commentIndex = blogpost.comments.findIndex((item) => item.id === reply.commentId);
+      blogpost.comments[commentIndex].replies.push(comment);
+      setBlogpost((prev) => ({ ...prev, comments: blogpost.comments }));
+      setValue('');
+      setReply({});
+      return;
+    }
+
+    blogpost.comments.unshift(comment);
+    setBlogpost((prev) => ({ ...prev, comments: blogpost.comments }));
     setValue('');
   };
 
-  const handleReplyComment = (rep) => {
+  const handleReplyComment = (rep, commentId) => {
     const app = document.getElementsByClassName('App')[0];
     app.scrollTo({
       top: commentSendForm.current.offsetTop,
       left: 0,
       behavior: 'smooth',
     });
-    setReply(rep);
+    setReply({ ...rep, commentId });
   };
 
   const clearReply = () => {
@@ -178,7 +211,7 @@ const BlogPost = () => {
           ref={commentSendFormInput}
           autoSize={{ minRows: 1, maxRows: 3 }}
         />
-        <Button type="primary" onClick={handleSendMessage}>
+        <Button type="primary" onClick={handleSendComment}>
           Send
         </Button>
       </form>
@@ -196,7 +229,7 @@ const BlogPost = () => {
                 />
                 <div className="username">{item.from.username}</div>
               </div>
-              <span className="replyicon" onClick={() => handleReplyComment(item)}>
+              <span className="replyicon" onClick={() => handleReplyComment(item, item.id)}>
                 <FaReply />
               </span>
             </div>
@@ -214,13 +247,12 @@ const BlogPost = () => {
                     alt=""
                   />
                   <div className="username">
-                    {reply.from.username}{' '}
-                    <span>to {reply.to.username} 3534e rweprokw epro ekrwerw </span>
+                    {reply.from.username} <span>to {reply.to.username} </span>
                   </div>
                 </div>
                 <div className="comment-content">{reply.comment}</div>
                 <div className="comment-footer">
-                  <span className="replyicon" onClick={() => handleReplyComment(reply)}>
+                  <span className="replyicon" onClick={() => handleReplyComment(reply, item.id)}>
                     <FaReply />
                   </span>
                   <div className="comment-date">
