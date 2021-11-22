@@ -6,7 +6,8 @@ import LineEllipsis from 'react-lines-ellipsis';
 import { AiFillHeart, AiFillMessage } from 'react-icons/ai';
 import Navigation from '../Navigation/Navigation';
 import { useNavigate } from 'react-router-dom';
-import PostImage from '../../assets/img/post.jpg'
+import PostImage from '../../assets/img/post.jpg';
+import Pagination from '../Pagination/Pagination';
 
 const { Option } = Select;
 
@@ -61,8 +62,7 @@ const Blog = () => {
         description:
           'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex, libero voluptatibus! Odio, illum? Ad placeat vel doloribus neque. Consequuntur delectus aliquam dolorum doloribus sint alias impedit placeat reprehenderit voluptate blanditiis.',
         date: Date.now(),
-        image:
-          PostImage,
+        image: PostImage,
         likes: 1223,
         comments: 342342,
         tags: [
@@ -87,8 +87,7 @@ const Blog = () => {
           // eslint-disable-next-line max-len
           'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex, libero voluptatibus! Odio, illum? Ad placeat vel doloribus neque. Consequuntur delectus aliquam dolorum doloribus sint alias impedit placeat reprehenderit voluptate blanditiis.',
         date: Date.now(),
-        image:
-          PostImage,
+        image: PostImage,
         likes: 1223,
         comments: 342342,
         tags: [
@@ -113,8 +112,7 @@ const Blog = () => {
           // eslint-disable-next-line max-len
           'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex, libero voluptatibus! Odio, illum? Ad placeat vel doloribus neque. Consequuntur delectus aliquam dolorum doloribus sint alias impedit placeat reprehenderit voluptate blanditiis.',
         date: Date.now(),
-        image:
-          PostImage,
+        image: PostImage,
         likes: 1223,
         comments: 342342,
         tags: [
@@ -134,6 +132,8 @@ const Blog = () => {
       },
     ],
   });
+
+  const [page, setPage] = useState(1);
 
   const navigate = useNavigate();
 
@@ -166,7 +166,11 @@ const Blog = () => {
               {item.title}
             </div>
             {item?.image ? (
-              <img src={item.image} onClick={() => openBlogPost(item.id)} alt="" />
+              <img
+                src={item.image}
+                // onClick={() => openBlogPost(item.id)}
+                alt=""
+              />
             ) : null}
             <LineEllipsis
               className="description"
@@ -199,7 +203,16 @@ const Blog = () => {
           </div>
         ))}
       </div>
-      <div className="pages"></div>
+      <div className="pages">
+        <Pagination
+          pages={blog.pages}
+          currentPage={page}
+          onChangePage={(pageitem) => {
+            console.log(pageitem);
+          }}
+          setPage={setPage}
+        />
+      </div>
     </Container>
   );
 };

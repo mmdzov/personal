@@ -82,4 +82,8 @@ export const Container = styled.div`
       }
     }
   }
+
+  .pages {
+    margin-bottom: 10px;
+  }
 `;
