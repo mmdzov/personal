@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
+  user-select: none;
   max-width: 350px;
   height: 100%;
   padding: 10px;

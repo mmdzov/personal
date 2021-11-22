@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
+  user-select: none;
   .categorylist {
     height: 70px;
     display: flex;
@@ -16,6 +17,47 @@ export const Container = styled.div`
     }
   }
 
+  @media (min-width: 625px) {
+    .bloglist {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      margin: 0 10px;
+      .blogitem {
+        margin: 7px 5px;
+      }
+    }
+  }
+  @media (min-width: 1024px) {
+    .bloglist {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      margin: 0 10px;
+      .blogitem {
+        margin: 7px 5px;
+      }
+    }
+  }
+  @media (min-width: 1486px) {
+    .bloglist {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      margin: 0 10px;
+      .blogitem {
+        margin: 7px 5px;
+      }
+    }
+  }
+  @media (min-width: 2200px) {
+    .bloglist {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+      margin: 0 10px;
+      .blogitem {
+        margin: 7px 5px;
+      }
+    }
+  }
+
   .blogitem {
     background: black;
     padding: 5px 10px;
@@ -24,6 +66,9 @@ export const Container = styled.div`
     border-radius: 10px;
     box-shadow: 0 5px 10px 1px black;
     margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 
     .title {
       font-size: 1.2rem;
@@ -32,14 +77,16 @@ export const Container = styled.div`
       margin-bottom: 10px;
       color: #2196f3;
       cursor: pointer;
+      width: 100%;
     }
     > img {
       width: 100%;
       max-height: 190px;
-      max-width: 350px;
+      /* max-width: 350px; */
       margin-bottom: 10px;
       border-radius: 5px;
       overflow: hidden;
+      object-fit: cover;
     }
 
     .description {
@@ -53,6 +100,8 @@ export const Container = styled.div`
     .row {
       display: flex;
       padding: 0 10px;
+      width: 100%;
+
       > div {
         height: 40px;
         display: flex;
@@ -66,6 +115,7 @@ export const Container = styled.div`
       }
     }
     .tags {
+      width: 100%;
       display: flex;
       /* height: 35px; */
       align-items: center;
