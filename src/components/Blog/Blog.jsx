@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { Select } from 'antd';
 import PostImage from '../../assets/img/post.jpg';
 import BlogList from './BlogList';
+import { AiOutlinePlus } from 'react-icons/ai';
+import { Link } from 'react-router-dom';
 
 const { Option } = Select;
 
@@ -144,6 +146,9 @@ const Blog = () => {
             </Option>
           ))}
         </Select>
+        <Link to="/addpost" className="addblog">
+          <AiOutlinePlus />
+        </Link>
       </div>
 
       <BlogList blog={blog} />

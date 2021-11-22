@@ -7,6 +7,7 @@ export const Container = styled.div`
     display: flex;
     align-items: center;
     padding: 0 10px;
+    justify-content: space-between;
 
     .select {
       width: 120px;
@@ -16,8 +17,20 @@ export const Container = styled.div`
       border-radius: 5px;
     }
   }
-
   .pages {
     margin-bottom: 10px;
+  }
+
+  .addblog {
+    padding: 10px;
+    background: #000000;
+    width: 35px;
+    justify-content: center;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    color: white;
+    border-radius: 100%;
+    box-shadow: 0 5px 10px 0px black;
   }
 `;

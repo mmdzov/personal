@@ -1,5 +1,6 @@
 import { Routes as Switch, Route } from 'react-router-dom';
 import Blog from './components/Blog/Blog';
+import BlogAdd from './components/Blog/BlogAdd';
 import BlogPost from './components/Blog/BlogPost';
 import Chat from './components/Chat/Chat';
 import ChatList from './components/Chat/ChatList';
@@ -43,6 +44,15 @@ const Routes = () => {
         element={
           <PrivateRoute>
             <ChatList />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/addpost"
+        caseSensitive
+        element={
+          <PrivateRoute>
+            <BlogAdd />
           </PrivateRoute>
         }
       />
