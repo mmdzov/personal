@@ -15,6 +15,17 @@ const Routes = () => {
         <Route index element={<Home />} />
         <Route path="blog" element={<Blog />} />
         <Route path="blog/:post" caseSensitive element={<BlogPost />} />
+
+        {/* //!need admin access */}
+        <Route
+          path="chatlist"
+          caseSensitive
+          element={
+            <PrivateRoute>
+              <ChatList />
+            </PrivateRoute>
+          }
+        />
       </Route>
       <Route path="personal" caseSensitive element={<Resume />} />
       <Route
@@ -28,15 +39,6 @@ const Routes = () => {
       />
 
       {/* //!need admin access */}
-      <Route
-        path="chatlist"
-        caseSensitive
-        element={
-          <PrivateRoute>
-            <ChatList />
-          </PrivateRoute>
-        }
-      />
       <Route
         path="chat/:uid"
         caseSensitive

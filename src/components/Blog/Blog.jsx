@@ -2,12 +2,8 @@
 import { Container } from './Blog.styled';
 import { useState } from 'react';
 import { Select } from 'antd';
-import LineEllipsis from 'react-lines-ellipsis';
-import { AiFillHeart, AiFillMessage } from 'react-icons/ai';
-import Navigation from '../Navigation/Navigation';
-import { useNavigate } from 'react-router-dom';
 import PostImage from '../../assets/img/post.jpg';
-import Pagination from '../Pagination/Pagination';
+import BlogList from './BlogList';
 
 const { Option } = Select;
 
@@ -133,18 +129,8 @@ const Blog = () => {
     ],
   });
 
-  const [page, setPage] = useState(1);
-
-  const navigate = useNavigate();
-
-  const openBlogPost = (post) => {
-    navigate(post?.toString());
-  };
-
   return (
     <Container>
-      <Navigation />
-
       <div className="categorylist">
         <Select
           defaultValue={blog.cat.name}
@@ -159,60 +145,8 @@ const Blog = () => {
           ))}
         </Select>
       </div>
-      <div className="bloglist">
-        {blog.data.map((item) => (
-          <div className="blogitem">
-            <div className="title" onClick={() => openBlogPost(item.id)}>
-              {item.title}
-            </div>
-            {item?.image ? (
-              <img
-                src={item.image}
-                // onClick={() => openBlogPost(item.id)}
-                alt=""
-              />
-            ) : null}
-            <LineEllipsis
-              className="description"
-              text={item.description}
-              maxLine="3"
-              ellipsis="..."
-              trimRight
-              onClick={() => openBlogPost(item.id)}
-              basedOn="letters"
-            />
-            <div className="row">
-              {item?.likes ? (
-                <div className="like">
-                  <AiFillHeart /> {item.likes}
-                </div>
-              ) : null}
-              {item?.comments ? (
-                <div className="comments">
-                  <AiFillMessage /> {item.comments}
-                </div>
-              ) : null}
-            </div>
-            {item?.tags ? (
-              <div className="tags scroll">
-                {item.tags.map((tag) => (
-                  <div className="tag">#{tag.tag}</div>
-                ))}
-              </div>
-            ) : null}
-          </div>
-        ))}
-      </div>
-      <div className="pages">
-        <Pagination
-          pages={blog.pages}
-          currentPage={page}
-          onChangePage={(pageitem) => {
-            console.log(pageitem);
-          }}
-          setPage={setPage}
-        />
-      </div>
+
+      <BlogList blog={blog} />
     </Container>
   );
 };

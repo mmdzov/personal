@@ -72,6 +72,7 @@ function App() {
   useEffect(() => {
     getUser();
   }, []);
+  
   return (
     <Context.Provider value={{ data, user, about: data.about }}>
       <Container className="App">
