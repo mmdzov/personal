@@ -40,12 +40,12 @@ const BlogList = ({ blog }) => {
             <div className="row">
               {item?.likes ? (
                 <div className="like">
-                  <AiFillHeart /> {item.likes}
+                  <AiFillHeart style={{ color: '#d94949' }} /> {item.likes}
                 </div>
               ) : null}
               {item?.comments ? (
                 <div className="comments">
-                  <AiFillMessage /> {item.comments}
+                  <AiFillMessage style={{ color: '#c7c7c7' }} /> {item.comments}
                 </div>
               ) : null}
             </div>

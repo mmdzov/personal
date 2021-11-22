@@ -1,14 +1,21 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import SignModal from '../Sign/SignModal';
 
 const Navigation = () => {
+  const [sign, setSign] = useState(false);
+
   return (
     <Container>
       <div className="">
         <Link to="/chat">Chat</Link>
         <Link to="/blog">Blog</Link>
       </div>
-      <div className="link">Sign</div>
+      <div className="link" onClick={() => setSign(true)}>
+        Sign
+      </div>
+      <SignModal showModal={sign} setShowModal={setSign} />
     </Container>
   );
 };

@@ -104,11 +104,15 @@ export const Container = styled.div`
           padding-left: unset;
           padding-left: 9px;
           border-radius: 10px 0px 10px 10px;
-
+          background: #607d8b;
+          overflow: hidden;
           .chatitem-btm-msg {
             direction: rtl;
             padding-left: 0;
             padding-right: 3px;
+          }
+          .chatitem-seen {
+            color: black;
           }
         }
         .message {

@@ -6,7 +6,7 @@ import 'antd/dist/antd.css';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 render(
-  <Router>
+  <Router basename='/'>
     <App />
   </Router>,
   document.getElementById('root'),

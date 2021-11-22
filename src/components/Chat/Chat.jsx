@@ -275,13 +275,17 @@ const Chat = () => {
                     <div className="chatitem-btm-msg">
                       <div className="chatitem-date">3:29</div>
                       <div className="chatitem-seen">
-                        {item?.sending ? (
-                          <AiFillClockCircle />
-                        ) : item.seen ? (
-                          <IoCheckmarkDoneOutline />
-                        ) : (
-                          <IoCheckmarkOutline />
-                        )}
+                        {item.from.user_id === user_id ? (
+                          <Fragment>
+                            {item?.sending ? (
+                              <AiFillClockCircle />
+                            ) : item.seen ? (
+                              <IoCheckmarkDoneOutline />
+                            ) : (
+                              <IoCheckmarkOutline />
+                            )}
+                          </Fragment>
+                        ) : null}
                       </div>
                     </div>
                   </div>

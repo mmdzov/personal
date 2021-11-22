@@ -37,6 +37,21 @@ body {
   border-radius: 0 !important;
 }
 
+::-webkit-scrollbar {
+  width: 10px;
+  cursor: pointer;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 0px;
+  background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 0px;
+  background: #585858;
+}
+
 .scroll::-webkit-scrollbar {
   width: 5px;
   cursor: pointer;
@@ -50,4 +65,41 @@ body {
 .scroll::-webkit-scrollbar-thumb {
   border-radius: 5px;
   background: #585858;
+}
+
+.ant-modal-content {
+  background: black !important;
+  color: white !important;
+  border-radius: 14px !important;
+  overflow: hidden !important;
+  padding: 10px 0px !important;
+  max-width: 315px !important;
+  margin: 0 auto !important;
+}
+
+.ant-modal-header {
+  background: black !important;
+  border: unset !important;
+  height: 44px !important;
+  padding: 5px 20px !important;
+  display: flex !important;
+  align-items: center !important;
+  flex-direction: row-reverse !important;
+}
+
+.ant-modal-title {
+  color: white !important;
+  direction: rtl !important;
+}
+
+.ant-modal-body {
+  direction: rtl !important;
+  border: unset !important;
+  padding: 15px 19px !important;
+}
+
+.ant-modal-footer {
+  border: unset !important;
+  display: flex !important;
+  justify-content: space-around !important;
 }
