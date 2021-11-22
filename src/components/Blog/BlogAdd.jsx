@@ -65,7 +65,7 @@ const BlogAdd = () => {
           {values.tags.map((item, index) => (
             <Tag className="tag">
               {item}
-              <span onClick={() => handleDeleteTag(index)}>
+              <span style={{ cursor: 'pointer' }} onClick={() => handleDeleteTag(index)}>
                 <AiOutlineClose />
               </span>
             </Tag>

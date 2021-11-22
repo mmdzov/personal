@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import SignModal from '../Sign/SignModal';
 import { AiFillNotification } from 'react-icons/ai';
@@ -10,13 +10,25 @@ const Navigation = () => {
   const [sign, setSign] = useState(false);
   const [signed] = useState(true);
   const { notifications } = useContext(Context);
+  const { pathname } = useLocation();
+  const isActive = (page) => {
+    let pg = page;
+    if (page === 'home') {
+      pg = pathname.split('/').every((item) => !item);
+    }
+    return pg === true ? true : pathname.includes(pg);
+  };
+
   return (
     <Container>
       <div className="">
-        <Link to="/chat" className="l">
+        <Link to="/" className={`l ${isActive('home') ? 'active' : ''} `}>
+          Home
+        </Link>
+        <Link to="/chat" className={`l ${isActive('chat') ? 'active' : ''} `}>
           Chat
         </Link>
-        <Link to="/blog" className="l">
+        <Link to="/blog" className={`l ${isActive('blog') ? 'active' : ''} `}>
           Blog
         </Link>
       </div>
@@ -69,17 +81,23 @@ const Container = styled.div`
     font-size: 1rem;
     cursor: pointer;
   }
+  
   .l {
     padding: 0 15px;
     margin: 0 5px;
-    height: 100%;
-    padding-top: 5px;
+    height: 35px;
+    padding-top: 1px;
     display: flex;
     align-items: center;
     background: black;
     color: white;
     border-radius: 6px;
     box-shadow: 0 5px 6px 1px black;
+  }
+
+  .active {
+    background: #607d8b !important;
+    box-shadow: 0 5px 6px -1px #607d8b !important;
   }
 `;
 
