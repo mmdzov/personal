@@ -237,10 +237,11 @@ const Chat = () => {
       await setChat((prev) => [...newChatData, ...prev]);
       console.log();
       e.target.scrollTo(0, 300);
-      // console.log();
     }
   };
+  
   const navigate = useNavigate();
+
   return (
     <Container>
       <div className="header">

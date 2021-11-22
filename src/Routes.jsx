@@ -4,8 +4,8 @@ import BlogPost from './components/Blog/BlogPost';
 import Chat from './components/Chat/Chat';
 import ChatList from './components/Chat/ChatList';
 import Home from './components/Home/Home';
+import Notification from './components/Notification/Notification';
 import PrivateRoute from './components/PrivateRoute';
-import Resume from './components/Resume/Resume';
 import Layout from './layout/Layout';
 
 const Routes = () => {
@@ -16,13 +16,22 @@ const Routes = () => {
         <Route path="blog" element={<Blog />} />
         <Route path="blog/:post" caseSensitive element={<BlogPost />} />
       </Route>
-      <Route path="personal" caseSensitive element={<Resume />} />
+
       <Route
         path="chat"
         caseSensitive
         element={
           <PrivateRoute>
             <Chat />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="notification"
+        caseSensitive
+        element={
+          <PrivateRoute>
+            <Notification />
           </PrivateRoute>
         }
       />

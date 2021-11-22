@@ -5,6 +5,7 @@ import Context from './context/Context';
 import axios from 'axios';
 import Avatar from './assets/img/avatar.jpg';
 import Routes from './Routes';
+import PostImage from './assets/img/post.jpg';
 
 function App() {
   const [user] = useState({
@@ -56,6 +57,23 @@ function App() {
       },
     ],
   });
+
+  const [notifications] = useState([
+    {
+      unread: true,
+      type: 'post',
+      data: {
+        id: '40923420tfsdjj0023',
+        title: 'Hello world from blog',
+        description:
+          // eslint-disable-next-line max-len
+          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex, libero voluptatibus! Odio, illum? Ad placeat vel doloribus neque. Consequuntur delectus aliquam dolorum doloribus sint alias impedit placeat reprehenderit voluptate blanditiis.',
+        date: Date.now(),
+        image: PostImage,
+      },
+    },
+  ]);
+
   const getUser = async () => {
     try {
       const { data } = await axios.get('https://api.github.com/users/mmdzov');
@@ -72,9 +90,9 @@ function App() {
   useEffect(() => {
     getUser();
   }, []);
-  
+
   return (
-    <Context.Provider value={{ data, user, about: data.about }}>
+    <Context.Provider value={{ data, user, notifications, about: data.about }}>
       <Container className="App">
         <Routes />
       </Container>
