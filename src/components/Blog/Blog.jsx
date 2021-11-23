@@ -1,15 +1,17 @@
 /* eslint-disable react/self-closing-comp */
 import { Container } from './Blog.styled';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Select } from 'antd';
 import PostImage from '../../assets/img/post.jpg';
 import BlogList from './BlogList';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
+import Context from '../../context/Context';
 
 const { Option } = Select;
 
 const Blog = () => {
+  const { user } = useContext(Context);
   const [blog] = useState({
     pages: 8,
     page: 1,
@@ -146,9 +148,11 @@ const Blog = () => {
             </Option>
           ))}
         </Select>
-        <Link to="/addpost" className="addblog">
-          <AiOutlinePlus />
-        </Link>
+        {user?.isAdmin ? (
+          <Link to="/addpost" className="addblog">
+            <AiOutlinePlus />
+          </Link>
+        ) : null}
       </div>
 
       <BlogList blog={blog} />

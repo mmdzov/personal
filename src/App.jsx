@@ -11,7 +11,7 @@ function App() {
   const [user] = useState({
     avatar: Avatar,
     username: 'Reza',
-    isAdmin: false,
+    isAdmin: true,
   });
   const [data, setData] = useState({
     person: {

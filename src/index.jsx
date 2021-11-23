@@ -1,12 +1,12 @@
 import { render } from 'react-dom';
-import './index.css';
 import App from './App';
+import { BrowserRouter as Router } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 import 'antd/dist/antd.css';
-import { BrowserRouter as Router } from 'react-router-dom';
+import './index.css';
 
 render(
-  <Router basename='/'>
+  <Router basename="/">
     <App />
   </Router>,
   document.getElementById('root'),
