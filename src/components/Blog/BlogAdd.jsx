@@ -53,38 +53,14 @@ const BlogAdd = () => {
     e.preventDefault();
   };
 
-  const [tag, setTag] = useState(null);
-
-  const handleNewTag = () => {
-    setTag('');
-  };
-
-  const handleChangeTag = ({ target }) => {
-    setTag(target.value);
-  };
-
-  const handleAddTag = () => {
-    values.tags.push(tag);
-    setValues((prev) => ({ ...prev, tags: values.tags }));
-    setTag(null);
-  };
-
-  const handleDeleteTag = (index) => {
-    const tags = values.tags.filter((_, i) => i !== index);
-    values.tags = tags;
-    setValues((prev) => ({ ...prev, tags: values.tags }));
-  };
-
   const handleTag = (e) => {
     setValues((prev) => ({ ...prev, tags: e }));
   };
+
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  
   const handleChangeEditorState = (e) => {
     setEditorState(e);
-    // setValues((prev) => ({
-    //   ...prev,
-    //   content: draftToHtml(convertToRaw(editorState.getCurrentContent())),
-    // }));
   };
 
   const handleSubmit = () => {
@@ -147,30 +123,6 @@ const BlogAdd = () => {
             value={draftToHtml(convertToRaw(editorState.getCurrentContent()))}
           />
         </div>
-        {/* <div className="tagGroup">
-          {values.tags.map((item, index) => (
-            <Tag className="tag">
-              {item}
-              <span style={{ cursor: 'pointer' }} onClick={() => handleDeleteTag(index)}>
-                <AiOutlineClose />
-              </span>
-            </Tag>
-          ))}
-        </div> */}
-        {/* {tag !== null ? (
-          <Group className="addtag">
-            <Input type="text" value={tag} onChange={handleChangeTag} />
-            <Button type="dashed" onClick={() => setTag(null)}>
-              <AiOutlineClose />
-            </Button>
-            <Button type="primary" onClick={handleAddTag}>
-              <AiOutlinePlus />
-            </Button>
-          </Group>
-        ) : null} */}
-        {/* <Tag onClick={handleNewTag} inputMode="text" style={{ cursor: 'pointer' }}>
-          <AiOutlinePlus /> New Tag
-        </Tag> */}
         <Button type="primary" onClick={handleSubmit} style={{ marginTop: 15 }}>
           AddPost
         </Button>
