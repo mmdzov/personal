@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { Timeline as TL, Input, Button } from 'antd';
 import Context from '../../context/Context';
 import { useContext, useState } from 'react';
+import EditPen from '../utils/EditPen';
 
 const { TextArea } = Input;
 
@@ -21,9 +22,14 @@ const Timeline = () => {
   };
 
   const handleAddTimeline = () => {
-    data.about.push(addline);
+    if (addline?.index >= 0) data.about[addline?.index] = addline;
+    else data.about.push(addline);
     setData((prev) => ({ ...prev, about: data.about }));
     setAddline(defaultAddline);
+  };
+
+  const handleEditTimeline = (item, index) => {
+    setAddline({ ...item, index });
   };
 
   return (
@@ -32,7 +38,10 @@ const Timeline = () => {
       <TL mode="alternate">
         {about.map((item, index) => (
           <TL.Item label={item.date} key={index}>
-            <div className="title">{item.title}</div>
+            <div className="timeline-header">
+              <EditPen onClick={() => handleEditTimeline(item, index)} />
+              <div className="title">{item.title}</div>
+            </div>
             <div className="subtitle">{item.subtitle}</div>
           </TL.Item>
         ))}
@@ -90,7 +99,14 @@ const Container = styled.div`
     font-weight: bold;
     color: #dfdfdf;
   }
-
+  .timeline-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .editpen {
+      position: unset !important;
+    }
+  }
   form {
     text-align: left;
     .title {
