@@ -239,7 +239,7 @@ const Chat = () => {
       e.target.scrollTo(0, 300);
     }
   };
-  
+
   const navigate = useNavigate();
 
   return (
@@ -250,8 +250,10 @@ const Chat = () => {
           <div className="username">{user.username}</div>
         </div>
 
-        {/* //! need admin access to show blow button */}
-        <div className="chatlistIcon" onClick={() => navigate('/chatlist', { replace: true })}>
+        <div
+          className="chatlistIcon"
+          onClick={() => navigate(user?.isAdmin ? '/chatlist' : '/', { replace: true })}
+        >
           <IoReturnUpForward />
         </div>
       </div>

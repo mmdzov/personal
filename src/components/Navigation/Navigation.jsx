@@ -9,7 +9,7 @@ import Context from '../../context/Context';
 const Navigation = () => {
   const [sign, setSign] = useState(false);
   const [signed] = useState(true);
-  const { notifications } = useContext(Context);
+  const { notifications, user } = useContext(Context);
   const { pathname } = useLocation();
   const isActive = (page) => {
     let pg = page;
@@ -25,7 +25,10 @@ const Navigation = () => {
         <Link to="/" className={`l ${isActive('home') ? 'active' : ''} `}>
           Home
         </Link>
-        <Link to="/chat" className={`l ${isActive('chat') ? 'active' : ''} `}>
+        <Link
+          to={user?.isAdmin ? '/chatlist' : '/chat'}
+          className={`l ${isActive('chat') ? 'active' : ''} `}
+        >
           Chat
         </Link>
         <Link to="/blog" className={`l ${isActive('blog') ? 'active' : ''} `}>
@@ -81,7 +84,7 @@ const Container = styled.div`
     font-size: 1rem;
     cursor: pointer;
   }
-  
+
   .l {
     padding: 0 15px;
     margin: 0 5px;
