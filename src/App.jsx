@@ -17,7 +17,7 @@ function App() {
     person: {
       fullName: 'Mohammad-Ali Zoveydat',
       avatar: '',
-      bio: ['Looking To implement New IDEAS'],
+      bio: ['Looking To implement New IDEAS',"ok"],
     },
     skills: [
       { name: 'Javascript', knowledge: '99', color: '#d1ac17' },

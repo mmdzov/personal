@@ -16,7 +16,7 @@ const Skills = () => {
       <div className="sec-title">Skills</div>
       <div className="sec-list" style={{ marginTop: 20 }}>
         {data?.skills?.map((item, index) => (
-          <div className="skill" style={{ position: 'relative' }}>
+          <div className="skill" style={{ position: 'relative' }} key={index}>
             <ProgressLine
               key={~~Math.floor(Math.random() * 99999)}
               label={item?.name}

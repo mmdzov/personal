@@ -1,33 +1,113 @@
+/* eslint-disable no-unused-vars */
 import styled from 'styled-components';
-import { useContext } from 'react';
+import { useContext, useRef, useState } from 'react';
 import Context from '../../context/Context';
-import Avatar from '../../assets/img/avatar.jpg';
 import EditPen from '../utils/EditPen';
+import { Image, Input, Button } from 'antd';
+import errorImg from '../utils/errorImg';
+
+const { TextArea } = Input;
 
 const Header = () => {
-  const { data } = useContext(Context);
+  const { data, setData } = useContext(Context);
+  const pickImageRef = useRef();
+  const selectFile = ({ target }) => {
+    const file = target.files[0];
+    const data = new FormData();
+    data.append(target.name, file);
+    //! upload file
+  };
+  const handlePickImage = () => {
+    pickImageRef.current.click();
+  };
+
+  const [editTitle, setEditTile] = useState(false);
+  const [editBio, setEditBio] = useState(false);
+
+  const [values, setValues] = useState({
+    fullName: data.person.fullName,
+    bio: data.person.bio,
+  });
+
+  const handleChange = ({ target }) => {
+    setValues((prev) => ({
+      ...prev,
+      [target.name]: target.name === 'bio' ? target.value.split('\n') : target.value,
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setData((prev) => ({ ...prev, person: { ...prev.person, ...values } }));
+    setEditTile(false);
+    setEditBio(false);
+  };
+
   return (
     <Container>
+      <input
+        type="file"
+        onChange={selectFile}
+        name="avatar"
+        accept="image/png, image/jpeg, imaage/jpg"
+        id="avatar"
+        ref={pickImageRef}
+        hidden
+      />
       <div className="profile">
         <div className="" style={{ position: 'relative' }}>
-          <img className="profile-img" src={Avatar} alt="" />
-          <EditPen />
+          <Image className="profile-img" src={data.person?.avatar} fallback={errorImg} />
+          <EditPen onClick={handlePickImage} />
         </div>
         <div className="titlebox" style={{ position: 'relative' }}>
-          <div className="title">{data?.person?.fullName}</div>
-          <EditPen />
+          <div className="title">
+            {editTitle ? (
+              <form style={{ display: 'flex', width: 195 }}>
+                <Input
+                  type="text"
+                  name="fullName"
+                  value={values.fullName}
+                  onChange={handleChange}
+                />
+                <Button type="primary" onClick={handleSubmit}>
+                  Edit
+                </Button>
+              </form>
+            ) : (
+              <span>{data?.person?.fullName}</span>
+            )}
+          </div>
+          <EditPen onClick={() => setEditTile((prev) => !prev)} />
         </div>
       </div>
 
       <div className="sec" style={{ marginTop: 0 }}>
         <div className="sec-title-box">
           <div className="sec-title">Bio</div>
-          <EditPen />
+          <EditPen onClick={() => setEditBio((prev) => !prev)} />
         </div>
         <div className="sec-list">
-          {data?.person?.bio?.map((item) => (
-            <span key={~~Math.floor(Math.random() * 99999)}>{item}</span>
-          ))}
+          {editBio ? (
+            <form>
+              <TextArea
+                style={{ marginBottom: '10px' }}
+                name="bio"
+                value={values.bio?.join('\n')}
+                onChange={handleChange}
+                placeholder="Bio..."
+                id="textarea"
+                className="scroll"
+                autoSize={{ minRows: 1, maxRows: 5 }}
+              />
+              <Button type="primary" onClick={handleSubmit}>
+                Edit
+              </Button>
+            </form>
+          ) : (
+            data?.person?.bio?.map((item) => (
+              <span key={~~Math.floor(Math.random() * 99999)}>{item}</span>
+            ))
+          )}
         </div>
       </div>
     </Container>
@@ -68,6 +148,10 @@ const Container = styled.div`
     width: 100px;
     height: 100px;
     border-radius: 100px;
+  }
+  .ant-image {
+    overflow: hidden;
+    border-radius: 100%;
     margin-bottom: 15px;
   }
   .names {

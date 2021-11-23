@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from "react";
-import "./ProgressLine.css";
+import React, { useEffect, useState } from 'react';
+import './ProgressLine.css';
 
 const ProgressLine = ({
   label,
-  backgroundColor = "#e5e5e5",
+  backgroundColor = '#e5e5e5',
   visualParts = [
     {
-      percentage: "0%",
-      color: "white",
+      percentage: '0%',
+      color: 'white',
     },
   ],
 }) => {
   const [widths, setWidths] = useState(
     visualParts.map(() => {
       return 0;
-    })
+    }),
   );
 
   useEffect(() => {
@@ -22,10 +22,20 @@ const ProgressLine = ({
       setWidths(
         visualParts.map((item) => {
           return item.percentage;
-        })
+        }),
       );
     });
   }, [visualParts]);
+
+  useEffect(() => {
+    return () => {
+      setWidths(
+        visualParts.map(() => {
+          return 0;
+        }),
+      );
+    };
+  }, []);
 
   return (
     <>

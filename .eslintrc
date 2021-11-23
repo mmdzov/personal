@@ -46,6 +46,7 @@
     "no-nonoctal-decimal-escape": "off",
     "jsx-a11y/no-noninteractive-element-interactions": "off",
     "react/no-danger": "off",
-    "no-plusplus": "off"
+    "no-plusplus": "off",
+    "no-empty": "off"
   }
 }

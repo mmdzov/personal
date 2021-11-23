@@ -15,8 +15,8 @@ const Resume = () => {
       <Body>
         <Skills />
         <div className="">
-          {about.map((item) => (
-            <div className="about">
+          {about.map((item, index) => (
+            <div className="about" key={index}>
               <div className="label">
                 <div className="date">{item.date}</div>
                 <div className="title"> - {item.title}</div>
