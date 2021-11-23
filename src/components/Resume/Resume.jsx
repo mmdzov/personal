@@ -1,21 +1,21 @@
+/* eslint-disable no-unused-vars */
 import { useContext } from 'react';
 import styled from 'styled-components';
 import Context from '../../context/Context';
-// eslint-disable-next-line no-unused-vars
 import Repos from '../github/Repos';
 import ContactUs from '../Personal/ContactUs';
 import Header from '../Personal/Header';
 import Skills from '../Personal/Skills';
+import Timeline from '../Timeline/Timeline';
 
 const Resume = () => {
-  const { about } = useContext(Context);
   return (
     <Container>
       <Header />
       <Body>
         <Skills />
         <div className="">
-          {about.map((item, index) => (
+          {/* {about.map((item, index) => (
             <div className="about" key={index}>
               <div className="label">
                 <div className="date">{item.date}</div>
@@ -23,7 +23,8 @@ const Resume = () => {
               </div>
               <div className="subtitle">{item.subtitle}</div>
             </div>
-          ))}
+          ))} */}
+          <Timeline />
           {/* <Repos /> */}
           <ContactUs />
         </div>
