@@ -1,19 +1,29 @@
-import styled from "styled-components";
-import { useContext } from "react";
-import Context from "../../context/Context";
-import Avatar from "../../assets/img/avatar.jpg";
+import styled from 'styled-components';
+import { useContext } from 'react';
+import Context from '../../context/Context';
+import Avatar from '../../assets/img/avatar.jpg';
+import EditPen from '../utils/EditPen';
 
 const Header = () => {
   const { data } = useContext(Context);
   return (
     <Container>
       <div className="profile">
-        <img className="profile-img" src={Avatar} alt="" />
-        <div className="title">{data?.person?.fullName}</div>
+        <div className="" style={{ position: 'relative' }}>
+          <img className="profile-img" src={Avatar} alt="" />
+          <EditPen />
+        </div>
+        <div className="titlebox" style={{ position: 'relative' }}>
+          <div className="title">{data?.person?.fullName}</div>
+          <EditPen />
+        </div>
       </div>
 
       <div className="sec" style={{ marginTop: 0 }}>
-        <div className="sec-title">Bio</div>
+        <div className="sec-title-box">
+          <div className="sec-title">Bio</div>
+          <EditPen />
+        </div>
         <div className="sec-list">
           {data?.person?.bio?.map((item) => (
             <span key={~~Math.floor(Math.random() * 99999)}>{item}</span>
@@ -25,6 +35,13 @@ const Header = () => {
 };
 
 const Container = styled.div`
+  .titlebox {
+    .editpen {
+      left: -35px !important;
+      bottom: -1px !important;
+    }
+  }
+
   .profile {
     display: flex;
     justify-content: center;

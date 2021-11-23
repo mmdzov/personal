@@ -103,3 +103,28 @@ body {
   display: flex !important;
   justify-content: space-around !important;
 }
+
+.editpen {
+  font-size: 0.9rem;
+  /* background: #282828; */
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* box-shadow: 0 5px 10px 1px #1a1a1a; */
+  bottom: 15px;
+  left: 0;
+  cursor: pointer;
+}
+
+.sec-title-box {
+  position: relative;
+}
+.sec-title-box > .editpen {
+  right: 0;
+  left: unset;
+  bottom: 3px;
+}

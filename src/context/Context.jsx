@@ -5,6 +5,7 @@ const Context = createContext({
   user: {},
   about: {},
   notifications: {},
+  setData: () => {},
 });
 
 export default Context;

@@ -11,6 +11,7 @@ function App() {
   const [user] = useState({
     avatar: Avatar,
     username: 'Reza',
+    isAdmin: true,
   });
   const [data, setData] = useState({
     person: {
@@ -92,7 +93,7 @@ function App() {
   }, []);
 
   return (
-    <Context.Provider value={{ data, user, notifications, about: data.about }}>
+    <Context.Provider value={{ data, user, notifications, about: data.about, setData }}>
       <Container className="App">
         <Routes />
       </Container>
