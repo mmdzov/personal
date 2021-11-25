@@ -1,12 +1,13 @@
 /* eslint-disable no-unused-vars */
 import { Container } from './BlogAdd.styled';
 import { Input, Tag, Button, Select } from 'antd';
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import { AiOutlinePlus, AiOutlineClose } from 'react-icons/ai';
 import { Editor } from 'react-draft-wysiwyg';
 import { EditorState, convertToRaw } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
+import CropImage from '../CropImage/CropImage';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 const { TextArea, Group } = Input;
@@ -58,7 +59,7 @@ const BlogAdd = () => {
   };
 
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
-  
+
   const handleChangeEditorState = (e) => {
     setEditorState(e);
   };
@@ -68,8 +69,59 @@ const BlogAdd = () => {
     console.log(content.textContent);
   };
 
+  const [images, setImages] = useState([]);
+
+  const [selectedImage, setSelectedImage] = useState({
+    src: '',
+    file: null,
+  });
+  const [openCrop, setOpenCrop] = useState(false);
+
+  const selectImage = ({ target }) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(target.files[0]);
+    reader.onload = () => {
+      let base64 = reader.result;
+      setSelectedImage({ file: target.files[0], src: base64 });
+      setOpenCrop(true);
+    };
+  };
+
+  function dataURLtoFile(dataurl, filename) {
+    let arr = dataurl.split(',');
+    let mime = arr[0].match(/:(.*?);/)[1];
+    let bstr = atob(arr[1]);
+    let n = bstr.length;
+    let u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], filename, { type: mime });
+  }
+
+  const [img, setImg] = useState(null);
+
+  const getCroppedImage = (cropped) => {
+    setImg(cropped);
+  };
+
+  const setCrop = () => {
+    if (!img) return;
+    setImages((prev) => [...prev, { src: img, file: dataURLtoFile(img) }]);
+    setImg(null);
+  };
+
   return (
     <Container>
+      {selectedImage?.src ? (
+        <CropImage
+          openCrop={openCrop}
+          src={selectedImage.src}
+          cancel={setCrop}
+          setOpenCrop={setOpenCrop}
+          callback={getCroppedImage}
+        />
+      ) : null}
       <form method="post" onSubmit={handleAddPost}>
         <Group className="group">
           <Input type="text" name="title" placeholder="title" />
@@ -98,7 +150,7 @@ const BlogAdd = () => {
           </Select>
           <Input type="text" name="addSelectCat" placeholder="add & select cat" />
         </Group>
-        <Group className='post-avatar'>
+        <Group className="post-avatar">
           <div className="title">Post Avatar</div>
           <input type="file" name="image" id="image" onChange={handleChange} />
         </Group>
@@ -109,6 +161,20 @@ const BlogAdd = () => {
           tokenSeparators={[',']}
           placeholder="Tags"
         />
+        <Group>
+          {images.length > 0 ? (
+            <div className="uploads">
+              {images.map((item) => (
+                <img src={item.src ?? ''} alt="" />
+              ))}
+            </div>
+          ) : null}
+          <input type="file" name="blogimage" onChange={selectImage} />
+          <div className="preview">
+            <div className="title">Preview </div>
+            <img src={img ?? ''} alt="" />
+          </div>
+        </Group>
         <div style={{ color: 'black' }}>
           <Editor
             editorState={editorState}

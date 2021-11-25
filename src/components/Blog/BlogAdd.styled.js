@@ -71,4 +71,41 @@ export const Container = styled.div`
     grid-template-columns: 2fr 3fr 2fr;
     margin-bottom: 15px;
   }
+  .rdw-emoji-modal {
+    left: -200px !important;
+  }
+
+  .rdw-image-modal,
+  .rdw-embedded-modal,
+  .rdw-link-modal {
+    left: 154px !important;
+  }
+
+  .uploads {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    background: #0000001f;
+    padding: 7px;
+    margin-bottom: 10px;
+    grid-gap: 5px;
+    img {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      cursor: pointer;
+    }
+  }
+
+  .preview {
+    .title {
+      font-size: 1.2rem;
+      color: white;
+      font-weight: bold;
+      margin: 10px 0px;
+    }
+    img {
+      margin: 0 10px;
+      margin-bottom: 20px;
+    }
+  }
 `;

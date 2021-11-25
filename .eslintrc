@@ -47,6 +47,7 @@
     "jsx-a11y/no-noninteractive-element-interactions": "off",
     "react/no-danger": "off",
     "no-plusplus": "off",
-    "no-empty": "off"
+    "no-empty": "off",
+    "import/no-unresolved": "off"
   }
 }

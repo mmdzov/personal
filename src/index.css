@@ -128,3 +128,7 @@ body {
   left: unset;
   bottom: 3px;
 }
+
+.cropImgModal {
+  top: 35px;
+}
