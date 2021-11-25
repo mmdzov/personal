@@ -10,6 +10,10 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
+* {
+  user-select: none;
+}
+
 .App-particles__container {
   overflow: hidden;
   position: absolute;

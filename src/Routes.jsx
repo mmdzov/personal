@@ -7,6 +7,7 @@ import ChatList from './components/Chat/ChatList';
 import Home from './components/Home/Home';
 import Notification from './components/Notification/Notification';
 import PrivateRoute from './components/PrivateRoute';
+import Tags from './components/Tags/Tags';
 import Layout from './layout/Layout';
 
 const Routes = () => {
@@ -16,7 +17,9 @@ const Routes = () => {
         <Route index element={<Home />} />
         <Route path="blog" element={<Blog />} />
         <Route path="blog/:post" caseSensitive element={<BlogPost />} />
-        
+        <Route path="tags" caseSensitive element={<Tags />} />
+        <Route path="tags/:tag" caseSensitive element={<Tags />} />
+
         {/* //!need admin access */}
         <Route
           path="/addpost"

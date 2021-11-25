@@ -1,9 +1,10 @@
 /* eslint-disable no-unused-vars */
 import styled from 'styled-components';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import SignModal from '../Sign/SignModal';
 import { AiFillNotification } from 'react-icons/ai';
+import { IoReturnUpForward } from 'react-icons/io5';
 import Context from '../../context/Context';
 
 const Navigation = () => {
@@ -19,9 +20,21 @@ const Navigation = () => {
     return pg === true ? true : pathname.includes(pg);
   };
 
+  const navigate = useNavigate();
+  const handleGoBack = () => {
+    navigate(-1);
+  };
+
   return (
     <Container>
-      <div className="">
+      {isActive('home') === true ? null : (
+        <div className="header">
+          <div className="backward" onClick={handleGoBack}>
+            <IoReturnUpForward />
+          </div>
+        </div>
+      )}
+      <div className="navs" style={{ marginTop: isActive('home') === true ? 20 : 0 }}>
         <Link to="/" className={`l ${isActive('home') ? 'active' : ''} `}>
           Home
         </Link>
@@ -51,11 +64,37 @@ const Navigation = () => {
 
 const Container = styled.div`
   display: flex;
-  padding: 0 15px;
-  height: 30px;
+  padding: 0 10px;
+  /* height: 30px; */
   align-items: center;
-  justify-content: space-between;
-  margin-top: 20px;
+  /* justify-content: space-between; */
+  flex-direction: column;
+
+  .header {
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    flex-direction: row-reverse;
+    align-items: center;
+    margin-top: 10px;
+  }
+
+  .backward {
+    font-size: 2.2rem;
+    line-height: 26px;
+    cursor: pointer;
+  }
+
+  .navs {
+    align-items: center;
+    display: flex;
+    overflow-x: auto;
+    margin-bottom: 10px;
+    width: 100%;
+    padding-bottom: 15px;
+  }
+
   > div {
     display: flex;
   }

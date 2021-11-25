@@ -16,7 +16,7 @@ const BlogList = ({ blog }) => {
   const handleGoTag = (tag) => {
     navigate(`/tags/${tag}`);
   };
-  
+
   return (
     <Container>
       <div className="bloglist">
@@ -56,7 +56,7 @@ const BlogList = ({ blog }) => {
             {item?.tags ? (
               <div className="tags scroll">
                 {item.tags.map((tag) => (
-                  <div className="tag" onClick={() => handleGoTag(tag)}>
+                  <div className="tag" onClick={() => handleGoTag(tag.tag)}>
                     #{tag.tag}
                   </div>
                 ))}
