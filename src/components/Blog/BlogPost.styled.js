@@ -3,7 +3,17 @@ import styled from 'styled-components';
 export const Container = styled.div`
   width: 95%;
   margin: 0 auto;
-  user-select: none;
+
+  .tools {
+    height: 30px;
+    position: relative;
+    .editpen {
+      left: unset;
+      right: 0;
+      bottom: 0;
+    }
+  }
+
   .header {
     margin: 20px auto;
     position: relative;

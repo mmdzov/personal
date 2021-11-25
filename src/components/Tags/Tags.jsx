@@ -52,15 +52,15 @@ const Tags = () => {
       tags: [
         {
           id: 342342,
-          tag: 'psfkdofs',
+          name: 'psfkdofs',
         },
         {
           id: 342342,
-          tag: 'psfkdofs',
+          name: 'psfkdofs',
         },
         {
           id: 342342,
-          tag: 'psfkdofs',
+          name: 'psfkdofs',
         },
       ],
     },
@@ -85,8 +85,8 @@ const Tags = () => {
       ) : null}
       {!urlTag
         ? tags.map((item) => (
-            <div className="tag" onClick={() => handleGoTag(item.tag)}>
-              <div className="title">#{item.tag}</div>
+            <div className="tag" onClick={() => handleGoTag(item.name)}>
+              <div className="title">#{item.name}</div>
               <div className="posts">{item.posts}</div>
             </div>
           ))

@@ -6,6 +6,7 @@ import { Button, Input } from 'antd';
 import { FaReply } from 'react-icons/fa';
 import PostImage from '../../assets/img/post.jpg';
 import { useNavigate } from 'react-router-dom';
+import EditPen from '../utils/EditPen';
 
 const { TextArea } = Input;
 
@@ -21,6 +22,10 @@ const BlogPost = () => {
     date: Date.now(),
     image: PostImage,
     likes: 1223,
+    category: {
+      id: 53453645,
+      name: 'Javascript',
+    },
     liked: false,
     comments: [
       {
@@ -71,15 +76,15 @@ const BlogPost = () => {
     tags: [
       {
         id: 342342,
-        tag: 'psfkdofs',
+        name: 'psfkdofs',
       },
       {
         id: 342342,
-        tag: 'psfkdofs',
+        name: 'psfkdofs',
       },
       {
         id: 342342,
-        tag: 'psfkdofs',
+        name: 'psfkdofs',
       },
     ],
     content: `
@@ -165,8 +170,21 @@ const BlogPost = () => {
     navigate(`/tags/${tag}`);
   };
 
+  const handleEditPost = () => {
+    navigate('/editpost', {
+      state: {
+        data: blogpost,
+      },
+    });
+  };
+
   return (
     <Container ref={containerRef}>
+      {user?.isAdmin ? (
+        <div className="tools">
+          <EditPen onClick={handleEditPost} />
+        </div>
+      ) : null}
       <div className="header">
         <img src={blogpost.image} alt="" />
         <div className="">
@@ -176,8 +194,8 @@ const BlogPost = () => {
       </div>
       <div className="tags">
         {blogpost.tags.map((item) => (
-          <div className="tag" onClick={() => handleGoTag(item.tag)}>
-            #{item.tag}
+          <div className="tag" onClick={() => handleGoTag(item.name)}>
+            #{item.name}
           </div>
         ))}
       </div>

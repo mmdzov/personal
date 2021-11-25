@@ -1,14 +1,15 @@
 /* eslint-disable no-unused-vars */
 import { Container } from './BlogAdd.styled';
-import { Input, Tag, Button, Select } from 'antd';
-import { Fragment, useState } from 'react';
-import { AiOutlinePlus, AiOutlineClose } from 'react-icons/ai';
+import { Input, Button, Select } from 'antd';
+import { useState, useEffect } from 'react';
 import { Editor } from 'react-draft-wysiwyg';
-import { EditorState, convertToRaw } from 'draft-js';
+import { EditorState, convertToRaw, ContentState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
 import CropImage from '../CropImage/CropImage';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { useLocation } from 'react-router-dom';
+import PostImage from '../../assets/img/post.jpg';
 
 const { TextArea, Group } = Input;
 const { Option } = Select;
@@ -19,9 +20,32 @@ const BlogAdd = () => {
     description: '',
     image: '',
     tags: [],
+    category: {},
     content: '',
+    new_category: '',
   });
-
+  const [tags] = useState([
+    {
+      id: 3423426332,
+      name: 'Javascript',
+    },
+    {
+      id: 3423476756,
+      name: 'react.js',
+    },
+    {
+      id: 645534543,
+      name: 'express.js',
+    },
+    {
+      id: 64345342,
+      name: 'tdd',
+    },
+    {
+      id: 634436686,
+      name: 'other',
+    },
+  ]);
   const [category] = useState([
     {
       id: 3423426332,
@@ -56,6 +80,7 @@ const BlogAdd = () => {
 
   const handleTag = (e) => {
     setValues((prev) => ({ ...prev, tags: e }));
+    console.log(values.tags);
   };
 
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
@@ -105,10 +130,55 @@ const BlogAdd = () => {
     setImg(cropped);
   };
 
+  const [avatarCrop, setAvatarCrop] = useState(false);
+
+  const { state } = useLocation();
+
+  useEffect(() => {
+    if (!state) return;
+    if (Object.keys(state?.data)?.length > 0) {
+      const { data } = state;
+      console.log(
+        data.tags.map((item) => {
+          return item.name;
+        }),
+      );
+      setValues({
+        tags: data.tags.map((item) => {
+          return item.name;
+        }),
+        title: data.title,
+        description: data.description,
+        image: { src: PostImage },
+        content: data.content,
+        category: data.category,
+      });
+      const blocksFromHtml = htmlToDraft(data.content);
+      const { contentBlocks, entityMap } = blocksFromHtml;
+      const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
+      setEditorState(EditorState.createWithContent(contentState));
+    }
+  }, [state]);
+
   const setCrop = () => {
     if (!img) return;
-    setImages((prev) => [...prev, { src: img, file: dataURLtoFile(img) }]);
+    if (avatarCrop) {
+      setValues((prev) => ({ ...prev, image: { src: img, file: dataURLtoFile(img) } }));
+      setAvatarCrop(false);
+    } else {
+      setImages((prev) => [...prev, { src: img, file: dataURLtoFile(img) }]);
+    }
     setImg(null);
+  };
+
+  const handleChangeCat = (cat) => {
+    const index = category.findIndex((item) => item.name === cat);
+    setValues((prev) => ({ ...prev, category: category[index] }));
+  };
+
+  const handleSetCropAvatar = ({ target }) => {
+    selectImage({ target });
+    setAvatarCrop(true);
   };
 
   return (
@@ -124,7 +194,13 @@ const BlogAdd = () => {
       ) : null}
       <form method="post" onSubmit={handleAddPost}>
         <Group className="group">
-          <Input type="text" name="title" placeholder="title" />
+          <Input
+            type="text"
+            name="title"
+            value={values.title}
+            onChange={handleChange}
+            placeholder="title"
+          />
           <TextArea
             value={values.description}
             onChange={handleChange}
@@ -137,10 +213,12 @@ const BlogAdd = () => {
         </Group>
         <Group className="group-row">
           <Select
-            defaultValue={'Select Category'}
+            defaultValue={values?.category?.name ?? 'Select category'}
+            value={values?.category?.name ?? 'Select category'}
             className="select"
             style={{ width: 120, background: 'white' }}
             bordered={false}
+            onChange={handleChangeCat}
           >
             {category.map((item) => (
               <Option value={item.name} className="option">
@@ -148,16 +226,24 @@ const BlogAdd = () => {
               </Option>
             ))}
           </Select>
-          <Input type="text" name="addSelectCat" placeholder="add & select cat" />
+          <Input
+            type="text"
+            name="new_category"
+            value={values.new_category}
+            onChange={handleChange}
+            placeholder="add & select cat"
+          />
         </Group>
         <Group className="post-avatar">
           <div className="title">Post Avatar</div>
-          <input type="file" name="image" id="image" onChange={handleChange} />
+          {values?.image?.src ? <img src={values?.image?.src} alt="" /> : null}
+          <input type="file" name="image" id="image" onChange={handleSetCropAvatar} />
         </Group>
         <Select
           mode="tags"
           style={{ width: '100%', marginBottom: '15px' }}
           onChange={handleTag}
+          value={values.tags}
           tokenSeparators={[',']}
           placeholder="Tags"
         />
@@ -190,7 +276,7 @@ const BlogAdd = () => {
           />
         </div>
         <Button type="primary" onClick={handleSubmit} style={{ marginTop: 15 }}>
-          AddPost
+          {state ? 'EditPost' : 'AddPost'}
         </Button>
       </form>
     </Container>

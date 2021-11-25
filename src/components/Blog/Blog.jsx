@@ -22,15 +22,15 @@ const Blog = () => {
     tags: [
       {
         id: 342342,
-        tag: 'psfkdofs',
+        name: 'psfkdofsdfsd',
       },
       {
         id: 342342,
-        tag: 'psfkdofs',
+        name: 'psfkdoffss',
       },
       {
         id: 342342,
-        tag: 'psfkdofs',
+        name: 'pfssfkdofs',
       },
     ],
     category: [
@@ -68,40 +68,15 @@ const Blog = () => {
         tags: [
           {
             id: 342342,
-            tag: 'psfkdofs',
+            name: 'psfkdofs',
           },
           {
             id: 342342,
-            tag: 'psfkdofs',
+            name: 'psfkdofs',
           },
           {
             id: 342342,
-            tag: 'psfkdofs',
-          },
-        ],
-      },
-      {
-        id: '40923420tfsdjj0023',
-        title: 'Hello world from blog',
-        description:
-          // eslint-disable-next-line max-len
-          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex, libero voluptatibus! Odio, illum? Ad placeat vel doloribus neque. Consequuntur delectus aliquam dolorum doloribus sint alias impedit placeat reprehenderit voluptate blanditiis.',
-        date: Date.now(),
-        image: PostImage,
-        likes: 1223,
-        comments: 342342,
-        tags: [
-          {
-            id: 342342,
-            tag: 'psfkdofs',
-          },
-          {
-            id: 342342,
-            tag: 'psfkdofs',
-          },
-          {
-            id: 342342,
-            tag: 'psfkdofs',
+            name: 'psfkdofs',
           },
         ],
       },
@@ -118,15 +93,40 @@ const Blog = () => {
         tags: [
           {
             id: 342342,
-            tag: 'psfkdofs',
+            name: 'psfkdofs',
           },
           {
             id: 342342,
-            tag: 'psfkdofs',
+            name: 'psfkdofs',
           },
           {
             id: 342342,
-            tag: 'psfkdofs',
+            name: 'psfkdofs',
+          },
+        ],
+      },
+      {
+        id: '40923420tfsdjj0023',
+        title: 'Hello world from blog',
+        description:
+          // eslint-disable-next-line max-len
+          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex, libero voluptatibus! Odio, illum? Ad placeat vel doloribus neque. Consequuntur delectus aliquam dolorum doloribus sint alias impedit placeat reprehenderit voluptate blanditiis.',
+        date: Date.now(),
+        image: PostImage,
+        likes: 1223,
+        comments: 342342,
+        tags: [
+          {
+            id: 342342,
+            name: 'psfkdofs',
+          },
+          {
+            id: 342342,
+            name: 'psfkdofs',
+          },
+          {
+            id: 342342,
+            name: 'psfkdofs',
           },
         ],
       },

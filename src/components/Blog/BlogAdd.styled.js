@@ -27,11 +27,17 @@ export const Container = styled.div`
 
   .post-avatar {
     display: flex;
-    justify-content: space-between;
     margin-bottom: 15px;
-    align-items: center;
     color: white;
     font-size: 1rem;
+    flex-direction: column;
+    align-items: baseline;
+    > img {
+      margin: 10px 0px;
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+    }
   }
 
   .group {

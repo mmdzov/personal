@@ -56,8 +56,8 @@ const BlogList = ({ blog }) => {
             {item?.tags ? (
               <div className="tags scroll">
                 {item.tags.map((tag) => (
-                  <div className="tag" onClick={() => handleGoTag(tag.tag)}>
-                    #{tag.tag}
+                  <div className="tag" onClick={() => handleGoTag(tag.name)}>
+                    #{tag.name}
                   </div>
                 ))}
               </div>

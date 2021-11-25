@@ -1,12 +1,9 @@
 import useAuth from '../hooks/useAuth';
 import SignModal from './Sign/SignModal';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 function PrivateRoute({ children }) {
   const [showModal, setShowModal] = useState(true);
-  useEffect(() => {
-    console.log('test');
-  }, []);
   const auth = useAuth();
   return auth ? (
     children

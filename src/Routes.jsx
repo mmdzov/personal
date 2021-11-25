@@ -30,6 +30,15 @@ const Routes = () => {
             </PrivateRoute>
           }
         />
+        <Route
+          path="/editpost"
+          caseSensitive
+          element={
+            <PrivateRoute>
+              <BlogAdd />
+            </PrivateRoute>
+          }
+        />
       </Route>
 
       <Route
