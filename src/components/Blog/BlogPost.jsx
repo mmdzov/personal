@@ -5,6 +5,7 @@ import { AiFillHeart, AiOutlineHeart, AiOutlineClose } from 'react-icons/ai';
 import { Button, Input } from 'antd';
 import { FaReply } from 'react-icons/fa';
 import PostImage from '../../assets/img/post.jpg';
+import { useNavigate } from 'react-router-dom';
 
 const { TextArea } = Input;
 
@@ -159,6 +160,10 @@ const BlogPost = () => {
   const clearReply = () => {
     setReply({});
   };
+  const navigate = useNavigate();
+  const handleGoTag = (tag) => {
+    navigate(`/tags/${tag}`);
+  };
 
   return (
     <Container ref={containerRef}>
@@ -171,7 +176,9 @@ const BlogPost = () => {
       </div>
       <div className="tags">
         {blogpost.tags.map((item) => (
-          <div className="tag">#{item.tag}</div>
+          <div className="tag" onClick={() => handleGoTag(item.tag)}>
+            #{item.tag}
+          </div>
         ))}
       </div>
 
