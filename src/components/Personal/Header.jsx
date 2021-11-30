@@ -1,22 +1,28 @@
 /* eslint-disable no-unused-vars */
 import styled from 'styled-components';
-import { useContext, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import Context from '../../context/Context';
 import EditPen from '../utils/EditPen';
 import { Image, Input, Button } from 'antd';
 import errorImg from '../utils/errorImg';
+import { useDispatch, useSelector } from 'react-redux';
+import { changeAvatar } from '../../store/actions/mainAction';
 
 const { TextArea } = Input;
 
 const Header = () => {
-  const { data, setData } = useContext(Context);
   const pickImageRef = useRef();
-  const selectFile = ({ target }) => {
+  const { data } = useSelector(({ main }) => main);
+  const dispatch = useDispatch();
+
+  const selectFile = async ({ target }) => {
     const file = target.files[0];
+    if (!file) return;
     const data = new FormData();
     data.append(target.name, file);
-    //! upload file
+    await dispatch(changeAvatar(data));
   };
+
   const handlePickImage = () => {
     pickImageRef.current.click();
   };
@@ -25,8 +31,8 @@ const Header = () => {
   const [editBio, setEditBio] = useState(false);
 
   const [values, setValues] = useState({
-    fullName: data.person.fullName,
-    bio: data.person.bio,
+    username: data.username,
+    bio: data.bio,
   });
 
   const handleChange = ({ target }) => {
@@ -38,7 +44,7 @@ const Header = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setData((prev) => ({ ...prev, person: { ...prev.person, ...values } }));
+    // setData((prev) => ({ ...prev, person: { ...prev.person, ...values } }));
     setEditTile(false);
     setEditBio(false);
   };
@@ -56,7 +62,7 @@ const Header = () => {
       />
       <div className="profile">
         <div className="" style={{ position: 'relative' }}>
-          <Image className="profile-img" src={data.person?.avatar} fallback={errorImg} />
+          <Image className="profile-img" src={data?.avatar} fallback={errorImg} />
           <EditPen onClick={handlePickImage} />
         </div>
         <div className="titlebox" style={{ position: 'relative' }}>
@@ -65,8 +71,8 @@ const Header = () => {
               <form style={{ display: 'flex', width: 195 }}>
                 <Input
                   type="text"
-                  name="fullName"
-                  value={values.fullName}
+                  name="username"
+                  value={values.username}
                   onChange={handleChange}
                 />
                 <Button type="primary" onClick={handleSubmit}>
@@ -74,7 +80,7 @@ const Header = () => {
                 </Button>
               </form>
             ) : (
-              <span>{data?.person?.fullName}</span>
+              <span>{data?.username}</span>
             )}
           </div>
           <EditPen onClick={() => setEditTile((prev) => !prev)} />
@@ -104,9 +110,7 @@ const Header = () => {
               </Button>
             </form>
           ) : (
-            data?.person?.bio?.map((item) => (
-              <span key={~~Math.floor(Math.random() * 99999)}>{item}</span>
-            ))
+            data?.bio?.map((item) => <span key={~~Math.floor(Math.random() * 99999)}>{item}</span>)
           )}
         </div>
       </div>

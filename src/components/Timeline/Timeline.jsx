@@ -3,6 +3,7 @@ import { Timeline as TL, Input, Button } from 'antd';
 import Context from '../../context/Context';
 import { useContext, useState } from 'react';
 import EditPen from '../utils/EditPen';
+import { useSelector } from 'react-redux';
 
 const { TextArea } = Input;
 
@@ -13,7 +14,8 @@ const defaultAddline = {
 };
 
 const Timeline = () => {
-  const { about, user, data, setData } = useContext(Context);
+  const { data } = useSelector(({ main }) => main);
+  const { user, setData } = useContext(Context);
   const [addline, setAddline] = useState(defaultAddline);
 
   const handleChange = ({ target }) => {
@@ -22,9 +24,9 @@ const Timeline = () => {
   };
 
   const handleAddTimeline = () => {
-    if (addline?.index >= 0) data.about[addline?.index] = addline;
-    else data.about.push(addline);
-    setData((prev) => ({ ...prev, about: data.about }));
+    if (addline?.index >= 0) data.timeline[addline?.index] = addline;
+    else data.timeline.push(addline);
+    setData((prev) => ({ ...prev, timeline: data.timeline }));
     setAddline(defaultAddline);
   };
 
@@ -36,7 +38,7 @@ const Timeline = () => {
     <Container className="sec">
       <div className="sec-title">Timeline</div>
       <TL mode="alternate">
-        {about.map((item, index) => (
+        {data?.timeline?.map((item, index) => (
           <TL.Item label={item.date} key={index}>
             <div className="timeline-header">
               <EditPen onClick={() => handleEditTimeline(item, index)} />
@@ -46,7 +48,7 @@ const Timeline = () => {
           </TL.Item>
         ))}
       </TL>
-      {user?.isAdmin ? (
+      {data?.isAdmin ? (
         <form onSubmit={(e) => e.preventDefault()}>
           <div className="title">Add Timeline</div>
           <Input

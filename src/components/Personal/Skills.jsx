@@ -1,12 +1,12 @@
 import styled from 'styled-components';
-import Context from '../../context/Context';
 import ProgressLine from '../progress/ProgressLine';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import EditPen from '../utils/EditPen';
 import NewSkill from './newSkill';
+import { useSelector } from 'react-redux';
 
 const Skills = () => {
-  const { data } = useContext(Context);
+  const { data } = useSelector(({ main }) => main);
   const [filledSkill, setFilledSkill] = useState({});
   const handleEditSkill = (skill, index) => {
     setFilledSkill({ ...skill, index });

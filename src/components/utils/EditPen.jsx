@@ -1,10 +1,9 @@
-import { useContext } from 'react';
-import Context from '../../context/Context';
 import { IoPencil } from 'react-icons/io5';
+import { useSelector } from 'react-redux';
 
 const EditPen = ({ onClick }) => {
-  const { user } = useContext(Context);
-  if (!user?.isAdmin) return null;
+  const { data } = useSelector(({ main }) => main);
+  if (!data?.isAdmin) return null;
   return (
     <span className="editpen" onClick={onClick}>
       <IoPencil />

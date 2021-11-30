@@ -20,51 +20,51 @@ function App() {
   useEffect(() => {
     dispatch(getMain());
   }, []);
-  const [data, setData] = useState({
-    person: {
-      fullName: 'Mohammad-Ali Zoveydat',
-      avatar: '',
-      bio: ['Looking To implement New IDEAS', 'ok'],
-    },
-    skills: [
-      { name: 'Javascript', knowledge: '99', color: '#d1ac17' },
-      { name: 'React.Js', knowledge: '95', color: '#2656bd' },
-      { name: 'Typescript', knowledge: '65', color: '#391182' },
-      { name: 'Node.Js', knowledge: '60', color: '#0ad195' },
-      { name: 'Express.Js', knowledge: '80', color: '#d1350a' },
-      { name: 'TDD', knowledge: '19', color: '#d11b1b' },
-      { name: 'MongoDB - Mongoose', knowledge: '50', color: '#0ad135' },
-      { name: 'Postman', knowledge: '98', color: '#d1670a' },
-      { name: 'TelegramBot Api', knowledge: '100', color: '#0a88d1' },
-      { name: 'TelegramBot Client', knowledge: '30', color: '#45b3d1' },
-    ],
-    contact_us: [
-      { title: 'Call', value: '+989356597910' },
-      { title: 'Email', value: 'Mzov939@gmail.com' },
-    ],
-    about: [
-      {
-        date: '1397/4',
-        title: 'Basic PHP',
-        subtitle: 'Here I started php from zero',
-      },
-      {
-        date: '1397/4',
-        title: 'Basic PHP',
-        subtitle: 'Here I started php from zero',
-      },
-      {
-        date: '1397/4',
-        title: 'Basic PHP',
-        subtitle: 'Here I started php from zero',
-      },
-      {
-        date: '1397/4',
-        title: 'Basic PHP',
-        subtitle: 'Here I started php from zero',
-      },
-    ],
-  });
+  // const [data, setData] = useState({
+  //   person: {
+  //     fullName: 'Mohammad-Ali Zoveydat',
+  //     avatar: '',
+  //     bio: ['Looking To implement New IDEAS', 'ok'],
+  //   },
+  //   skills: [
+  //     { name: 'Javascript', knowledge: '99', color: '#d1ac17' },
+  //     { name: 'React.Js', knowledge: '95', color: '#2656bd' },
+  //     { name: 'Typescript', knowledge: '65', color: '#391182' },
+  //     { name: 'Node.Js', knowledge: '60', color: '#0ad195' },
+  //     { name: 'Express.Js', knowledge: '80', color: '#d1350a' },
+  //     { name: 'TDD', knowledge: '19', color: '#d11b1b' },
+  //     { name: 'MongoDB - Mongoose', knowledge: '50', color: '#0ad135' },
+  //     { name: 'Postman', knowledge: '98', color: '#d1670a' },
+  //     { name: 'TelegramBot Api', knowledge: '100', color: '#0a88d1' },
+  //     { name: 'TelegramBot Client', knowledge: '30', color: '#45b3d1' },
+  //   ],
+  //   contact_us: [
+  //     { title: 'Call', value: '+989356597910' },
+  //     { title: 'Email', value: 'Mzov939@gmail.com' },
+  //   ],
+  //   about: [
+  //     {
+  //       date: '1397/4',
+  //       title: 'Basic PHP',
+  //       subtitle: 'Here I started php from zero',
+  //     },
+  //     {
+  //       date: '1397/4',
+  //       title: 'Basic PHP',
+  //       subtitle: 'Here I started php from zero',
+  //     },
+  //     {
+  //       date: '1397/4',
+  //       title: 'Basic PHP',
+  //       subtitle: 'Here I started php from zero',
+  //     },
+  //     {
+  //       date: '1397/4',
+  //       title: 'Basic PHP',
+  //       subtitle: 'Here I started php from zero',
+  //     },
+  //   ],
+  // });
 
   const [notifications] = useState([
     {
@@ -82,25 +82,25 @@ function App() {
     },
   ]);
 
-  const getUser = async () => {
-    try {
-      const { data } = await axios.get('https://api.github.com/users/mmdzov');
-      setData((prev) => ({
-        ...prev,
-        person: { ...prev.person, avatar: data.avatar_url },
-      }));
-      return data;
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  // const getUser = async () => {
+  //   try {
+  //     const { data } = await axios.get('https://api.github.com/users/mmdzov');
+  //     setData((prev) => ({
+  //       ...prev,
+  //       person: { ...prev.person, avatar: data.avatar_url },
+  //     }));
+  //     return data;
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
 
-  useEffect(() => {
-    getUser();
-  }, []);
+  // useEffect(() => {
+  //   getUser();
+  // }, []);
 
   return (
-    <Context.Provider value={{ data, user, notifications, about: data.about, setData }}>
+    <Context.Provider value={{ user, notifications }}>
       <Container className="App">
         <Routes />
       </Container>
