@@ -24,6 +24,16 @@ class MainRequest {
     });
     return result;
   }
+
+  async changeSkill(skill) {
+    const result = await privateRequest.post('/admin/change-skill', skill);
+    return result;
+  }
+
+  async addSkill(skill) {
+    const result = await privateRequest.post('/admin/add-skill', skill);
+    return result;
+  }
 }
 
 export default MainRequest;

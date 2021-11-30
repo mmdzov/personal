@@ -1,9 +1,10 @@
-import { useState, useCallback, useContext, useEffect } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import { Input, Button } from 'antd';
 import { ChromePicker } from 'react-color';
 import ProgressLine from '../progress/ProgressLine';
-import Context from '../../context/Context';
+import { useDispatch, useSelector } from 'react-redux';
+import { addSkill, changeSkill } from '../../store/actions/mainAction';
 
 const { Group } = Input;
 
@@ -14,8 +15,9 @@ const defaultSkill = {
 };
 
 const NewSkill = ({ filledSkill, setFilledSkill = () => {} }) => {
-  const { user, setData, data } = useContext(Context);
+  const { data } = useSelector(({ main }) => main);
   const [skill, setSkill] = useState(defaultSkill);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setSkill(filledSkill);
@@ -30,21 +32,21 @@ const NewSkill = ({ filledSkill, setFilledSkill = () => {} }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     if (skill?.index >= 0) {
-      data.skills[skill?.index] = skill;
+      dispatch(changeSkill({ skill_id: data.skills[skill?.index].id, ...skill }));
       setFilledSkill({});
     } else {
-      data.skills.push(skill);
+      dispatch(addSkill(skill));
     }
     setSkill(defaultSkill);
-    setData((prev) => ({ ...prev, skills: data.skills }));
   };
 
   const handleChangeColor = useCallback((e) => {
     setSkill((prev) => ({ ...prev, color: e?.hex }));
   }, []);
 
-  if (!user?.isAdmin) return null;
+  if (!data?.isAdmin) return null;
   return (
     <Container className="newskill" onSubmit={handleSubmit} id="newSkill">
       <div className="title">Add Skill</div>

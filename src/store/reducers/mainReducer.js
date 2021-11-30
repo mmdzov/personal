@@ -1,4 +1,11 @@
-import { CHANGE_AVATAR, CHANGE_BIO, CHANGE_USERNAME, GET_MAIN } from '../types';
+import {
+  ADD_SKILL,
+  CHANGE_AVATAR,
+  CHANGE_BIO,
+  CHANGE_SKILL,
+  CHANGE_USERNAME,
+  GET_MAIN,
+} from '../types';
 
 const INITSTATE = {
   data: {},
@@ -17,6 +24,14 @@ const mainReducer = (state = INITSTATE, action) => {
     case CHANGE_BIO:
       return {
         data: { ...state.data, bio: action.payload },
+      };
+    case CHANGE_SKILL:
+      return {
+        data: { ...state.data, skills: action.payload },
+      };
+    case ADD_SKILL:
+      return {
+        data: { ...state.data, skills: action.payload },
       };
     default:
       return state;

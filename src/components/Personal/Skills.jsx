@@ -11,6 +11,7 @@ const Skills = () => {
   const handleEditSkill = (skill, index) => {
     setFilledSkill({ ...skill, index });
   };
+
   return (
     <Container className="sec">
       <div className="sec-title">Skills</div>

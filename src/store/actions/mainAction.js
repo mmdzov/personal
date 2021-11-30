@@ -1,5 +1,12 @@
 import MainRequest from '../../apis/mainRequest';
-import { CHANGE_AVATAR, CHANGE_BIO, CHANGE_USERNAME, GET_MAIN } from '../types';
+import {
+  ADD_SKILL,
+  CHANGE_AVATAR,
+  CHANGE_BIO,
+  CHANGE_SKILL,
+  CHANGE_USERNAME,
+  GET_MAIN,
+} from '../types';
 
 const main = new MainRequest();
 
@@ -21,4 +28,17 @@ export const changeUsername = (username) => async (dispatch) => {
 export const changeBio = (bio) => async (dispatch) => {
   await main.changeBio(bio);
   dispatch({ type: CHANGE_BIO, payload: bio });
+};
+
+export const changeSkill = (skill) => async (dispatch, getState) => {
+  await main.changeSkill(skill);
+  const { skills } = getState().main.data;
+  const index = skills.findIndex((item) => item.id === skill.skill_id);
+  skills[index] = skill;
+  dispatch({ type: CHANGE_SKILL, payload: skills });
+};
+
+export const addSkill = (skill) => async (dispatch) => {
+  let { data } = await main.addSkill(skill);
+  dispatch({ type: ADD_SKILL, payload: data.data.skills.skills });
 };
