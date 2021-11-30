@@ -6,10 +6,11 @@ import SignModal from '../Sign/SignModal';
 import { AiFillNotification } from 'react-icons/ai';
 import { IoReturnUpForward } from 'react-icons/io5';
 import Context from '../../context/Context';
+import { PageHeader } from 'antd';
 
 const Navigation = () => {
   const [sign, setSign] = useState(false);
-  const [signed] = useState(true);
+  const [signed] = useState(false);
   const { notifications, user } = useContext(Context);
   const { pathname } = useLocation();
   const isActive = (page) => {
@@ -21,19 +22,36 @@ const Navigation = () => {
   };
 
   const navigate = useNavigate();
+
   const handleGoBack = () => {
     navigate(-1);
   };
 
   return (
     <Container>
-      {isActive('home') === true ? null : (
-        <div className="header">
-          <div className="backward" onClick={handleGoBack}>
-            <IoReturnUpForward />
-          </div>
+      {isActive('home') === true ? (
+        <div className="signicon">
+          {!signed ? (
+            <div className="link" onClick={() => setSign(true)}>
+              Sign
+            </div>
+          ) : null}
         </div>
+      ) : (
+        <PageHeader
+          className="site-page-header"
+          onBack={handleGoBack}
+          title={pathname?.split('/')[1]}
+          extra={[
+            !signed ? (
+              <div className="link" onClick={() => setSign(true)}>
+                Sign
+              </div>
+            ) : null,
+          ]}
+        />
       )}
+
       <div className="navs" style={{ marginTop: isActive('home') === true ? 20 : 0 }}>
         <Link to="/" className={`l ${isActive('home') ? 'active' : ''} `}>
           Home
@@ -48,11 +66,6 @@ const Navigation = () => {
           Blog
         </Link>
       </div>
-      {!signed ? (
-        <div className="link" onClick={() => setSign(true)}>
-          Sign
-        </div>
-      ) : null}
       {/* <Link to="/notification" className="notification">
           {notifications.some((item) => item.unread) ? <span className="unreadNotifIcon" /> : null}
           <AiFillNotification />
@@ -64,11 +77,42 @@ const Navigation = () => {
 
 const Container = styled.div`
   display: flex;
-  padding: 0 10px;
+  /* padding: 0 10px; */
   /* height: 30px; */
   align-items: center;
   /* justify-content: space-between; */
   flex-direction: column;
+
+  .signicon {
+    width: 100%;
+    justify-content: end;
+    height: 40px;
+    align-items: center;
+    padding: 0 15px;
+  }
+
+  .ant-page-header.site-page-header.ant-page-header-ghost.ant-page-header-compact {
+    width: 100% !important;
+    background: #000000 !important;
+    margin-bottom: 15px !important;
+  }
+
+  .ant-page-header-back {
+    color: white !important;
+  }
+
+  .ant-page-header-back-button {
+    color: white !important;
+  }
+
+  .ant-page-header-heading {
+    width: 100% !important;
+    align-items: center;
+  }
+
+  .ant-page-header-heading-title {
+    color: white !important;
+  }
 
   .header {
     height: 40px;

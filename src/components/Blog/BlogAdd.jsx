@@ -10,6 +10,7 @@ import CropImage from '../CropImage/CropImage';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { useLocation } from 'react-router-dom';
 import PostImage from '../../assets/img/post.jpg';
+import dataURLtoFile from '../../utils/dataURLToFile';
 
 const { TextArea, Group } = Input;
 const { Option } = Select;
@@ -112,25 +113,24 @@ const BlogAdd = () => {
     };
   };
 
-  function dataURLtoFile(dataurl, filename) {
-    let arr = dataurl.split(',');
-    let mime = arr[0].match(/:(.*?);/)[1];
-    let bstr = atob(arr[1]);
-    let n = bstr.length;
-    let u8arr = new Uint8Array(n);
-    while (n--) {
-      u8arr[n] = bstr.charCodeAt(n);
-    }
-    return new File([u8arr], filename, { type: mime });
-  }
-
   const [img, setImg] = useState(null);
+  const [avatarCrop, setAvatarCrop] = useState(false);
+
+  const setCrop = (image) => {
+    if (!image) return;
+    if (avatarCrop) {
+      setValues((prev) => ({ ...prev, image: { src: image, file: dataURLtoFile(image) } }));
+      setAvatarCrop(false);
+    } else {
+      setImages((prev) => [...prev, { src: image, file: dataURLtoFile(image) }]);
+    }
+    setImg(null);
+  };
 
   const getCroppedImage = (cropped) => {
     setImg(cropped);
+    setCrop(cropped);
   };
-
-  const [avatarCrop, setAvatarCrop] = useState(false);
 
   const { state } = useLocation();
 
@@ -160,17 +160,6 @@ const BlogAdd = () => {
     }
   }, [state]);
 
-  const setCrop = () => {
-    if (!img) return;
-    if (avatarCrop) {
-      setValues((prev) => ({ ...prev, image: { src: img, file: dataURLtoFile(img) } }));
-      setAvatarCrop(false);
-    } else {
-      setImages((prev) => [...prev, { src: img, file: dataURLtoFile(img) }]);
-    }
-    setImg(null);
-  };
-
   const handleChangeCat = (cat) => {
     const index = category.findIndex((item) => item.name === cat);
     setValues((prev) => ({ ...prev, category: category[index] }));
@@ -181,13 +170,19 @@ const BlogAdd = () => {
     setAvatarCrop(true);
   };
 
+  const closeCropper = () => {
+    setImg(null);
+    setAvatarCrop(false);
+    setValues((prev) => ({ ...prev, image: { src: '', file: '' } }));
+  };
+
   return (
     <Container>
       {selectedImage?.src ? (
         <CropImage
           openCrop={openCrop}
           src={selectedImage.src}
-          cancel={setCrop}
+          cancel={closeCropper}
           setOpenCrop={setOpenCrop}
           callback={getCroppedImage}
         />

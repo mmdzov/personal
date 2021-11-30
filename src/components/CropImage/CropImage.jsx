@@ -5,18 +5,18 @@ import 'cropperjs/dist/cropper.css';
 
 function CropImage({
   src,
+  aspect = 0,
   openCrop = false,
   cancel = () => {},
   setOpenCrop = () => {},
   callback = () => {},
 }) {
-  const [cropData, setCropData] = useState('#');
   const [cropper, setCropper] = useState();
   const getCropData = () => {
     if (typeof cropper !== 'undefined') {
-      setCropData(cropper.getCroppedCanvas().toDataURL());
+      const crop = cropper.getCroppedCanvas().toDataURL();
+      callback(crop);
     }
-    callback(cropData);
   };
   const handleCancel = () => {
     setOpenCrop((prev) => !prev);
@@ -35,12 +35,12 @@ function CropImage({
       maskClosable={false}
     >
       <Cropper
-        style={{ height: 400, width: '100%' }}
-        zoomTo={0.5}
-        initialAspectRatio={1}
+        style={{ height: 400, width: '100%', objectFit: 'contain' }}
+        initialAspectRatio={4 / 4}
         preview=".img-preview"
         src={src}
         viewMode={1}
+        aspectRatio={aspect}
         minCropBoxHeight={10}
         minCropBoxWidth={10}
         background={false}
@@ -57,42 +57,3 @@ function CropImage({
 }
 
 export default CropImage;
-
-// import React, { useState } from 'react';
-// import Cropper from 'react-cropper';
-// import 'cropperjs/dist/cropper.css';
-// import './Demo.css';
-
-// export const CropImage = ({ src }) => {
-//   const [image, setImage] = useState(src);
-//   const [cropData, setCropData] = useState('#');
-//   const [cropper, setCropper] = useState();
-//   const onChange = (e) => {
-//     e.preventDefault();
-//     let files;
-//     if (e.dataTransfer) {
-//       files = e.dataTransfer.files;
-//     } else if (e.target) {
-//       files = e.target.files;
-//     }
-//     const reader = new FileReader();
-//     reader.onload = () => {
-//       setImage(reader.result);
-//     };
-//     reader.readAsDataURL(files[0]);
-//   };
-
-//   const getCropData = () => {
-//     if (typeof cropper !== 'undefined') {
-//       setCropData(cropper.getCroppedCanvas().toDataURL());
-//     }
-//   };
-
-//   return (
-
-//   );
-// };
-
-// /* <img style={{ width: '100%' }} src={cropData} alt="cropped" /> */
-
-// export default Demo;

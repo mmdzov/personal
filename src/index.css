@@ -136,3 +136,45 @@ body {
 .cropImgModal {
   top: 35px;
 }
+
+.switchSign {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.signAvatarContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.signAvatarSelect {
+  width: 100px;
+  height: 100px;
+  background: white;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  font-size: 1.6rem;
+  color: #9b9b9b;
+  overflow: hidden;
+  object-fit: cover;
+}
+.signAvatarSelect > .avatar {
+  width: inherit;
+  height: inherit;
+  overflow: hidden;
+}
+
+.verifyCodeTitle {
+  color: white;
+  text-align: center;
+  margin-bottom: 39px;
+  font-size: 1rem;
+}
