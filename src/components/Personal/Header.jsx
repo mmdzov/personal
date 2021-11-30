@@ -1,12 +1,12 @@
 /* eslint-disable no-unused-vars */
 import styled from 'styled-components';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Context from '../../context/Context';
 import EditPen from '../utils/EditPen';
 import { Image, Input, Button } from 'antd';
 import errorImg from '../utils/errorImg';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeAvatar } from '../../store/actions/mainAction';
+import { changeAvatar, changeBio, changeUsername } from '../../store/actions/mainAction';
 
 const { TextArea } = Input;
 
@@ -31,8 +31,8 @@ const Header = () => {
   const [editBio, setEditBio] = useState(false);
 
   const [values, setValues] = useState({
-    username: data.username,
-    bio: data.bio,
+    username: data?.username,
+    bio: data?.bio,
   });
 
   const handleChange = ({ target }) => {
@@ -42,9 +42,20 @@ const Header = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    setValues({
+      username: data?.username,
+      bio: data?.bio,
+    });
+  }, [data]);
+
+  const handleSubmit = (e, mode = '') => {
     e.preventDefault();
-    // setData((prev) => ({ ...prev, person: { ...prev.person, ...values } }));
+    if (mode === 'username') {
+      dispatch(changeUsername(values.username));
+    } else if (mode === 'bio') {
+      dispatch(changeBio(values.bio));
+    }
     setEditTile(false);
     setEditBio(false);
   };
@@ -75,7 +86,7 @@ const Header = () => {
                   value={values.username}
                   onChange={handleChange}
                 />
-                <Button type="primary" onClick={handleSubmit}>
+                <Button type="primary" onClick={(e) => handleSubmit(e, 'username')}>
                   Edit
                 </Button>
               </form>
@@ -105,7 +116,7 @@ const Header = () => {
                 className="scroll"
                 autoSize={{ minRows: 1, maxRows: 5 }}
               />
-              <Button type="primary" onClick={handleSubmit}>
+              <Button type="primary" onClick={(e) => handleSubmit(e, 'bio')}>
                 Edit
               </Button>
             </form>
