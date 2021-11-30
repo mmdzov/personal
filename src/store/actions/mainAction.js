@@ -1,9 +1,11 @@
 import MainRequest from '../../apis/mainRequest';
 import {
   ADD_SKILL,
+  ADD_TIMELINE,
   CHANGE_AVATAR,
   CHANGE_BIO,
   CHANGE_SKILL,
+  CHANGE_TIMELINE,
   CHANGE_USERNAME,
   GET_MAIN,
 } from '../types';
@@ -41,4 +43,17 @@ export const changeSkill = (skill) => async (dispatch, getState) => {
 export const addSkill = (skill) => async (dispatch) => {
   let { data } = await main.addSkill(skill);
   dispatch({ type: ADD_SKILL, payload: data.data.skills.skills });
+};
+
+export const addTimeline = (timeline) => async (dispatch) => {
+  let { data } = await main.addTimeline(timeline);
+  dispatch({ type: ADD_TIMELINE, payload: data.data.timeline.timeline });
+};
+
+export const changeTimeline = (tl) => async (dispatch, getState) => {
+  await main.changeTimeline(tl);
+  const { timeline } = getState().main.data;
+  const index = timeline.findIndex((item) => item.id === tl.timeline_id);
+  timeline[index] = tl;
+  dispatch({ type: CHANGE_TIMELINE, payload: timeline });
 };

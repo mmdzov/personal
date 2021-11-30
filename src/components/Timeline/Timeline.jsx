@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import { Timeline as TL, Input, Button } from 'antd';
-import Context from '../../context/Context';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import EditPen from '../utils/EditPen';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { addTimeline, changeTimeline } from '../../store/actions/mainAction';
 
 const { TextArea } = Input;
 
@@ -15,7 +15,7 @@ const defaultAddline = {
 
 const Timeline = () => {
   const { data } = useSelector(({ main }) => main);
-  const { user, setData } = useContext(Context);
+  const dispatch = useDispatch();
   const [addline, setAddline] = useState(defaultAddline);
 
   const handleChange = ({ target }) => {
@@ -24,9 +24,11 @@ const Timeline = () => {
   };
 
   const handleAddTimeline = () => {
-    if (addline?.index >= 0) data.timeline[addline?.index] = addline;
-    else data.timeline.push(addline);
-    setData((prev) => ({ ...prev, timeline: data.timeline }));
+    if (addline?.index >= 0) {
+      dispatch(changeTimeline({ timeline_id: data.timeline[addline?.index].id, ...addline }));
+    } else {
+      dispatch(addTimeline(addline));
+    }
     setAddline(defaultAddline);
   };
 

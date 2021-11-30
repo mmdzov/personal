@@ -34,6 +34,16 @@ class MainRequest {
     const result = await privateRequest.post('/admin/add-skill', skill);
     return result;
   }
+
+  async addTimeline(timeline) {
+    const result = await privateRequest.post('/admin/add-timeline', timeline);
+    return result;
+  }
+
+  async changeTimeline(timeline) {
+    const result = await privateRequest.post('/admin/change-timeline', timeline);
+    return result;
+  }
 }
 
 export default MainRequest;
