@@ -6,15 +6,20 @@ import axios from 'axios';
 import Avatar from './assets/img/avatar.jpg';
 import Routes from './Routes';
 import PostImage from './assets/img/post.jpg';
-import { Provider } from 'react-redux';
-import store from './store/store';
+import { useSelector, useDispatch } from 'react-redux';
+import { getMain } from './store/actions/mainAction';
+import appWrapper from './hoc/appWrapper';
 
 function App() {
+  const dispatch = useDispatch();
   const [user] = useState({
     avatar: Avatar,
     username: 'Reza',
     isAdmin: true,
   });
+  useEffect(() => {
+    dispatch(getMain());
+  }, []);
   const [data, setData] = useState({
     person: {
       fullName: 'Mohammad-Ali Zoveydat',
@@ -95,13 +100,11 @@ function App() {
   }, []);
 
   return (
-    <Provider store={store}>
-      <Context.Provider value={{ data, user, notifications, about: data.about, setData }}>
-        <Container className="App">
-          <Routes />
-        </Container>
-      </Context.Provider>
-    </Provider>
+    <Context.Provider value={{ data, user, notifications, about: data.about, setData }}>
+      <Container className="App">
+        <Routes />
+      </Container>
+    </Context.Provider>
   );
 }
 
@@ -149,4 +152,4 @@ const Container = styled.div`
   }
 `;
 
-export default App;
+export default appWrapper(App);

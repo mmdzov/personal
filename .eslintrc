@@ -49,6 +49,7 @@
     "no-plusplus": "off",
     "no-empty": "off",
     "import/no-unresolved": "off",
-    "default-param-last": "off"
+    "default-param-last": "off",
+    "class-methods-use-this": "off"
   }
 }
