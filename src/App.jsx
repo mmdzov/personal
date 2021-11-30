@@ -6,6 +6,8 @@ import axios from 'axios';
 import Avatar from './assets/img/avatar.jpg';
 import Routes from './Routes';
 import PostImage from './assets/img/post.jpg';
+import { Provider } from 'react-redux';
+import store from './store/store';
 
 function App() {
   const [user] = useState({
@@ -17,7 +19,7 @@ function App() {
     person: {
       fullName: 'Mohammad-Ali Zoveydat',
       avatar: '',
-      bio: ['Looking To implement New IDEAS',"ok"],
+      bio: ['Looking To implement New IDEAS', 'ok'],
     },
     skills: [
       { name: 'Javascript', knowledge: '99', color: '#d1ac17' },
@@ -93,11 +95,13 @@ function App() {
   }, []);
 
   return (
-    <Context.Provider value={{ data, user, notifications, about: data.about, setData }}>
-      <Container className="App">
-        <Routes />
-      </Container>
-    </Context.Provider>
+    <Provider store={store}>
+      <Context.Provider value={{ data, user, notifications, about: data.about, setData }}>
+        <Container className="App">
+          <Routes />
+        </Container>
+      </Context.Provider>
+    </Provider>
   );
 }
 

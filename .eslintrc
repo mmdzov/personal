@@ -48,6 +48,7 @@
     "react/no-danger": "off",
     "no-plusplus": "off",
     "no-empty": "off",
-    "import/no-unresolved": "off"
+    "import/no-unresolved": "off",
+    "default-param-last": "off"
   }
 }
