@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import MainRequest from '../../apis/mainRequest';
 import {
   ADD_SKILL,
@@ -20,7 +21,7 @@ export const getMain = () => async (dispatch) => {
   let data = await main.getMain();
   let { data: cats } = await blog.getCategories();
   dispatch({ type: SET_CATEGORIES, payload: cats });
-  dispatch({ type: SET_CURRENT_CATEGORY, payload: cats[0] });
+  // dispatch({ type: SET_CURRENT_CATEGORY, payload: cats[0] });
 
   dispatch({ type: GET_MAIN, payload: data });
 };

@@ -1,9 +1,9 @@
 import { privateRequest, publicRequest } from './config';
 
 class BlogRequest {
-  async getBlogs() {
+  async getBlogs(page) {
     try {
-      const { data } = await publicRequest.get('/blogs');
+      const { data } = await publicRequest.post('/blogs', { page });
       return data;
     } catch (e) {
       console.log(e);

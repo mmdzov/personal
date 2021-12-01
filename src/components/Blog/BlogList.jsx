@@ -3,16 +3,36 @@ import LineEllipsis from 'react-lines-ellipsis';
 import { AiFillHeart, AiFillMessage } from 'react-icons/ai';
 import Pagination from '../Pagination/Pagination';
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { getBlogs, getBlogsByCategory } from '../../store/actions/blogAction';
+import { useEffect } from 'react';
 
 const BlogList = () => {
-  const { list, page_count, page } = useSelector(({ blogs }) => blogs);
+  const { list, page_count, page, current_category, blog } = useSelector(({ blogs }) => blogs);
   const handleSetPage = () => {};
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const openBlogPost = (post) => {
     navigate(post?.toString());
   };
+
+  const handleChangePage = async (page) => {
+    if (current_category === 'all') {
+      dispatch(getBlogs(page));
+    } else {
+      dispatch(getBlogsByCategory(current_category?.name, page));
+    }
+  };
+
+  useEffect(() => {
+    const app = document.getElementsByClassName('App')[0];
+    const blogItem = document.getElementsByClassName('blogitem')[0];
+    app?.scrollTo({
+      left: 0,
+      top: blogItem?.offsetTop - 30 || 0,
+      behavior: 'smooth',
+    });
+  }, [list]);
 
   const handleGoTag = (tag) => {
     navigate(`/tags/${tag}`);
@@ -70,9 +90,7 @@ const BlogList = () => {
         <Pagination
           pages={page_count}
           currentPage={page}
-          onChangePage={(pageitem) => {
-            console.log(pageitem);
-          }}
+          onChangePage={handleChangePage}
           setPage={handleSetPage}
         />
       </div>

@@ -12,15 +12,17 @@ import {
 
 const blogRequest = new BlogRequest();
 
-export const getBlogs = () => async (dispatch) => {
-  try {
-    const { data } = await blogRequest.getBlogs();
-    dispatch({ type: GET_BLOGS, payload: data?.blogs });
-    dispatch({ type: SET_PAGE_COUNT, payload: data?.page_count });
-    dispatch({ type: SET_CURRENT_CATEGORY, payload: 'all' });
-    dispatch({ type: SET_PAGE, payload: 1 });
-  } catch (e) {}
-};
+export const getBlogs =
+  (page = 1) =>
+  async (dispatch) => {
+    try {
+      const { data } = await blogRequest.getBlogs(page);
+      dispatch({ type: GET_BLOGS, payload: data?.blogs });
+      dispatch({ type: SET_PAGE_COUNT, payload: data?.page_count });
+      dispatch({ type: SET_CURRENT_CATEGORY, payload: 'all' });
+      dispatch({ type: SET_PAGE, payload: page });
+    } catch (e) {}
+  };
 
 export const getTags = () => async (dispatch) => {
   try {
