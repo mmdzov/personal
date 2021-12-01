@@ -18,7 +18,7 @@ const { TextArea, Group } = Input;
 const { Option } = Select;
 
 const BlogAdd = () => {
-  const { tags } = useSelector(({ blogs }) => blogs);
+  const { tags, categories } = useSelector(({ blogs }) => blogs);
   const dispatch = useDispatch();
   const [values, setValues] = useState({
     title: '',
@@ -33,30 +33,6 @@ const BlogAdd = () => {
   useEffect(() => {
     dispatch(getTags());
   }, []);
-
-  const [category] = useState([
-    {
-      id: 3423426332,
-      name: 'Javascript',
-    },
-    {
-      id: 3423476756,
-      name: 'react.js',
-    },
-    {
-      id: 645534543,
-      name: 'express.js',
-    },
-    {
-      id: 64345342,
-      name: 'tdd',
-    },
-    {
-      id: 634436686,
-      name: 'other',
-    },
-  ]);
-
   const handleChange = ({ target }) => {
     const { value, name } = target;
     setValues((prev) => ({ ...prev, [name]: value }));
@@ -148,8 +124,8 @@ const BlogAdd = () => {
   }, [state]);
 
   const handleChangeCat = (cat) => {
-    const index = category.findIndex((item) => item.name === cat);
-    setValues((prev) => ({ ...prev, category: category[index] }));
+    const index = categories.findIndex((item) => item.name === cat);
+    setValues((prev) => ({ ...prev, category: categories[index] }));
   };
 
   const handleSetCropAvatar = ({ target }) => {
@@ -202,9 +178,9 @@ const BlogAdd = () => {
             bordered={false}
             onChange={handleChangeCat}
           >
-            {category.map((item) => (
-              <Option value={item.name} className="option">
-                {item.name}
+            {categories.map((item) => (
+              <Option value={item?.name} className="option">
+                {item?.name}
               </Option>
             ))}
           </Select>
