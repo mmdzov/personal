@@ -14,6 +14,11 @@ class BlogRequest {
     const { data } = await publicRequest.get('/blogs/categories');
     return data;
   }
+
+  async getTags() {
+    const { data } = await publicRequest.get('/blogs/tags');
+    return data;
+  }
 }
 
 export default BlogRequest;

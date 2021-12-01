@@ -1,5 +1,6 @@
 import {
   GET_BLOGS,
+  GET_TAGS,
   SET_CATEGORIES,
   SET_CURRENT_CATEGORY,
   SET_PAGE,
@@ -12,6 +13,7 @@ const INITSTATE = {
   page_count: 1,
   categories: [],
   current_category: {},
+  tags: [],
 };
 
 const blogReducer = (state = INITSTATE, action) => {
@@ -26,6 +28,8 @@ const blogReducer = (state = INITSTATE, action) => {
       return { ...state, categories: action.payload };
     case SET_CURRENT_CATEGORY:
       return { ...state, current_category: action.payload };
+    case GET_TAGS:
+      return { ...state, tags: action.payload };
     default:
       return state;
   }

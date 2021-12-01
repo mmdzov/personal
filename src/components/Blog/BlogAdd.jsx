@@ -11,11 +11,15 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { useLocation } from 'react-router-dom';
 import PostImage from '../../assets/img/post.jpg';
 import dataURLtoFile from '../../utils/dataURLToFile';
+import { useDispatch, useSelector } from 'react-redux';
+import { getTags } from '../../store/actions/blogAction';
 
 const { TextArea, Group } = Input;
 const { Option } = Select;
 
 const BlogAdd = () => {
+  const { tags } = useSelector(({ blogs }) => blogs);
+  const dispatch = useDispatch();
   const [values, setValues] = useState({
     title: '',
     description: '',
@@ -25,28 +29,11 @@ const BlogAdd = () => {
     content: '',
     new_category: '',
   });
-  const [tags] = useState([
-    {
-      id: 3423426332,
-      name: 'Javascript',
-    },
-    {
-      id: 3423476756,
-      name: 'react.js',
-    },
-    {
-      id: 645534543,
-      name: 'express.js',
-    },
-    {
-      id: 64345342,
-      name: 'tdd',
-    },
-    {
-      id: 634436686,
-      name: 'other',
-    },
-  ]);
+
+  useEffect(() => {
+    dispatch(getTags());
+  }, []);
+
   const [category] = useState([
     {
       id: 3423426332,
@@ -241,7 +228,13 @@ const BlogAdd = () => {
           value={values.tags}
           tokenSeparators={[',']}
           placeholder="Tags"
-        />
+        >
+          {tags?.map((item) => (
+            <Select.Option key={item?._id} value={item?.name}>
+              {item?.name}
+            </Select.Option>
+          ))}
+        </Select>
         <Group>
           {images.length > 0 ? (
             <div className="uploads">
