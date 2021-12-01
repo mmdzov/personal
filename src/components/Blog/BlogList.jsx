@@ -123,6 +123,7 @@ const Container = styled.div`
   }
 
   .blogitem {
+    height: fit-content;
     background: black;
     padding: 5px 10px;
     text-align: left;

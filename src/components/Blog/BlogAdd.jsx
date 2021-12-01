@@ -8,17 +8,18 @@ import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
 import CropImage from '../CropImage/CropImage';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import PostImage from '../../assets/img/post.jpg';
 import dataURLtoFile from '../../utils/dataURLToFile';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTags, setPostImage } from '../../store/actions/blogAction';
+import { addBlog, getTags, setPostImage } from '../../store/actions/blogAction';
 
 const { TextArea, Group } = Input;
 const { Option } = Select;
 
 const BlogAdd = () => {
-  const { tags, categories, post_images } = useSelector(({ blogs }) => blogs);
+  const navigate = useNavigate();
+  const { tags, categories, post_images, blog } = useSelector(({ blogs }) => blogs);
   const dispatch = useDispatch();
   const [values, setValues] = useState({
     title: '',
@@ -53,9 +54,21 @@ const BlogAdd = () => {
     setEditorState(e);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const content = document.getElementsByClassName('content')[0];
-    console.log(content.textContent);
+
+    const fd = new FormData();
+    fd.append('title', values.title);
+    fd.append('description', values.description);
+    fd.append('tags', JSON.stringify(values.tags));
+    fd.append(
+      'category',
+      values?.new_category?.length === 0 ? values?.category?.name : values?.new_category,
+    );
+    fd.append('content', content.textContent);
+    fd.append('image', values.image?.file);
+
+    await dispatch(addBlog(fd,navigate));
   };
 
   const [selectedImage, setSelectedImage] = useState({
@@ -87,8 +100,8 @@ const BlogAdd = () => {
       console.log(dataURLtoFile(image, 'blogimage.jpg'));
       formData.append('blogimage', dataURLtoFile(image, 'blogimage.jpg'));
       dispatch(setPostImage(formData));
-      setOpenCrop(false);
     }
+    setOpenCrop(false);
     setImg(null);
   };
 

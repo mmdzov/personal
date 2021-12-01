@@ -24,6 +24,16 @@ class BlogRequest {
     const { data } = await privateRequest.post('/blogs/add-post-image', blogimage);
     return data;
   }
+
+  async addBlog(blog) {
+    const { data } = await privateRequest.post('/blogs/add', blog);
+    return data;
+  }
+
+  async getBlogsByCategory(category, page) {
+    const { data } = await publicRequest.get(`/blogs/get-by-category/${category}/${page}`);
+    return data;
+  }
 }
 
 export default BlogRequest;

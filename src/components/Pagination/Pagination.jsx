@@ -56,7 +56,7 @@ const Pagination = ({
 
   useEffect(() => {
     sortPages(currentPage);
-  }, []);
+  }, [pages]);
 
   const runEvents = (event) => {
     sortPages(event);

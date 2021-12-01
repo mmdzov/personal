@@ -91,7 +91,7 @@ const Container = styled.div`
     padding: 0 15px;
   }
 
-  .ant-page-header.site-page-header.ant-page-header-ghost.ant-page-header-compact {
+  .ant-page-header.site-page-header.ant-page-header-ghost {
     width: 100% !important;
     background: #000000 !important;
     margin-bottom: 15px !important;

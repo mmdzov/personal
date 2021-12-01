@@ -1,18 +1,20 @@
 import { Container } from './BlogPost.styled';
-import { useContext, useEffect, useRef, useState } from 'react';
-import Context from '../../context/Context';
+import { useEffect, useRef, useState } from 'react';
 import { AiFillHeart, AiOutlineHeart, AiOutlineClose } from 'react-icons/ai';
 import { Button, Input } from 'antd';
 import { FaReply } from 'react-icons/fa';
 import PostImage from '../../assets/img/post.jpg';
 import { useNavigate } from 'react-router-dom';
 import EditPen from '../utils/EditPen';
+import { unsetBlog } from '../../store/actions/blogAction';
+import { useDispatch, useSelector } from 'react-redux';
 
 const { TextArea } = Input;
 
 const BlogPost = () => {
-  const { user } = useContext(Context);
-
+  const { data } = useSelector(({ main }) => main);
+  const { blog } = useSelector(({ blogs }) => blogs);
+  const dispatch = useDispatch();
   const [blogpost, setBlogpost] = useState({
     id: '40923420tfsdjj0023',
     title: 'Hello world from blog',
@@ -31,7 +33,7 @@ const BlogPost = () => {
       {
         id: '525365fdsfwef',
         from: {
-          ...user,
+          ...data,
         },
         comment: 'Hello world',
         date: Date.now(),
@@ -39,10 +41,10 @@ const BlogPost = () => {
           {
             id: 'dfsvx525365fdsfwef',
             from: {
-              ...user,
+              ...data,
             },
             to: {
-              ...user,
+              ...data,
             },
             comment: 'Hello world',
             date: Date.now(),
@@ -53,7 +55,7 @@ const BlogPost = () => {
       {
         id: '5asdasc25365fdsfwef',
         from: {
-          ...user,
+          ...data,
         },
         comment: 'Hello world',
         date: Date.now(),
@@ -61,10 +63,10 @@ const BlogPost = () => {
           {
             id: 'dfsvxc525365fdsfwef',
             from: {
-              ...user,
+              ...data,
             },
             to: {
-              ...user,
+              ...data,
             },
             date: Date.now(),
             comment: 'Hello world',
@@ -131,7 +133,7 @@ const BlogPost = () => {
   const handleSendComment = () => {
     const comment = {
       from: {
-        ...user,
+        ...data,
       },
       comment: value,
       date: Date.now(),
@@ -139,18 +141,24 @@ const BlogPost = () => {
     };
     if (Object.keys(reply)?.length > 0) {
       comment.to = reply.from;
-      const commentIndex = blogpost.comments.findIndex((item) => item.id === reply.commentId);
-      blogpost.comments[commentIndex].replies.push(comment);
-      setBlogpost((prev) => ({ ...prev, comments: blogpost.comments }));
+      const commentIndex = blog.comments.findIndex((item) => item.id === reply.commentId);
+      blog.comments[commentIndex].replies.push(comment);
+      setBlogpost((prev) => ({ ...prev, comments: blog.comments }));
       setValue('');
       setReply({});
       return;
     }
 
-    blogpost.comments.unshift(comment);
-    setBlogpost((prev) => ({ ...prev, comments: blogpost.comments }));
+    blog.comments.unshift(comment);
+    setBlogpost((prev) => ({ ...prev, comments: blog.comments }));
     setValue('');
   };
+
+  useEffect(() => {
+    return () => {
+      dispatch(unsetBlog());
+    };
+  }, []);
 
   const handleReplyComment = (rep, commentId) => {
     const app = document.getElementsByClassName('App')[0];
@@ -173,42 +181,42 @@ const BlogPost = () => {
   const handleEditPost = () => {
     navigate('/editpost', {
       state: {
-        data: blogpost,
+        data: blog,
       },
     });
   };
 
   return (
     <Container ref={containerRef}>
-      {user?.isAdmin ? (
+      {data?.isAdmin ? (
         <div className="tools">
           <EditPen onClick={handleEditPost} />
         </div>
       ) : null}
       <div className="header">
-        <img src={blogpost.image} alt="" />
+        <img src={blog?.image} alt="" />
         <div className="">
-          <div className="title">{blogpost.title}</div>
-          <div className="description">{blogpost.description}</div>
+          <div className="title">{blog?.title}</div>
+          <div className="description">{blog?.description}</div>
         </div>
       </div>
       <div className="tags">
-        {blogpost.tags.map((item) => (
-          <div className="tag" onClick={() => handleGoTag(item.name)}>
-            #{item.name}
+        {blog?.tags?.map((item) => (
+          <div className="tag" onClick={() => handleGoTag(item?.name)}>
+            #{item?.name}
           </div>
         ))}
       </div>
 
-      <div className="content" dangerouslySetInnerHTML={{ __html: blogpost.content }} />
+      <div className="content" dangerouslySetInnerHTML={{ __html: blog?.content }} />
       <div className="like-date">
         <div className="likes">
           <span onClick={handleLikePost}>
-            {blogpost?.liked ? <AiFillHeart color="#bb281d" /> : <AiOutlineHeart />}
+            {blog?.liked ? <AiFillHeart color="#bb281d" /> : <AiOutlineHeart />}
           </span>
-          {blogpost?.likes}
+          {blog?.likes}
         </div>
-        <div className="date">{new Date(blogpost.date).toLocaleDateString('fa-IR')}</div>
+        <div className="date">{new Date(blog?.date).toLocaleDateString('fa-IR')}</div>
       </div>
 
       <form className="comment-send" ref={commentSendForm}>
@@ -242,52 +250,59 @@ const BlogPost = () => {
       </form>
 
       <div className="comments">
-        {blogpost.comments.map((item) => (
-          <div className="comment">
-            <div className="comment-header">
-              <div className="">
-                <img
-                  className="avatar"
-                  src={item.from.avatar}
-                  style={{ width: 40, height: 40 }}
-                  alt=""
-                />
-                <div className="username">{item.from.username}</div>
-              </div>
-              <span className="replyicon" onClick={() => handleReplyComment(item, item.id)}>
-                <FaReply />
-              </span>
-            </div>
-            <div className="comment-content">{item.comment}</div>
-            <div className="comment-footer">
-              <div className="comment-date">{new Date(item.date).toLocaleDateString('fa-IR')}</div>
-            </div>
-            {item.replies.map((reply) => (
-              <div className="comment-reply">
+        {blog?.comments?.length > 0
+          ? blog?.comments?.map((item) => (
+              <div className="comment">
                 <div className="comment-header">
-                  <img
-                    className="avatar"
-                    src={reply.from.avatar}
-                    style={{ width: 40, height: 40 }}
-                    alt=""
-                  />
-                  <div className="username">
-                    {reply.from.username} <span>to {reply.to.username} </span>
+                  <div className="">
+                    <img
+                      className="avatar"
+                      src={item?.from?.avatar}
+                      style={{ width: 40, height: 40 }}
+                      alt=""
+                    />
+                    <div className="username">{item.from.username}</div>
                   </div>
-                </div>
-                <div className="comment-content">{reply.comment}</div>
-                <div className="comment-footer">
-                  <span className="replyicon" onClick={() => handleReplyComment(reply, item.id)}>
+                  <span className="replyicon" onClick={() => handleReplyComment(item, item.id)}>
                     <FaReply />
                   </span>
+                </div>
+                <div className="comment-content">{item.comment}</div>
+                <div className="comment-footer">
                   <div className="comment-date">
-                    {new Date(reply.date).toLocaleDateString('fa-IR')}
+                    {new Date(item.date).toLocaleDateString('fa-IR')}
                   </div>
                 </div>
+                {item.replies.map((reply) => (
+                  <div className="comment-reply">
+                    <div className="comment-header">
+                      <img
+                        className="avatar"
+                        src={reply.from.avatar}
+                        style={{ width: 40, height: 40 }}
+                        alt=""
+                      />
+                      <div className="username">
+                        {reply.from.username} <span>to {reply.to.username} </span>
+                      </div>
+                    </div>
+                    <div className="comment-content">{reply.comment}</div>
+                    <div className="comment-footer">
+                      <span
+                        className="replyicon"
+                        onClick={() => handleReplyComment(reply, item.id)}
+                      >
+                        <FaReply />
+                      </span>
+                      <div className="comment-date">
+                        {new Date(reply.date).toLocaleDateString('fa-IR')}
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        ))}
+            ))
+          : null}
       </div>
     </Container>
   );
