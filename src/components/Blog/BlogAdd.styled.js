@@ -21,7 +21,8 @@ export const Container = styled.div`
       transform: scale(0.5) !important;
       width: 580px !important;
       position: absolute !important;
-      top: -40px !important;
+      /* top: -40px !important; */
+      top: 0px !important;
     }
   }
 

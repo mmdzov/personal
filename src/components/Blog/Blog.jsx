@@ -1,17 +1,20 @@
 /* eslint-disable react/self-closing-comp */
 import { Container } from './Blog.styled';
-import { useState, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { Select } from 'antd';
 import PostImage from '../../assets/img/post.jpg';
 import BlogList from './BlogList';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
-import Context from '../../context/Context';
+import { useDispatch, useSelector } from 'react-redux';
+import { getBlogs } from '../../store/actions/blogAction';
 
 const { Option } = Select;
 
 const Blog = () => {
-  const { user } = useContext(Context);
+  const { data } = useSelector(({ main }) => main);
+  const { categories } = useSelector(({ blogs }) => blogs);
+  const dispatch = useDispatch();
   const [blog] = useState({
     pages: 8,
     page: 1,
@@ -133,29 +136,33 @@ const Blog = () => {
     ],
   });
 
+  useEffect(() => {
+    dispatch(getBlogs());
+  }, []);
+
   return (
     <Container>
       <div className="categorylist">
         <Select
-          defaultValue={blog.cat.name}
+          defaultValue={'all'}
           className="select"
           style={{ width: 120, background: 'white' }}
           bordered={false}
         >
-          {blog.category.map((item) => (
+          {categories.map((item) => (
             <Option value={item.name} className="option">
               {item.name}
             </Option>
           ))}
         </Select>
-        {user?.isAdmin ? (
+        {data?.isAdmin ? (
           <Link to="/addpost" className="addblog">
             <AiOutlinePlus />
           </Link>
         ) : null}
       </div>
 
-      <BlogList blog={blog} />
+      <BlogList />
     </Container>
   );
 };

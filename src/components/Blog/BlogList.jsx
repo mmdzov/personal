@@ -1,14 +1,15 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LineEllipsis from 'react-lines-ellipsis';
 import { AiFillHeart, AiFillMessage } from 'react-icons/ai';
 import Pagination from '../Pagination/Pagination';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
 
-const BlogList = ({ blog }) => {
+const BlogList = () => {
+  const { list, page_count, page } = useSelector(({ blogs }) => blogs);
+  const handleSetPage = () => {};
   const navigate = useNavigate();
 
-  const [page, setPage] = useState(1);
   const openBlogPost = (post) => {
     navigate(post?.toString());
   };
@@ -20,43 +21,43 @@ const BlogList = ({ blog }) => {
   return (
     <Container>
       <div className="bloglist">
-        {blog.data.map((item) => (
+        {list.map((item) => (
           <div className="blogitem">
-            <div className="title" onClick={() => openBlogPost(item.id)}>
-              {item.title}
+            <div className="title" onClick={() => openBlogPost(item?._id)}>
+              {item?.title}
             </div>
             {item?.image ? (
               <img
-                src={item.image}
+                src={item?.image}
                 // onClick={() => openBlogPost(item.id)}
                 alt=""
               />
             ) : null}
             <LineEllipsis
               className="description"
-              text={item.description}
+              text={item?.description}
               maxLine="3"
               ellipsis="..."
               trimRight
-              onClick={() => openBlogPost(item.id)}
+              onClick={() => openBlogPost(item?._id)}
               basedOn="letters"
             />
             <div className="row">
               {item?.likes ? (
                 <div className="like">
-                  <AiFillHeart style={{ color: '#d94949' }} /> {item.likes}
+                  <AiFillHeart style={{ color: '#d94949' }} /> {item?.likes?.length}
                 </div>
               ) : null}
               {item?.comments ? (
                 <div className="comments">
-                  <AiFillMessage style={{ color: '#c7c7c7' }} /> {item.comments}
+                  <AiFillMessage style={{ color: '#c7c7c7' }} /> {item?.comments?.length}
                 </div>
               ) : null}
             </div>
             {item?.tags ? (
               <div className="tags scroll">
-                {item.tags.map((tag) => (
-                  <div className="tag" onClick={() => handleGoTag(tag.name)}>
+                {item?.tags?.map((tag) => (
+                  <div className="tag" onClick={() => handleGoTag(tag?.name)}>
                     #{tag.name}
                   </div>
                 ))}
@@ -67,12 +68,12 @@ const BlogList = ({ blog }) => {
       </div>
       <div className="pages">
         <Pagination
-          pages={blog.pages}
+          pages={page_count}
           currentPage={page}
           onChangePage={(pageitem) => {
             console.log(pageitem);
           }}
-          setPage={setPage}
+          setPage={handleSetPage}
         />
       </div>
     </Container>
@@ -153,12 +154,14 @@ const Container = styled.div`
     }
 
     .description {
-      height: 62px;
+      max-height: 62px;
       overflow: hidden;
       padding: 0 10px;
       font-size: 0.8rem;
       color: #c7c7c7;
       cursor: pointer;
+      text-align: left;
+      width: 100%;
     }
     .row {
       display: flex;

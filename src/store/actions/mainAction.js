@@ -8,12 +8,20 @@ import {
   CHANGE_TIMELINE,
   CHANGE_USERNAME,
   GET_MAIN,
+  SET_CATEGORIES,
+  SET_CURRENT_CATEGORY,
 } from '../types';
+import BlogRequest from '../../apis/blogRequest';
 
+const blog = new BlogRequest();
 const main = new MainRequest();
 
 export const getMain = () => async (dispatch) => {
   let data = await main.getMain();
+  let { data: cats } = await blog.getCategories();
+  dispatch({ type: SET_CATEGORIES, payload: cats });
+  dispatch({ type: SET_CURRENT_CATEGORY, payload: cats[0] });
+
   dispatch({ type: GET_MAIN, payload: data });
 };
 

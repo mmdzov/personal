@@ -82,9 +82,11 @@ const Pagination = ({
 
   return (
     <Container>
-      <span className="arrow-left" onClick={handlePrev}>
-        <IoArrowBack />
-      </span>
+      {pages > pageVisibleCount ? (
+        <span className="arrow-left" onClick={handlePrev}>
+          <IoArrowBack />
+        </span>
+      ) : null}
       {pageCount.map((item) => (
         <Fragment>
           {item === '...' ? (
@@ -101,9 +103,11 @@ const Pagination = ({
           )}
         </Fragment>
       ))}
-      <span className="arrow-right" onClick={handleNext}>
-        <IoArrowForward />
-      </span>
+      {pages > pageVisibleCount ? (
+        <span className="arrow-right" onClick={handleNext}>
+          <IoArrowForward />
+        </span>
+      ) : null}
     </Container>
   );
 };

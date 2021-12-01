@@ -1,3 +1,4 @@
+//  ? main types
 export const GET_MAIN = 'GET_MAIN';
 export const CHANGE_AVATAR = 'CHANGE_AVATAR';
 export const CHANGE_USERNAME = 'CHANGE_USERNAME';
@@ -6,3 +7,10 @@ export const CHANGE_SKILL = 'CHANGE_SKILL';
 export const ADD_SKILL = 'ADD_SKILL';
 export const ADD_TIMELINE = 'ADD_TIMELINE';
 export const CHANGE_TIMELINE = 'CHANGE_TIMELINE';
+
+//  ? blog types
+export const GET_BLOGS = 'GET_BLOGS';
+export const SET_PAGE_COUNT = 'SET_PAGE_COUNT';
+export const SET_PAGE = 'SET_PAGE';
+export const SET_CATEGORIES = 'SET_CATEGORIES';
+export const SET_CURRENT_CATEGORY = 'SET_CURRENT_CATEGORY';
