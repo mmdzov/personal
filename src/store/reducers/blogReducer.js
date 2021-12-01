@@ -5,6 +5,7 @@ import {
   SET_CURRENT_CATEGORY,
   SET_PAGE,
   SET_PAGE_COUNT,
+  SET_POST_IMAGE,
 } from '../types';
 
 const INITSTATE = {
@@ -14,6 +15,7 @@ const INITSTATE = {
   categories: [],
   current_category: {},
   tags: [],
+  post_images: [],
 };
 
 const blogReducer = (state = INITSTATE, action) => {
@@ -30,6 +32,8 @@ const blogReducer = (state = INITSTATE, action) => {
       return { ...state, current_category: action.payload };
     case GET_TAGS:
       return { ...state, tags: action.payload };
+    case SET_POST_IMAGE:
+      return { ...state, post_images: action.payload };
     default:
       return state;
   }

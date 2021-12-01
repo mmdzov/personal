@@ -1,4 +1,4 @@
-import { publicRequest } from './config';
+import { privateRequest, publicRequest } from './config';
 
 class BlogRequest {
   async getBlogs() {
@@ -17,6 +17,11 @@ class BlogRequest {
 
   async getTags() {
     const { data } = await publicRequest.get('/blogs/tags');
+    return data;
+  }
+
+  async addPostImage(blogimage) {
+    const { data } = await privateRequest.post('/blogs/add-post-image', blogimage);
     return data;
   }
 }

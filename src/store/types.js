@@ -15,3 +15,4 @@ export const SET_PAGE = 'SET_PAGE';
 export const SET_CATEGORIES = 'SET_CATEGORIES';
 export const SET_CURRENT_CATEGORY = 'SET_CURRENT_CATEGORY';
 export const GET_TAGS = 'GET_TAGS';
+export const SET_POST_IMAGE = 'SET_POST_IMAGE';

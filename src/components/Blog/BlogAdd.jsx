@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { Container } from './BlogAdd.styled';
-import { Input, Button, Select } from 'antd';
+import { Input, Button, Select, message } from 'antd';
 import { useState, useEffect } from 'react';
 import { Editor } from 'react-draft-wysiwyg';
 import { EditorState, convertToRaw, ContentState } from 'draft-js';
@@ -12,13 +12,13 @@ import { useLocation } from 'react-router-dom';
 import PostImage from '../../assets/img/post.jpg';
 import dataURLtoFile from '../../utils/dataURLToFile';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTags } from '../../store/actions/blogAction';
+import { getTags, setPostImage } from '../../store/actions/blogAction';
 
 const { TextArea, Group } = Input;
 const { Option } = Select;
 
 const BlogAdd = () => {
-  const { tags, categories } = useSelector(({ blogs }) => blogs);
+  const { tags, categories, post_images } = useSelector(({ blogs }) => blogs);
   const dispatch = useDispatch();
   const [values, setValues] = useState({
     title: '',
@@ -58,8 +58,6 @@ const BlogAdd = () => {
     console.log(content.textContent);
   };
 
-  const [images, setImages] = useState([]);
-
   const [selectedImage, setSelectedImage] = useState({
     src: '',
     file: null,
@@ -85,7 +83,11 @@ const BlogAdd = () => {
       setValues((prev) => ({ ...prev, image: { src: image, file: dataURLtoFile(image) } }));
       setAvatarCrop(false);
     } else {
-      setImages((prev) => [...prev, { src: image, file: dataURLtoFile(image) }]);
+      const formData = new FormData();
+      console.log(dataURLtoFile(image, 'blogimage.jpg'));
+      formData.append('blogimage', dataURLtoFile(image, 'blogimage.jpg'));
+      dispatch(setPostImage(formData));
+      setOpenCrop(false);
     }
     setImg(null);
   };
@@ -137,6 +139,11 @@ const BlogAdd = () => {
     setImg(null);
     setAvatarCrop(false);
     setValues((prev) => ({ ...prev, image: { src: '', file: '' } }));
+  };
+
+  const copyToClipboard = async (link) => {
+    let result = await navigator.clipboard.writeText(link);
+    message.info('image copied to clipboard');
   };
 
   return (
@@ -212,10 +219,10 @@ const BlogAdd = () => {
           ))}
         </Select>
         <Group>
-          {images.length > 0 ? (
+          {post_images.length > 0 ? (
             <div className="uploads">
-              {images.map((item) => (
-                <img src={item.src ?? ''} alt="" />
+              {post_images.map((item) => (
+                <img src={item ?? ''} alt="" onClick={() => copyToClipboard(item)} />
               ))}
             </div>
           ) : null}
