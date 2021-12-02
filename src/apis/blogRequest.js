@@ -54,7 +54,14 @@ class BlogRequest {
     const { data } = await privateRequest.post(`/blogs/blogpost/reply-comment/${id}`, comment);
     return data;
   }
-  
+
+  async likeBlogpost(id, like) {
+    const { data } = await privateRequest.post(`/blogs/blogpost/like/${id}`, {
+      like: like,
+    });
+    return data;
+  }
+
   async addComment(id, comment) {
     const { data } = await privateRequest.post(`/blogs/blogpost/comment/${id}`, comment);
     return data;
