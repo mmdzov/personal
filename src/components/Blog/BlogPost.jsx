@@ -1,114 +1,37 @@
 import { Container } from './BlogPost.styled';
 import { useEffect, useRef, useState } from 'react';
 import { AiFillHeart, AiOutlineHeart, AiOutlineClose } from 'react-icons/ai';
-import { Button, Input } from 'antd';
+import { Button, Image, Input } from 'antd';
 import { FaReply } from 'react-icons/fa';
-import PostImage from '../../assets/img/post.jpg';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import EditPen from '../utils/EditPen';
-import { unsetBlog } from '../../store/actions/blogAction';
+import {
+  getSingleBlog,
+  setBlogLike,
+  setComment,
+  setCommentReply,
+} from '../../store/actions/blogAction';
 import { useDispatch, useSelector } from 'react-redux';
+import errorImg from '../utils/errorImg';
 
 const { TextArea } = Input;
 
 const BlogPost = () => {
   const { data } = useSelector(({ main }) => main);
   const { blog } = useSelector(({ blogs }) => blogs);
+  const [reply, setReply] = useState({});
+  const { post } = useParams();
   const dispatch = useDispatch();
-  const [blogpost, setBlogpost] = useState({
-    id: '40923420tfsdjj0023',
-    title: 'Hello world from blog',
-    description:
-      // eslint-disable-next-line max-len
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex, libero voluptatibus! Odio, illum? Ad placeat vel doloribus neque. Consequuntur delectus aliquam dolorum doloribus sint alias impedit placeat reprehenderit voluptate blanditiis.',
-    date: Date.now(),
-    image: PostImage,
-    likes: 1223,
-    category: {
-      id: 53453645,
-      name: 'Javascript',
-    },
-    liked: false,
-    comments: [
-      {
-        id: '525365fdsfwef',
-        from: {
-          ...data,
-        },
-        comment: 'Hello world',
-        date: Date.now(),
-        replies: [
-          {
-            id: 'dfsvx525365fdsfwef',
-            from: {
-              ...data,
-            },
-            to: {
-              ...data,
-            },
-            comment: 'Hello world',
-            date: Date.now(),
-            replies: [],
-          },
-        ],
-      },
-      {
-        id: '5asdasc25365fdsfwef',
-        from: {
-          ...data,
-        },
-        comment: 'Hello world',
-        date: Date.now(),
-        replies: [
-          {
-            id: 'dfsvxc525365fdsfwef',
-            from: {
-              ...data,
-            },
-            to: {
-              ...data,
-            },
-            date: Date.now(),
-            comment: 'Hello world',
-            replies: [],
-          },
-        ],
-      },
-    ],
-    tags: [
-      {
-        id: 342342,
-        name: 'psfkdofs',
-      },
-      {
-        id: 342342,
-        name: 'psfkdofs',
-      },
-      {
-        id: 342342,
-        name: 'psfkdofs',
-      },
-    ],
-    content: `
-    <p>Hey this editor rocks 😀</p>
-    <p />
-    <p />
-    <img
-      src="https://netseo.co.uk/wp-content/uploads/2021/06/What_is_Information_Technology-11-1536x838.jpg"
-      alt="undefined"
-      style={{ float: 'none' }}
-    />
-    <p />
-    `,
-  });
 
   const handleLikePost = () => {
-    setBlogpost((prev) => ({
-      ...prev,
-      liked: !prev.liked,
-      likes: prev.liked ? prev.likes - 1 : prev.likes + 1,
-    }));
+    dispatch(setBlogLike(post, blog.liked ? 0 : 1));
   };
+
+  useEffect(() => {
+    if (post) {
+      dispatch(getSingleBlog(post));
+    }
+  }, [post]);
 
   useEffect(() => {
     const app = document.getElementsByClassName('App')[0];
@@ -120,7 +43,6 @@ const BlogPost = () => {
   }, []);
 
   const [value, setValue] = useState('');
-  const [reply, setReply] = useState({});
 
   const commentSendForm = useRef();
   const containerRef = useRef();
@@ -131,34 +53,32 @@ const BlogPost = () => {
   };
 
   const handleSendComment = () => {
-    const comment = {
-      from: {
-        ...data,
-      },
-      comment: value,
-      date: Date.now(),
-      replies: [],
-    };
     if (Object.keys(reply)?.length > 0) {
-      comment.to = reply.from;
-      const commentIndex = blog.comments.findIndex((item) => item.id === reply.commentId);
-      blog.comments[commentIndex].replies.push(comment);
-      setBlogpost((prev) => ({ ...prev, comments: blog.comments }));
+      dispatch(
+        setCommentReply(post, {
+          comment: value,
+          comment_parent_id: reply.commentId,
+          reply_to: reply.id,
+        }),
+      );
       setValue('');
       setReply({});
       return;
     }
-
-    blog.comments.unshift(comment);
-    setBlogpost((prev) => ({ ...prev, comments: blog.comments }));
+    dispatch(
+      setComment(post, {
+        comment: value,
+      }),
+    );
     setValue('');
+    setReply({});
   };
 
-  useEffect(() => {
-    return () => {
-      dispatch(unsetBlog());
-    };
-  }, []);
+  // useEffect(() => {
+  //   return () => {
+  //     dispatch(unsetBlog());
+  //   };
+  // }, []);
 
   const handleReplyComment = (rep, commentId) => {
     const app = document.getElementsByClassName('App')[0];
@@ -185,7 +105,6 @@ const BlogPost = () => {
       },
     });
   };
-
   return (
     <Container ref={containerRef}>
       {data?.isAdmin ? (
@@ -214,7 +133,7 @@ const BlogPost = () => {
           <span onClick={handleLikePost}>
             {blog?.liked ? <AiFillHeart color="#bb281d" /> : <AiOutlineHeart />}
           </span>
-          {blog?.likes}
+          {blog?.likes > 0 ? blog?.likes : null}
         </div>
         <div className="date">{new Date(blog?.date).toLocaleDateString('fa-IR')}</div>
       </div>
@@ -255,15 +174,15 @@ const BlogPost = () => {
               <div className="comment">
                 <div className="comment-header">
                   <div className="">
-                    <img
-                      className="avatar"
+                    <Image
                       src={item?.from?.avatar}
                       style={{ width: 40, height: 40 }}
                       alt=""
+                      fallback={errorImg}
                     />
                     <div className="username">{item.from.username}</div>
                   </div>
-                  <span className="replyicon" onClick={() => handleReplyComment(item, item.id)}>
+                  <span className="replyicon" onClick={() => handleReplyComment(item, item?.id)}>
                     <FaReply />
                   </span>
                 </div>
@@ -273,33 +192,35 @@ const BlogPost = () => {
                     {new Date(item.date).toLocaleDateString('fa-IR')}
                   </div>
                 </div>
-                {item.replies.map((reply) => (
-                  <div className="comment-reply">
-                    <div className="comment-header">
-                      <img
-                        className="avatar"
-                        src={reply.from.avatar}
-                        style={{ width: 40, height: 40 }}
-                        alt=""
-                      />
-                      <div className="username">
-                        {reply.from.username} <span>to {reply.to.username} </span>
+                {item?.replies?.length > 0
+                  ? item?.replies?.map((reply) => (
+                      <div className="comment-reply">
+                        <div className="comment-header">
+                          <Image
+                            src={reply.from.avatar}
+                            style={{ width: 40, height: 40 }}
+                            alt=""
+                            fallback={errorImg}
+                          />
+                          <div className="username">
+                            {reply?.from?.username} <span>to {reply?.from?.username} </span>
+                          </div>
+                        </div>
+                        <div className="comment-content">{reply?.comment}</div>
+                        <div className="comment-footer">
+                          <span
+                            className="replyicon"
+                            onClick={() => handleReplyComment(reply, item?.id)}
+                          >
+                            <FaReply />
+                          </span>
+                          <div className="comment-date">
+                            {new Date(reply.date).toLocaleDateString('fa-IR')}
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                    <div className="comment-content">{reply.comment}</div>
-                    <div className="comment-footer">
-                      <span
-                        className="replyicon"
-                        onClick={() => handleReplyComment(reply, item.id)}
-                      >
-                        <FaReply />
-                      </span>
-                      <div className="comment-date">
-                        {new Date(reply.date).toLocaleDateString('fa-IR')}
-                      </div>
-                    </div>
-                  </div>
-                ))}
+                    ))
+                  : null}
               </div>
             ))
           : null}

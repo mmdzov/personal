@@ -44,6 +44,21 @@ class BlogRequest {
     const { data } = await publicRequest.post(`/blogs/tags/getblogs`, { tag: param });
     return data;
   }
+
+  async getSingleBlog(id) {
+    const { data } = await privateRequest.get(`/blogs/blogpost/${id}`);
+    return data;
+  }
+
+  async replyComment(id, comment) {
+    const { data } = await privateRequest.post(`/blogs/blogpost/reply-comment/${id}`, comment);
+    return data;
+  }
+  
+  async addComment(id, comment) {
+    const { data } = await privateRequest.post(`/blogs/blogpost/comment/${id}`, comment);
+    return data;
+  }
 }
 
 export default BlogRequest;

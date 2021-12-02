@@ -4,6 +4,11 @@ export const Container = styled.div`
   width: 95%;
   margin: 0 auto;
 
+  .ant-image-img {
+    border-radius: 100px;
+    margin-right: 10px;
+  }
+
   .tools {
     height: 30px;
     position: relative;
@@ -34,7 +39,8 @@ export const Container = styled.div`
       padding: 5px 15px;
       background: #0000004a;
       box-shadow: -27px -45px 81px 10px inset black;
-
+      width: 100%;
+      
       > .title {
         font-size: 1.5rem;
       }
@@ -72,10 +78,16 @@ export const Container = styled.div`
     text-align: left;
     padding: 5px 10px;
     img {
-      width: 100%;
+      width: 100% !important;
       border-radius: 5px;
+
       @media (min-width: 460px) {
         max-width: 460px;
+      }
+
+      @media (max-width: 459px) {
+        object-fit: cover;
+        height: auto !important;
       }
     }
   }

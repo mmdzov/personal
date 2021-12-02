@@ -18,3 +18,6 @@ export const GET_TAGS = 'GET_TAGS';
 export const SET_POST_IMAGE = 'SET_POST_IMAGE';
 export const SET_BLOG = 'SET_BLOG';
 export const UNSET_BLOG = 'UNSET_BLOG';
+export const LIKE_POST = 'LIKE_POST';
+export const SET_COMMENT_REPLY = 'SET_COMMENT_REPLY';
+export const SET_COMMENT = 'SET_COMMENT';

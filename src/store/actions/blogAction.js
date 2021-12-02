@@ -1,8 +1,12 @@
+import { message } from 'antd';
 import BlogRequest from '../../apis/blogRequest';
 import {
   GET_BLOGS,
   GET_TAGS,
+  LIKE_POST,
   SET_BLOG,
+  SET_COMMENT,
+  SET_COMMENT_REPLY,
   SET_CURRENT_CATEGORY,
   SET_PAGE,
   SET_PAGE_COUNT,
@@ -68,4 +72,43 @@ export const searchTags = (tag) => async (dispatch) => {
 export const getBlogsByTag = (tag) => async (dispatch) => {
   const { data } = await blogRequest.getBlogsByTag(tag);
   dispatch({ type: GET_BLOGS, payload: data });
+};
+
+export const getSingleBlog = (id) => async (dispatch) => {
+  const { data } = await blogRequest.getSingleBlog(id);
+  console.log(data, typeof data);
+  dispatch({ type: SET_BLOG, payload: data });
+};
+
+export const setBlogLike = (id, like) => async (dispatch, getState) => {
+  const { status, error } = await blogRequest.likeBlogpost(id, like);
+  if (status === 0) {
+    message.warning(error?.title ?? error?.message);
+  }
+  const { blog } = getState().blogs;
+  blog.liked = !!like;
+  blog.likes = like ? blog.likes + 1 : blog.likes - 1;
+  console.log(blog.likes);
+  dispatch({ type: LIKE_POST, payload: blog });
+};
+
+export const setCommentReply = (id, comment) => async (dispatch, getState) => {
+  const { data, status, error } = await blogRequest.replyComment(id, comment);
+  if (status === 0) {
+    message.warning(error?.title ?? error?.message);
+  }
+  const { blog } = getState().blogs;
+  const commentIndex = blog.comments.findIndex((item) => item?.id === comment.comment_parent_id);
+  blog.comments[commentIndex].replies.push(data);
+  dispatch({ type: SET_COMMENT_REPLY, payload: blog });
+};
+
+export const setComment = (id, comment) => async (dispatch, getState) => {
+  const { data, status, error } = await blogRequest.addComment(id, comment);
+  if (status === 0) {
+    message.warning(error?.title ?? error?.message);
+  }
+  const { blog } = getState()?.blogs;
+  blog.comments.unshift(data);
+  dispatch({ type: SET_COMMENT, payload: blog });
 };

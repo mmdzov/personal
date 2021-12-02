@@ -1,8 +1,11 @@
 import {
   GET_BLOGS,
   GET_TAGS,
+  LIKE_POST,
   SET_BLOG,
   SET_CATEGORIES,
+  SET_COMMENT,
+  SET_COMMENT_REPLY,
   SET_CURRENT_CATEGORY,
   SET_PAGE,
   SET_PAGE_COUNT,
@@ -40,6 +43,12 @@ const blogReducer = (state = INITSTATE, action) => {
     case SET_BLOG:
       return { ...state, blog: action.payload };
     case UNSET_BLOG:
+      return { ...state, blog: action.payload };
+    case LIKE_POST:
+      return { ...state, blog: action.payload };
+    case SET_COMMENT_REPLY:
+      return { ...state, blog: action.payload };
+    case SET_COMMENT:
       return { ...state, blog: action.payload };
     default:
       return state;

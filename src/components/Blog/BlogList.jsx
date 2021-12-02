@@ -5,7 +5,6 @@ import Pagination from '../Pagination/Pagination';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { getBlogs, getBlogsByCategory } from '../../store/actions/blogAction';
-import { useEffect } from 'react';
 
 const BlogList = () => {
   const { list, page_count, page, current_category } = useSelector(({ blogs }) => blogs);
@@ -18,13 +17,10 @@ const BlogList = () => {
 
   const handleChangePage = async (page) => {
     if (current_category === 'all') {
-      dispatch(getBlogs(page));
+      await dispatch(getBlogs(page));
     } else {
-      dispatch(getBlogsByCategory(current_category?.name, page));
+      await dispatch(getBlogsByCategory(current_category?.name, page));
     }
-  };
-
-  useEffect(() => {
     const app = document.getElementsByClassName('App')[0];
     const blogItem = document.getElementsByClassName('blogitem')[0];
     app?.scrollTo({
@@ -32,7 +28,7 @@ const BlogList = () => {
       top: blogItem?.offsetTop - 30 || 0,
       behavior: 'smooth',
     });
-  }, [list]);
+  };
 
   const handleGoTag = (tag) => {
     navigate(`/tags/${tag}`);
