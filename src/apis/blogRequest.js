@@ -34,6 +34,16 @@ class BlogRequest {
     const { data } = await publicRequest.get(`/blogs/get-by-category/${category}/${page}`);
     return data;
   }
+
+  async searchTag(param) {
+    const { data } = await publicRequest.post(`/blogs/tags/search`, { search: param });
+    return data;
+  }
+
+  async getBlogsByTag(param) {
+    const { data } = await publicRequest.post(`/blogs/tags/getblogs`, { tag: param });
+    return data;
+  }
 }
 
 export default BlogRequest;

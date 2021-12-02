@@ -26,6 +26,12 @@ export const Container = styled.div`
     }
   }
 
+  .notfound {
+    font-size: 1rem;
+    padding: 76px 0px;
+    color: #cdcdcd;
+  }
+
   .header {
     display: flex;
     justify-content: space-between;
@@ -47,13 +53,14 @@ export const Container = styled.div`
     padding: 10px 15px;
     align-items: center;
     background: black;
-    margin: 0 10px;
+    margin: 10px 10px;
     border-radius: 5px;
 
     img {
       width: 50px;
       height: 50px;
       object-fit: cover;
+      border-radius: 5px;
     }
 
     .title {

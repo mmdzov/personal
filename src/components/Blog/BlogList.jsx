@@ -8,7 +8,7 @@ import { getBlogs, getBlogsByCategory } from '../../store/actions/blogAction';
 import { useEffect } from 'react';
 
 const BlogList = () => {
-  const { list, page_count, page, current_category, blog } = useSelector(({ blogs }) => blogs);
+  const { list, page_count, page, current_category } = useSelector(({ blogs }) => blogs);
   const handleSetPage = () => {};
   const navigate = useNavigate();
   const dispatch = useDispatch();

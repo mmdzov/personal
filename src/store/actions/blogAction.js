@@ -59,3 +59,13 @@ export const getBlogsByCategory = (category, page) => async (dispatch) => {
   dispatch({ type: SET_CURRENT_CATEGORY, payload: category });
   dispatch({ type: SET_PAGE, payload: page });
 };
+
+export const searchTags = (tag) => async (dispatch) => {
+  const { data } = await blogRequest.searchTag(tag);
+  dispatch({ type: GET_TAGS, payload: data });
+};
+
+export const getBlogsByTag = (tag) => async (dispatch) => {
+  const { data } = await blogRequest.getBlogsByTag(tag);
+  dispatch({ type: GET_BLOGS, payload: data });
+};
