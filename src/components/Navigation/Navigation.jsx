@@ -1,17 +1,17 @@
 /* eslint-disable no-unused-vars */
 import styled from 'styled-components';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import SignModal from '../Sign/SignModal';
 import { AiFillNotification } from 'react-icons/ai';
 import { IoReturnUpForward } from 'react-icons/io5';
-import Context from '../../context/Context';
 import { PageHeader } from 'antd';
+import { useSelector } from 'react-redux';
 
 const Navigation = () => {
   const [sign, setSign] = useState(false);
   const [signed] = useState(false);
-  const { notifications, user } = useContext(Context);
+  const { data } = useSelector(({ main }) => main);
   const { pathname } = useLocation();
   const isActive = (page) => {
     let pg = page;
@@ -57,7 +57,7 @@ const Navigation = () => {
           Home
         </Link>
         <Link
-          to={user?.isAdmin ? '/chatlist' : '/chat'}
+          to={data?.isAdmin ? '/chatlist' : '/chat'}
           className={`l ${isActive('chat') ? 'active' : ''} `}
         >
           Chat

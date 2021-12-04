@@ -1,7 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useContext } from 'react';
 import styled from 'styled-components';
-import Context from '../../context/Context';
 import Repos from '../github/Repos';
 import ContactUs from '../Personal/ContactUs';
 import Header from '../Personal/Header';

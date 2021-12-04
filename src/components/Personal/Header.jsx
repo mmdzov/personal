@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 import styled from 'styled-components';
 import { useEffect, useRef, useState } from 'react';
-import Context from '../../context/Context';
 import EditPen from '../utils/EditPen';
 import { Image, Input, Button } from 'antd';
 import errorImg from '../utils/errorImg';

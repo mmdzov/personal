@@ -1,24 +1,24 @@
 import { Container } from './ChatList.styled';
-import { useContext, useState } from 'react';
-import Context from '../../context/Context';
+import { useState } from 'react';
 import { IoCheckmarkDoneOutline, IoCheckmarkOutline } from 'react-icons/io5';
 import { AiFillClockCircle } from 'react-icons/ai';
 import LineEllipsis from 'react-lines-ellipsis';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const ChatList = () => {
-  const { user } = useContext(Context);
+  const { data } = useSelector(({ main }) => main);
   const [user_id] = useState(243524325);
   const [chats] = useState([
     {
       user: {
-        ...user,
+        ...data,
         user_id: user_id,
       },
       messages: [
         {
           from: {
-            ...user,
+            ...data,
             user_id: 342394238,
           },
           message: 'Hi ',
@@ -27,7 +27,7 @@ const ChatList = () => {
         },
         {
           from: {
-            ...user,
+            ...data,
             user_id: user_id,
           },
           message: 'Hi',
@@ -39,13 +39,13 @@ const ChatList = () => {
     },
     {
       user: {
-        ...user,
+        ...data,
         user_id: 342342432,
       },
       messages: [
         {
           from: {
-            ...user,
+            ...data,
             user_id: 342394238,
           },
           message: 'Hi ',
@@ -54,7 +54,7 @@ const ChatList = () => {
         },
         {
           from: {
-            ...user,
+            ...data,
             user_id: 32342342,
           },
           message: 'Hi',
@@ -66,7 +66,7 @@ const ChatList = () => {
     },
     {
       user: {
-        ...user,
+        ...data,
         user_id: user_id,
       },
       messages: [],

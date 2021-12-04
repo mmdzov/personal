@@ -1,9 +1,9 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import './App.css';
 import Context from './context/Context';
 import axios from 'axios';
-import Avatar from './assets/img/avatar.jpg';
 import Routes from './Routes';
 import PostImage from './assets/img/post.jpg';
 import { useSelector, useDispatch } from 'react-redux';
@@ -12,59 +12,16 @@ import appWrapper from './hoc/appWrapper';
 
 function App() {
   const dispatch = useDispatch();
-  const [user] = useState({
-    avatar: Avatar,
-    username: 'Reza',
-    isAdmin: true,
-  });
+
   useEffect(() => {
     dispatch(getMain());
   }, []);
-  // const [data, setData] = useState({
-  //   person: {
-  //     fullName: 'Mohammad-Ali Zoveydat',
-  //     avatar: '',
-  //     bio: ['Looking To implement New IDEAS', 'ok'],
-  //   },
-  //   skills: [
-  //     { name: 'Javascript', knowledge: '99', color: '#d1ac17' },
-  //     { name: 'React.Js', knowledge: '95', color: '#2656bd' },
-  //     { name: 'Typescript', knowledge: '65', color: '#391182' },
-  //     { name: 'Node.Js', knowledge: '60', color: '#0ad195' },
-  //     { name: 'Express.Js', knowledge: '80', color: '#d1350a' },
-  //     { name: 'TDD', knowledge: '19', color: '#d11b1b' },
-  //     { name: 'MongoDB - Mongoose', knowledge: '50', color: '#0ad135' },
-  //     { name: 'Postman', knowledge: '98', color: '#d1670a' },
-  //     { name: 'TelegramBot Api', knowledge: '100', color: '#0a88d1' },
-  //     { name: 'TelegramBot Client', knowledge: '30', color: '#45b3d1' },
-  //   ],
-  //   contact_us: [
-  //     { title: 'Call', value: '+989356597910' },
-  //     { title: 'Email', value: 'Mzov939@gmail.com' },
-  //   ],
-  //   about: [
-  //     {
-  //       date: '1397/4',
-  //       title: 'Basic PHP',
-  //       subtitle: 'Here I started php from zero',
-  //     },
-  //     {
-  //       date: '1397/4',
-  //       title: 'Basic PHP',
-  //       subtitle: 'Here I started php from zero',
-  //     },
-  //     {
-  //       date: '1397/4',
-  //       title: 'Basic PHP',
-  //       subtitle: 'Here I started php from zero',
-  //     },
-  //     {
-  //       date: '1397/4',
-  //       title: 'Basic PHP',
-  //       subtitle: 'Here I started php from zero',
-  //     },
-  //   ],
-  // });
+  const [data] = useState({
+    contact_us: [
+      { title: 'Call', value: '+989356597910' },
+      { title: 'Email', value: 'Mzov939@gmail.com' },
+    ],
+  });
 
   const [notifications] = useState([
     {
@@ -100,7 +57,7 @@ function App() {
   // }, []);
 
   return (
-    <Context.Provider value={{ user, notifications }}>
+    <Context.Provider value={{ data, notifications }}>
       <Container className="App">
         <Routes />
       </Container>

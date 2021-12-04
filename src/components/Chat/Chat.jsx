@@ -11,12 +11,42 @@ import {
 } from 'react-icons/io5';
 import { AiFillClockCircle } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
+import { SocketNamespaces } from '../../config/socket';
+
+const io = new SocketNamespaces();
 
 const { TextArea } = Input;
 
 const Chat = () => {
   const { user } = useContext(Context);
   const [value, setValue] = useState('');
+  const [messages, setMessages] = useState([]);
+  useEffect(() => {
+    io.chat().on('connect', (socket) => {
+      console.log('connected');
+      io.chat().on('get-last-messages', (data) => {
+        let d = data.map((item) => {
+          item.message = JSON.parse(item.message);
+          return item;
+        });
+
+        const result = d
+          .sort((a, b) => b.date - a.date)
+          .reduce((prev, curr) => {
+            const localeDate = new Date(curr.date).toLocaleDateString('fa-IR');
+            if (prev[localeDate]) prev[localeDate].push(curr);
+            else prev[localeDate] = [curr];
+            return prev;
+          }, {});
+
+        let msgs = [];
+        for (let i in result) {
+          msgs.push({ type: 'date', date: i }, { type: 'message', messages: [...result[i]].reverse() });
+        }
+        setMessages(msgs);
+      });
+    });
+  }, []);
 
   const handleChange = ({ target }) => {
     const { value } = target;
@@ -240,14 +270,21 @@ const Chat = () => {
     }
   };
 
+  const getChatDate = (microseconds) => {
+    let date = new Date(microseconds).toLocaleTimeString('fa-IR').split(':');
+    date.pop();
+    date = date.join(':');
+    return date;
+  };
+
   const navigate = useNavigate();
 
   return (
     <Container>
       <div className="header">
         <div className="">
-          <img src={user.avatar} alt="" />
-          <div className="username">{user.username}</div>
+          {/* <img src={user.avatar} alt="" /> */}
+          <div className="username">{user?.username}</div>
         </div>
 
         <div
@@ -264,35 +301,37 @@ const Chat = () => {
             <span>گفتگو را آغاز کنید</span>
           </div>
         ) : (
-          chat.map((item) => (
+          messages.map((item) => (
             <Fragment>
               {item?.type === 'date' ? (
                 <div className="chatdate">
-                  <span>13/3/2021</span>
+                  <span>{item.date}</span>
                   <div className="line" />
                 </div>
               ) : (
-                <div className={`chatitem ${item.from.user_id === user_id ? 'you' : 'it'}`}>
-                  <div className="chatitem-message">
-                    <div className="message">{item.message}</div>
-                    <div className="chatitem-btm-msg">
-                      <div className="chatitem-date">3:29</div>
-                      <div className="chatitem-seen">
-                        {item.from.user_id === user_id ? (
-                          <Fragment>
-                            {item?.sending ? (
-                              <AiFillClockCircle />
-                            ) : item.seen ? (
-                              <IoCheckmarkDoneOutline />
-                            ) : (
-                              <IoCheckmarkOutline />
-                            )}
-                          </Fragment>
-                        ) : null}
+                item.messages.map((message) => (
+                  <div className={`chatitem ${messages.from === user_id ? 'you' : 'it'}`}>
+                    <div className="chatitem-message">
+                      <div className="message">{message.message.text}</div>
+                      <div className="chatitem-btm-msg">
+                        <div className="chatitem-date">{getChatDate(message.date)}</div>
+                        <div className="chatitem-seen">
+                          {item.from === user_id ? (
+                            <Fragment>
+                              {item?.sending ? (
+                                <AiFillClockCircle />
+                              ) : item.seen ? (
+                                <IoCheckmarkDoneOutline />
+                              ) : (
+                                <IoCheckmarkOutline />
+                              )}
+                            </Fragment>
+                          ) : null}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                ))
               )}
             </Fragment>
           ))
