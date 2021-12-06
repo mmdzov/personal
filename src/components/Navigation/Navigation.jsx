@@ -9,8 +9,8 @@ import { PageHeader } from 'antd';
 import { useSelector } from 'react-redux';
 
 const Navigation = () => {
+  const { verified } = useSelector(({ main }) => main);
   const [sign, setSign] = useState(false);
-  const [signed] = useState(false);
   const { data } = useSelector(({ main }) => main);
   const { pathname } = useLocation();
   const isActive = (page) => {
@@ -31,7 +31,7 @@ const Navigation = () => {
     <Container>
       {isActive('home') === true ? (
         <div className="signicon">
-          {!signed ? (
+          {!verified ? (
             <div className="link" onClick={() => setSign(true)}>
               Sign
             </div>
@@ -43,7 +43,7 @@ const Navigation = () => {
           onBack={handleGoBack}
           title={pathname?.split('/')[1]}
           extra={[
-            !signed ? (
+            !verified ? (
               <div className="link" onClick={() => setSign(true)}>
                 Sign
               </div>
@@ -86,15 +86,26 @@ const Container = styled.div`
   .signicon {
     width: 100%;
     justify-content: end;
-    height: 40px;
+    max-height: 40px;
     align-items: center;
     padding: 0 15px;
+    > .link {
+      margin-top: 10px;
+    }
   }
 
   .ant-page-header.site-page-header.ant-page-header-ghost {
     width: 100% !important;
     background: #000000 !important;
     margin-bottom: 15px !important;
+
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    box-shadow: 0 5px 10px -3px black !important;
+  }
+
+  .ant-page-header-heading-title {
+    font-size: 1rem !important;
   }
 
   .ant-page-header-back {
@@ -169,21 +180,21 @@ const Container = styled.div`
   }
 
   .l {
-    padding: 0 15px;
-    margin: 0 5px;
-    height: 35px;
-    padding-top: 1px;
+    padding: 0 10px;
+    margin: 0 4px;
+    height: 30px;
+    /* padding-top: 1px; */
     display: flex;
     align-items: center;
     background: black;
-    color: white;
-    border-radius: 6px;
-    box-shadow: 0 5px 6px 1px black;
+    color: #c7c7c7;
+    border-radius: 4px;
+    box-shadow: 0 5px 6px -2px black;
   }
 
   .active {
-    background: #607d8b !important;
-    box-shadow: 0 5px 6px -1px #607d8b !important;
+    background: #3f51b5 !important;
+    box-shadow: 0 5px 6px -3px #3f51b5 !important;
   }
 `;
 

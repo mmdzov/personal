@@ -7,7 +7,7 @@ import axios from 'axios';
 import Routes from './Routes';
 import PostImage from './assets/img/post.jpg';
 import { useSelector, useDispatch } from 'react-redux';
-import { getMain } from './store/actions/mainAction';
+import { getMain, setAuthUser } from './store/actions/mainAction';
 import appWrapper from './hoc/appWrapper';
 
 function App() {
@@ -15,6 +15,7 @@ function App() {
 
   useEffect(() => {
     dispatch(getMain());
+    dispatch(setAuthUser());
   }, []);
   const [data] = useState({
     contact_us: [

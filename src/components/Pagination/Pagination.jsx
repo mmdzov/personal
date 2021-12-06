@@ -88,7 +88,7 @@ const Pagination = ({
         </span>
       ) : null}
       {pageCount.map((item) => (
-        <Fragment>
+        <Fragment key={item}>
           {item === '...' ? (
             <span className="dots">{item}</span>
           ) : (

@@ -39,7 +39,7 @@ const Blog = () => {
             {'all'}
           </Option>
           {categories.map((item) => (
-            <Option value={item.name} className="option">
+            <Option value={item.name} key={item.name} className="option">
               {item.name}
             </Option>
           ))}

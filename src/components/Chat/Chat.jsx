@@ -165,6 +165,7 @@ const Chat = () => {
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
+    io.chat().emit("send-message",{})
     await setChat((prev) => [
       ...prev,
       {

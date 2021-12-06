@@ -178,3 +178,7 @@ body {
   margin-bottom: 39px;
   font-size: 1rem;
 }
+
+.ant-statistic-content-value {
+  color: white !important;
+}

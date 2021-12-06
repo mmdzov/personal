@@ -1,5 +1,9 @@
+import { useSelector } from 'react-redux';
+
 const useAuth = () => {
-  return true;
+  const { verified } = useSelector(({ main }) => main);
+  console.log(verified);
+  return verified;
 };
 
 export default useAuth;

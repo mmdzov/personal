@@ -38,7 +38,7 @@ const BlogList = () => {
     <Container>
       <div className="bloglist">
         {list.map((item) => (
-          <div className="blogitem">
+          <div className="blogitem" key={item?._id}>
             <div className="title" onClick={() => openBlogPost(item?._id)}>
               {item?.title}
             </div>
@@ -73,7 +73,7 @@ const BlogList = () => {
             {item?.tags ? (
               <div className="tags scroll">
                 {item?.tags?.map((tag) => (
-                  <div className="tag" onClick={() => handleGoTag(tag?.name)}>
+                  <div className="tag" key={tag.id} onClick={() => handleGoTag(tag?.name)}>
                     #{tag.name}
                   </div>
                 ))}

@@ -1,9 +1,17 @@
-import { Modal, Input, Form, Button } from 'antd';
+/* eslint-disable no-unused-vars */
+import { Modal, Input, Form, Button, message, Statistic } from 'antd';
 import { useState, Fragment, useRef } from 'react';
 import { AiOutlinePlus } from 'react-icons/ai';
 import dataURLtoFile from '../../utils/dataURLToFile';
 import CropImage from '../CropImage/CropImage';
 import Joi from 'joi';
+import UserRequest from '../../apis/userRequest';
+import { verificationUser } from '../../store/actions/mainAction';
+import { useDispatch } from 'react-redux';
+
+const { Countdown } = Statistic;
+
+const ur = new UserRequest();
 
 const signInValidate = Joi.object({
   email: Joi.string()
@@ -59,8 +67,11 @@ const SignModal = ({ showModal = false, setShowModal }) => {
   const [signIn, setSignIn] = useState(true);
   const [values, setValues] = useState(defaultValue);
   const [verifyCode, setVerifyCode] = useState('');
+  const [retrySign, setRetrySign] = useState(false);
   const [validate, setValidate] = useState(defaultValidateValue);
+  const [deadline, setDeadline] = useState(null);
   const [step, setStep] = useState(1);
+  const dispatch = useDispatch();
 
   const inputTracking = () => {
     let valid = '';
@@ -77,10 +88,27 @@ const SignModal = ({ showModal = false, setShowModal }) => {
     return true;
   };
 
-  const verify = () => {
+  const verify = async () => {
     let result = inputTracking();
     if (!result) return;
-    setStep(2);
+    let serverResult = {};
+    if (signIn) {
+      serverResult = await ur.signInUser({ email: values.email });
+    } else {
+      const fd = new FormData();
+      fd.append('avatar', values.avatar.file, 'post.jpg');
+      fd.append('username', values.username);
+      fd.append('email', values.email);
+      serverResult = await ur.signUpUser(fd);
+    }
+    try {
+      if (serverResult.status === 0) {
+        message.warning(serverResult?.error?.title || serverResult?.error?.message);
+        return null;
+      }
+      setDeadline(Date.now() + 1000 * 60 * 2);
+      setStep(2);
+    } catch (e) {}
   };
 
   const avatar = useRef();
@@ -107,7 +135,7 @@ const SignModal = ({ showModal = false, setShowModal }) => {
   };
 
   const getCroppedImage = (cropped) => {
-    const newFile = dataURLtoFile(cropped, values.avatar.file.filename);
+    const newFile = dataURLtoFile(cropped, values.avatar.file.name);
     setValues((prev) => ({ ...prev, avatar: { src: cropped, file: newFile } }));
     setOpenCrop(false);
   };
@@ -136,16 +164,26 @@ const SignModal = ({ showModal = false, setShowModal }) => {
   };
 
   const handleVerifyCode = () => {
-    const vc = 124534;
-    if (+verifyCode === vc) {
-      console.log('ok');
-      setStep(1);
-      setVerifyCode('');
-      setValues('');
-      setShowModal(false);
-    } else {
-      console.log('notValidate');
-    }
+    dispatch(
+      verificationUser(verifyCode, (token) => {
+        setStep(1);
+        setVerifyCode('');
+        setValues(defaultValue);
+        setShowModal(false);
+        message.success('You have successfully logged in.');
+      }),
+    );
+  };
+
+  const finishedDeadline = () => {
+    setRetrySign(true);
+  };
+
+  const handleRetrySign = () => {
+    setStep(1);
+    setValues(defaultValue);
+    setVerifyCode('');
+    setRetrySign(false);
   };
 
   if (step === 2)
@@ -158,20 +196,27 @@ const SignModal = ({ showModal = false, setShowModal }) => {
         cancelButtonProps={{
           hidden: true,
         }}
+        okButtonProps={{
+          disabled: retrySign,
+        }}
         okText={'Complete'}
         closable={false}
         maskClosable={false}
       >
         <Form style={{ direction: 'ltr' }}>
           <div className="verifyCodeTitle">
-            A verification code has been sent to your email. Please enter it here
+            A verification code has been sent to your email. Please enter it here.{' '}
+            {retrySign ? (
+              <span style={{ color: '#2196f3', cursor: 'pointer' }} onClick={handleRetrySign}>
+                Retry
+              </span>
+            ) : null}
+            <Countdown title="Countdown" value={deadline} onFinish={finishedDeadline} />
           </div>
           <Form.Item
-            style={
-              {
-                marginBottom: '0px',
-              }
-            }
+            style={{
+              marginBottom: '0px',
+            }}
             validateStatus={validate?.verifyCode?.length > 0 ? 'warning' : 'success'}
             help={validate?.verifyCode?.length > 0 ? validate.verifyCode : ''}
           >
@@ -179,7 +224,8 @@ const SignModal = ({ showModal = false, setShowModal }) => {
               type="tel"
               placeholder="Verify code"
               value={verifyCode}
-              autoComplete={false}
+              disabled={retrySign}
+              autoComplete="false"
               onChange={handleChangeVerifyCode}
             />
           </Form.Item>
@@ -245,7 +291,7 @@ const SignModal = ({ showModal = false, setShowModal }) => {
                   value={values.username}
                   name="username"
                   onChange={handleChange}
-                  autoComplete={false}
+                  autoComplete="false"
                   placeholder="Username"
                 />
               </Form.Item>
@@ -261,7 +307,7 @@ const SignModal = ({ showModal = false, setShowModal }) => {
               name="email"
               onChange={handleChange}
               placeholder="Email"
-              autoComplete={false}
+              autoComplete="false"
             />
           </Form.Item>
         </Form>

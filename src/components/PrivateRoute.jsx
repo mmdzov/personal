@@ -1,11 +1,11 @@
-import useAuth from '../hooks/useAuth';
 import SignModal from './Sign/SignModal';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 function PrivateRoute({ children }) {
-  const [showModal, setShowModal] = useState(true);
-  const auth = useAuth();
-  return auth ? (
+  const { verified } = useSelector(({ main }) => main);
+  const [showModal, setShowModal] = useState(!verified);
+  return verified ? (
     children
   ) : (
     <div

@@ -1,6 +1,15 @@
 import { privateRequest, publicRequest } from './config';
 
 class MainRequest {
+  async auth(token) {
+    let { data } = await publicRequest.get('/auth', {
+      headers: {
+        authorization: token,
+      },
+    });
+    return data;
+  }
+
   async getMain() {
     let result = await publicRequest.get('/main');
     return result.data?.data;

@@ -11,11 +11,16 @@ import {
   GET_MAIN,
   SET_CATEGORIES,
   SET_CURRENT_CATEGORY,
+  SET_USER,
+  SET_VERIFY,
 } from '../types';
 import BlogRequest from '../../apis/blogRequest';
+import UserRequest from '../../apis/userRequest';
+import { message } from 'antd';
 
 const blog = new BlogRequest();
 const main = new MainRequest();
+const user = new UserRequest();
 
 export const getMain = () => async (dispatch) => {
   let data = await main.getMain();
@@ -65,4 +70,29 @@ export const changeTimeline = (tl) => async (dispatch, getState) => {
   const index = timeline.findIndex((item) => item.id === tl.timeline_id);
   timeline[index] = tl;
   dispatch({ type: CHANGE_TIMELINE, payload: timeline });
+};
+
+export const setAuthUser = () => async (dispatch, getState) => {
+  try {
+    const { token } = await getState().main;
+    const result = await main.auth(token);
+    if (result?.status === 0) {
+      dispatch({ type: SET_VERIFY, payload: false });
+      return;
+    }
+    dispatch({ type: SET_VERIFY, payload: true });
+  } catch (e) {}
+};
+
+export const verificationUser = (vc, callback) => async (dispatch) => {
+  try {
+    const result = await user.verificationUser(vc);
+    if (result?.status === 0) {
+      message.warning(result?.error?.title || result?.error?.message);
+    } else {
+      await callback(result?.data);
+      dispatch({ type: SET_VERIFY, payload: true });
+      dispatch({ type: SET_USER, payload: result?.data?.token });
+    }
+  } catch (e) {}
 };

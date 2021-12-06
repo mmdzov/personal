@@ -7,6 +7,8 @@ export const CHANGE_SKILL = 'CHANGE_SKILL';
 export const ADD_SKILL = 'ADD_SKILL';
 export const ADD_TIMELINE = 'ADD_TIMELINE';
 export const CHANGE_TIMELINE = 'CHANGE_TIMELINE';
+export const SET_VERIFY = 'SET_VERIFY';
+export const SET_USER = 'SET_USER';
 
 //  ? blog types
 export const GET_BLOGS = 'GET_BLOGS';
