@@ -76,7 +76,6 @@ export const getBlogsByTag = (tag) => async (dispatch) => {
 
 export const getSingleBlog = (id) => async (dispatch) => {
   const { data } = await blogRequest.getSingleBlog(id);
-  console.log(data, typeof data);
   dispatch({ type: SET_BLOG, payload: data });
 };
 
@@ -84,6 +83,7 @@ export const setBlogLike = (id, like) => async (dispatch, getState) => {
   const { status, error } = await blogRequest.likeBlogpost(id, like);
   if (status === 0) {
     message.warning(error?.title ?? error?.message);
+    return;
   }
   const { blog } = getState().blogs;
   blog.liked = !!like;
@@ -96,6 +96,7 @@ export const setCommentReply = (id, comment) => async (dispatch, getState) => {
   const { data, status, error } = await blogRequest.replyComment(id, comment);
   if (status === 0) {
     message.warning(error?.title ?? error?.message);
+    return;
   }
   const { blog } = getState().blogs;
   const commentIndex = blog.comments.findIndex((item) => item?.id === comment.comment_parent_id);
@@ -107,6 +108,7 @@ export const setComment = (id, comment) => async (dispatch, getState) => {
   const { data, status, error } = await blogRequest.addComment(id, comment);
   if (status === 0) {
     message.warning(error?.title ?? error?.message);
+    return;
   }
   const { blog } = getState()?.blogs;
   blog.comments.unshift(data);
