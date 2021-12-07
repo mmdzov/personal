@@ -7,6 +7,7 @@ const socket = io(BASE_URL);
 class SocketNamespaces {
   chat() {
     return io(`${BASE_URL}/chat`, {
+      withCredentials: true,
       transports: ['polling'],
       auth: {
         authorization: '',
