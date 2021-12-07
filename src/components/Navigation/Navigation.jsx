@@ -7,12 +7,15 @@ import { AiFillNotification } from 'react-icons/ai';
 import { IoReturnUpForward } from 'react-icons/io5';
 import { PageHeader } from 'antd';
 import { useSelector } from 'react-redux';
+import useTokenDecode from '../../hooks/useTokenDecode';
 
 const Navigation = () => {
   const { verified } = useSelector(({ main }) => main);
   const [sign, setSign] = useState(false);
   const { data } = useSelector(({ main }) => main);
   const { pathname } = useLocation();
+  const decoded = useTokenDecode();
+
   const isActive = (page) => {
     let pg = page;
     if (page === 'home') {
@@ -57,7 +60,7 @@ const Navigation = () => {
           Home
         </Link>
         <Link
-          to={data?.isAdmin ? '/chatlist' : '/chat'}
+          to={decoded?.isAdmin ? '/chatlist' : '/chat'}
           className={`l ${isActive('chat') ? 'active' : ''} `}
         >
           Chat

@@ -7,11 +7,12 @@ import { AiOutlinePlus } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getBlogs, getBlogsByCategory } from '../../store/actions/blogAction';
+import useTokenDecode from '../../hooks/useTokenDecode';
 
 const { Option } = Select;
 
 const Blog = () => {
-  const { data } = useSelector(({ main }) => main);
+  const decoded = useTokenDecode();
   const { categories } = useSelector(({ blogs }) => blogs);
   const dispatch = useDispatch();
   const handleChange = (value) => {
@@ -44,7 +45,7 @@ const Blog = () => {
             </Option>
           ))}
         </Select>
-        {data?.isAdmin ? (
+        {decoded?.isAdmin ? (
           <Link to="/addpost" className="addblog">
             <AiOutlinePlus />
           </Link>

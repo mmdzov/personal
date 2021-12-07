@@ -12,6 +12,7 @@ code {
 
 * {
   user-select: none;
+  font-family: Vazir !important;
 }
 
 .App-particles__container {
@@ -181,4 +182,65 @@ body {
 
 .ant-statistic-content-value {
   color: white !important;
+}
+
+@font-face {
+  font-family: Vazir;
+  src: url('./assets/dist/Vazir-Regular.eot');
+  src: url('./assets/dist/Vazir-Regular.eot?#iefix') format('embedded-opentype'),
+    url('./assets/dist/Vazir-Regular.woff2') format('woff2'),
+    url('./assets/dist/Vazir-Regular.woff') format('woff'),
+    url('./assets/dist/Vazir-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: Vazir;
+  src: url('./assets/dist/Vazir-Bold.eot');
+  src: url('./assets/dist/Vazir-Bold.eot?#iefix') format('embedded-opentype'),
+    url('./assets/dist/Vazir-Bold.woff2') format('woff2'),
+    url('./assets/dist/Vazir-Bold.woff') format('woff'),
+    url('./assets/dist/Vazir-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: Vazir;
+  src: url('./assets/dist/Vazir-Black.eot');
+  src: url('./assets/dist/Vazir-Black.eot?#iefix') format('embedded-opentype'),
+    url('./assets/dist/Vazir-Black.woff2') format('woff2'),
+    url('./assets/dist/Vazir-Black.woff') format('woff'),
+    url('./assets/dist/Vazir-Black.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+}
+@font-face {
+  font-family: Vazir;
+  src: url('./assets/dist/Vazir-Medium.eot');
+  src: url('./assets/dist/Vazir-Medium.eot?#iefix') format('embedded-opentype'),
+    url('./assets/dist/Vazir-Medium.woff2') format('woff2'),
+    url('./assets/dist/Vazir-Medium.woff') format('woff'),
+    url('./assets/dist/Vazir-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: Vazir;
+  src: url('./assets/dist/Vazir-Light.eot');
+  src: url('./assets/dist/Vazir-Light.eot?#iefix') format('embedded-opentype'),
+    url('./assets/dist/Vazir-Light.woff2') format('woff2'),
+    url('./assets/dist/Vazir-Light.woff') format('woff'),
+    url('./assets/dist/Vazir-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: Vazir;
+  src: url('./assets/dist/Vazir-Thin.eot');
+  src: url('./assets/dist/Vazir-Thin.eot?#iefix') format('embedded-opentype'),
+    url('./assets/dist/Vazir-Thin.woff2') format('woff2'),
+    url('./assets/dist/Vazir-Thin.woff') format('woff'),
+    url('./assets/dist/Vazir-Thin.ttf') format('truetype');
+  font-weight: 100;
+  font-style: normal;
 }

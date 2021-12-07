@@ -4,6 +4,7 @@ import { useState } from 'react';
 import EditPen from '../utils/EditPen';
 import { useDispatch, useSelector } from 'react-redux';
 import { addTimeline, changeTimeline } from '../../store/actions/mainAction';
+import useTokenDecode from '../../hooks/useTokenDecode';
 
 const { TextArea } = Input;
 
@@ -17,6 +18,7 @@ const Timeline = () => {
   const { data } = useSelector(({ main }) => main);
   const dispatch = useDispatch();
   const [addline, setAddline] = useState(defaultAddline);
+  const decoded = useTokenDecode();
 
   const handleChange = ({ target }) => {
     const { name, value } = target;
@@ -50,7 +52,7 @@ const Timeline = () => {
           </TL.Item>
         ))}
       </TL>
-      {data?.isAdmin ? (
+      {decoded?.isAdmin ? (
         <form onSubmit={(e) => e.preventDefault()}>
           <div className="title">Add Timeline</div>
           <Input

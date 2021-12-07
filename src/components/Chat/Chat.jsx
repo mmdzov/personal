@@ -12,6 +12,7 @@ import {
 import { AiFillClockCircle } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 import { SocketNamespaces } from '../../config/socket';
+import useTokenDecode from '../../hooks/useTokenDecode';
 
 const io = new SocketNamespaces();
 
@@ -19,6 +20,8 @@ const { TextArea } = Input;
 
 const Chat = () => {
   const { user } = useContext(Context);
+  const decoded = useTokenDecode();
+
   const [value, setValue] = useState('');
   const [messages, setMessages] = useState([]);
   useEffect(() => {
@@ -41,7 +44,10 @@ const Chat = () => {
 
         let msgs = [];
         for (let i in result) {
-          msgs.push({ type: 'date', date: i }, { type: 'message', messages: [...result[i]].reverse() });
+          msgs.push(
+            { type: 'date', date: i },
+            { type: 'message', messages: [...result[i]].reverse() },
+          );
         }
         setMessages(msgs);
       });
@@ -165,7 +171,7 @@ const Chat = () => {
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
-    io.chat().emit("send-message",{})
+    io.chat().emit('send-message', {});
     await setChat((prev) => [
       ...prev,
       {
@@ -290,7 +296,7 @@ const Chat = () => {
 
         <div
           className="chatlistIcon"
-          onClick={() => navigate(user?.isAdmin ? '/chatlist' : '/', { replace: true })}
+          onClick={() => navigate(decoded?.isAdmin ? '/chatlist' : '/', { replace: true })}
         >
           <IoReturnUpForward />
         </div>

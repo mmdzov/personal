@@ -113,6 +113,7 @@ export const Container = styled.div`
 
   .date {
     padding-top: 3px;
+    font-size: 0.7rem;
   }
 
   .reply-to-comment {
@@ -173,7 +174,7 @@ export const Container = styled.div`
     margin: 25px 0px;
     margin-right: 5px;
     .comment {
-      background: black;
+      background: #00000040;
       padding: 10px;
       border-radius: 5px;
       margin-bottom: 10px;
@@ -197,7 +198,7 @@ export const Container = styled.div`
 
     .comment-date {
       text-align: right;
-      font-size: 0.8rem;
+      font-size: 0.7rem;
       /* height: 30px; */
       align-items: center;
       display: flex;
@@ -230,7 +231,7 @@ export const Container = styled.div`
     .comment-header {
       display: flex;
       align-items: center;
-
+      margin-bottom: 5px !important;
       .avatar {
         width: 40px;
         height: 40px;
@@ -243,6 +244,7 @@ export const Container = styled.div`
       display: flex;
       justify-content: space-between;
       align-items: center;
+      padding: 5px 0px;
       /* flex-direction: row-reverse; */
     }
     .comment-content {

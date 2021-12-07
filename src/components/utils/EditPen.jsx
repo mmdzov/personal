@@ -1,8 +1,8 @@
 import { IoPencil } from 'react-icons/io5';
-import { useSelector } from 'react-redux';
+import useTokenDecode from '../../hooks/useTokenDecode';
 
 const EditPen = ({ onClick }) => {
-  const { data } = useSelector(({ main }) => main);
+  const data = useTokenDecode();
   if (!data?.isAdmin) return null;
   return (
     <span className="editpen" onClick={onClick}>

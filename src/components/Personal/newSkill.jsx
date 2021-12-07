@@ -5,6 +5,7 @@ import { ChromePicker } from 'react-color';
 import ProgressLine from '../progress/ProgressLine';
 import { useDispatch, useSelector } from 'react-redux';
 import { addSkill, changeSkill } from '../../store/actions/mainAction';
+import useTokenDecode from '../../hooks/useTokenDecode';
 
 const { Group } = Input;
 
@@ -45,8 +46,9 @@ const NewSkill = ({ filledSkill, setFilledSkill = () => {} }) => {
   const handleChangeColor = useCallback((e) => {
     setSkill((prev) => ({ ...prev, color: e?.hex }));
   }, []);
+  const decoded = useTokenDecode();
 
-  if (!data?.isAdmin) return null;
+  if (!decoded?.isAdmin) return null;
   return (
     <Container className="newskill" onSubmit={handleSubmit} id="newSkill">
       <div className="title">Add Skill</div>
