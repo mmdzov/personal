@@ -68,6 +68,9 @@ const Navigation = () => {
         <Link to="/blog" className={`l ${isActive('blog') ? 'active' : ''} `}>
           Blog
         </Link>
+        <Link to="/tags" className={`l ${isActive('tags') ? 'active' : ''} `}>
+          Tags
+        </Link>
       </div>
       {/* <Link to="/notification" className="notification">
           {notifications.some((item) => item.unread) ? <span className="unreadNotifIcon" /> : null}

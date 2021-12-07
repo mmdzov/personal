@@ -65,7 +65,7 @@ const Tags = () => {
         !urlTag ? (
           tags?.length > 0 ? (
             tags?.map((item) => (
-              <div className="tag" onClick={() => handleGoTag(item.name)}>
+              <div className="tag" key={item?.id} onClick={() => handleGoTag(item.name)}>
                 <div className="title">#{item?.name}</div>
                 {/* <div className="posts">{item.posts}</div> */}
               </div>
@@ -75,7 +75,7 @@ const Tags = () => {
           )
         ) : (
           list.map((item) => (
-            <div className="urltag">
+            <div className="urltag" key={item?._id}>
               <Image
                 className="avatar"
                 onClick={() => handleGoBlogPost(item?._id)}
