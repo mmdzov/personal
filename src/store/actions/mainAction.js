@@ -91,6 +91,7 @@ export const verificationUser = (vc, callback) => async (dispatch) => {
       message.warning(result?.error?.title || result?.error?.message);
     } else {
       await callback(result?.data);
+      localStorage.setItem('token', result?.data?.token);
       dispatch({ type: SET_VERIFY, payload: true });
       dispatch({ type: SET_USER, payload: result?.data?.token });
     }

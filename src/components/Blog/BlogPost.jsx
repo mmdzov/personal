@@ -2,7 +2,6 @@ import { Container } from './BlogPost.styled';
 import { useEffect, useRef, useState } from 'react';
 import { AiFillHeart, AiOutlineHeart, AiOutlineClose } from 'react-icons/ai';
 import { Button, Image, Input } from 'antd';
-import { FaReply } from 'react-icons/fa';
 import { useNavigate, useParams } from 'react-router-dom';
 import EditPen from '../utils/EditPen';
 import {
@@ -183,7 +182,8 @@ const BlogPost = () => {
                     <div className="username">{item.from.username}</div>
                   </div>
                   <span className="replyicon" onClick={() => handleReplyComment(item, item?.id)}>
-                    <FaReply />
+                    {/* <FaReply /> */}
+                    Reply
                   </span>
                 </div>
                 <div className="comment-content">{item.comment}</div>
@@ -203,16 +203,17 @@ const BlogPost = () => {
                             fallback={errorImg}
                           />
                           <div className="username">
-                            {reply?.from?.username} <span>to {reply?.from?.username} </span>
+                            {reply?.from?.username} <span>to {reply?.reply_to?.username} </span>
                           </div>
                         </div>
                         <div className="comment-content">{reply?.comment}</div>
-                        <div className="comment-footer">
+                        <div className="comment-footer" style={{ marginLeft: 18 }}>
                           <span
                             className="replyicon"
                             onClick={() => handleReplyComment(reply, item?.id)}
                           >
-                            <FaReply />
+                            {/* <FaReply /> */}
+                            Reply
                           </span>
                           <div className="comment-date">
                             {new Date(reply.date).toLocaleDateString('fa-IR')}

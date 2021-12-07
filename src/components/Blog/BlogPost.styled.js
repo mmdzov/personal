@@ -40,7 +40,7 @@ export const Container = styled.div`
       background: #0000004a;
       box-shadow: -27px -45px 81px 10px inset black;
       width: 100%;
-      
+
       > .title {
         font-size: 1.5rem;
       }
@@ -205,25 +205,26 @@ export const Container = styled.div`
     }
 
     .replyicon {
-      font-size: 1rem;
-      color: #bfbfbf;
+      font-size: 0.8rem;
+      color: #2196f3;
       cursor: pointer;
     }
 
     .username {
       text-align: left;
       > span {
-        color: black;
+        color: #00bcd4;
         margin-left: 5px;
+        font-size: 0.7rem;
       }
     }
 
     .comment-reply {
-      margin: 0 5px;
-      background: #607d8b;
-      padding: 5px 10px;
-      border-radius: 5px;
-      margin-bottom: 5px;
+      /* margin-bottom: 5px; */
+      margin-left: 5px;
+      padding: 10px 0px;
+      padding-left: 10px;
+      border-left: 1px solid #607d8b;
     }
 
     .comment-header {
