@@ -124,6 +124,11 @@ export const Container = styled.div`
           /* direction: rtl; */
           padding-right: 0px;
           padding-left: 3px;
+          direction: rtl;
+
+          .chatitem-seen {
+            padding-right: 0;
+          }
         }
       }
       .chatitem-header {
@@ -146,12 +151,13 @@ export const Container = styled.div`
         align-items: flex-end;
       }
       .chatitem-date {
-        margin-bottom: 6px;
+        margin-bottom: 4px;
       }
       .chatitem-seen {
-        font-size: 1rem;
-        color: #2196f3;
+        font-size: 0.8rem;
+        color: #b5b5b5;
         padding: 0px 5px;
+        line-height: 17px;
         /* padding-top: 5px; */
       }
     }

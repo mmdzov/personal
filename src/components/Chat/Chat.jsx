@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useContext, useState, useEffect, Fragment, useRef } from 'react';
 import Context from '../../context/Context';
 import { Container } from './Chat.styled';
@@ -10,11 +11,12 @@ import {
   IoChatbubbles,
 } from 'react-icons/io5';
 import { AiFillClockCircle } from 'react-icons/ai';
-import { useNavigate } from 'react-router-dom';
-import { SocketNamespaces } from '../../config/socket';
+import { useNavigate, useParams } from 'react-router-dom';
+import { SocketNamespaces, socket } from '../../config/socket';
 import useTokenDecode from '../../hooks/useTokenDecode';
+import { customAlphabet } from 'nanoid';
 
-const io = new SocketNamespaces();
+const io = socket;
 
 const { TextArea } = Input;
 
@@ -22,35 +24,42 @@ const Chat = () => {
   const { user } = useContext(Context);
   const decoded = useTokenDecode();
 
+  const messageDataStructure = (data, mode = 'INIT') => {
+    const result = data
+      .sort((a, b) => b.date - a.date)
+      .reduce((prev, curr) => {
+        const localeDate = new Date(curr.date).toLocaleDateString('fa-IR');
+        if (prev[localeDate]) prev[localeDate].push(curr);
+        else prev[localeDate] = [curr];
+        return prev;
+      }, {});
+
+    let msgs = [];
+    if (mode === 'INIT') {
+      for (let i in result) {
+        msgs.push({ date: i, messages: [...result[i]].reverse() });
+      }
+    }
+    msgs = msgs.reverse();
+    return msgs;
+  };
+
   const [value, setValue] = useState('');
   const [messages, setMessages] = useState([]);
   useEffect(() => {
-    io.chat().on('connect', (socket) => {
+    io.on('connect', (_socket) => {
       console.log('connected');
-      io.chat().on('get-last-messages', (data) => {
-        let d = data.map((item) => {
+      io.on('get-last-messages', (data) => {
+        console.log(data);
+        if (data?.no_messages) return;
+        let d = data?.map((item) => {
           item.message = JSON.parse(item.message);
           return item;
         });
-
-        const result = d
-          .sort((a, b) => b.date - a.date)
-          .reduce((prev, curr) => {
-            const localeDate = new Date(curr.date).toLocaleDateString('fa-IR');
-            if (prev[localeDate]) prev[localeDate].push(curr);
-            else prev[localeDate] = [curr];
-            return prev;
-          }, {});
-
-        let msgs = [];
-        for (let i in result) {
-          msgs.push(
-            { type: 'date', date: i },
-            { type: 'message', messages: [...result[i]].reverse() },
-          );
-        }
+        let msgs = messageDataStructure(d);
         setMessages(msgs);
       });
+      // io.removeAllListeners('get-last-messages');
     });
   }, []);
 
@@ -58,222 +67,70 @@ const Chat = () => {
     const { value } = target;
     setValue(value);
   };
-  const [user_id] = useState(243524325);
-  const [chat, setChat] = useState([
-    {
-      type: 'date',
-      date: Date.now(),
-    },
-    {
-      from: {
-        ...user,
-        user_id: user_id,
-      },
-      message: 'Hie [er l[weprl[werroewr 0wer0 e9wir00w9e riw0er9 iwe ',
-      date: Date.now(),
-      seen: true,
-    },
-    {
-      from: {
-        ...user,
-        user_id: 342394238,
-      },
-      message:
-        'Hi [elr[ pfks sdofk poekw sdpofk pweo kwefpoksdpfok epwo fkw peflsdf[pelf[wps[dflerw ',
-      date: Date.now(),
-      seen: true,
-    },
-    {
-      from: {
-        ...user,
-        user_id: 342394238,
-      },
-      message: 'Hi ',
-      date: Date.now(),
-      seen: true,
-    },
-    {
-      from: {
-        ...user,
-        user_id: user_id,
-      },
-      message: 'Hi',
-      date: Date.now(),
-      seen: false,
-    },
-    {
-      from: {
-        ...user,
-        user_id: 342394238,
-      },
-      message: 'Hi ',
-      date: Date.now(),
-      seen: true,
-    },
-    {
-      from: {
-        ...user,
-        user_id: user_id,
-      },
-      message: 'Hi',
-      date: Date.now(),
-      seen: false,
-    },
-    {
-      from: {
-        ...user,
-        user_id: 342394238,
-      },
-      message: 'Hi ',
-      date: Date.now(),
-      seen: true,
-    },
-    {
-      type: 'date',
-      date: Date.now(),
-    },
-    {
-      from: {
-        ...user,
-        user_id: user_id,
-      },
-      message: 'Hi',
-      date: Date.now(),
-      seen: false,
-    },
-    {
-      from: {
-        ...user,
-        user_id: 342394238,
-      },
-      message: 'Hi ',
-      date: Date.now(),
-      seen: true,
-    },
-    {
-      from: {
-        ...user,
-        user_id: user_id,
-      },
-      message: 'Hi',
-      date: Date.now(),
-      seen: false,
-    },
-  ]);
 
   const msgRef = useRef();
   const msgInputRef = useRef();
   useEffect(() => {
-    if (msgRef?.current) {
-      msgRef.current.scrollTo(0, msgRef.current.scrollHeight);
+    if (messages?.length > 0) {
+      if (msgRef?.current) {
+        msgRef.current.scrollTo(0, msgRef.current.scrollHeight);
+      }
     }
-  }, []);
+  }, [messages]);
+
+  const { uid } = useParams();
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
-    io.chat().emit('send-message', {});
-    await setChat((prev) => [
-      ...prev,
-      {
-        from: {
-          ...user,
-          user_id: user_id,
-        },
-        message: value,
-        date: Date.now(),
-        seen: false,
-        sending: true,
-      },
-    ]);
+    const msgs = messages;
+    const messageId = customAlphabet('1234567890', 10)();
+    let currentDate = new Date().toLocaleDateString('fa-IR');
+    let today = msgs.findIndex((item) => item.date === currentDate);
+    let sendingSchema = {
+      message: { text: value },
+      date: Date.now(),
+      sending: true,
+      from: decoded?._id,
+      message_id: messageId,
+    };
+    if (today >= 0) {
+      msgs[today].messages.push(sendingSchema);
+    } else
+      msgs.push({
+        date: currentDate,
+        messages: [sendingSchema],
+      });
+    await setMessages(msgs);
+    io.emit(
+      'message',
+      JSON.stringify({
+        text: value,
+        to: decoded?.isAdmin ? uid : '',
+        message_id: messageId,
+      }),
+    );
+
+    io.on('callback_message', async (data) => {
+      let result = msgs.map((item) => {
+        if (item?.date === currentDate) {
+          const msgIndex = item.messages.findIndex((msg) => msg.message_id === data.callback_id);
+          item.messages[msgIndex] = data;
+        }
+        return item;
+      });
+      setMessages(result);
+      io.removeAllListeners('callback_message');
+    });
     await setValue('');
-    await msgRef.current.scrollTo(0, msgRef.current.scrollHeight);
     await msgInputRef?.current?.focus();
   };
-  // useEffect(() => {}, [chat]);
-
-  const [newChatData] = useState([
-    {
-      from: {
-        ...user,
-        user_id: user_id,
-      },
-      message: 'value',
-      date: Date.now(),
-      seen: true,
-      sending: false,
-    },
-    {
-      from: {
-        ...user,
-        user_id: user_id,
-      },
-      message: 'value',
-      date: Date.now(),
-      seen: true,
-      sending: false,
-    },
-    {
-      type: 'date',
-      date: Date.now(),
-    },
-    {
-      from: {
-        ...user,
-        user_id: user_id,
-      },
-      message: 'value',
-      date: Date.now(),
-      seen: true,
-      sending: false,
-    },
-    {
-      from: {
-        ...user,
-        user_id: user_id,
-      },
-      message: 'value',
-      date: Date.now(),
-      seen: true,
-      sending: false,
-    },
-    {
-      from: {
-        ...user,
-        user_id: user_id,
-      },
-      message: 'value',
-      date: Date.now(),
-      seen: true,
-      sending: false,
-    },
-    {
-      from: {
-        ...user,
-        user_id: user_id,
-      },
-      message: 'value',
-      date: Date.now(),
-      seen: true,
-      sending: false,
-    },
-    {
-      from: {
-        ...user,
-        user_id: user_id,
-      },
-      message: 'value',
-      date: Date.now(),
-      seen: true,
-      sending: false,
-    },
-  ]);
 
   const handleScrollMessage = async (e) => {
     const st = e.target?.scrollTop;
     if (st === 0) {
-      await setChat((prev) => [...newChatData, ...prev]);
-      console.log();
-      e.target.scrollTo(0, 300);
+      //! get last messages
+      // await setChat((prev) => [...newChatData, ...prev]);
+      // e.target.scrollTo(0, 300);
     }
   };
 
@@ -302,44 +159,44 @@ const Chat = () => {
         </div>
       </div>
       <div className="content scroll" onScroll={handleScrollMessage} ref={msgRef}>
-        {chat.length === 0 ? (
+        {messages.length === 0 ? (
           <div className="startChat">
             <IoChatbubbles />
             <span>گفتگو را آغاز کنید</span>
           </div>
         ) : (
           messages.map((item) => (
-            <Fragment>
-              {item?.type === 'date' ? (
-                <div className="chatdate">
-                  <span>{item.date}</span>
-                  <div className="line" />
-                </div>
-              ) : (
-                item.messages.map((message) => (
-                  <div className={`chatitem ${messages.from === user_id ? 'you' : 'it'}`}>
-                    <div className="chatitem-message">
-                      <div className="message">{message.message.text}</div>
-                      <div className="chatitem-btm-msg">
-                        <div className="chatitem-date">{getChatDate(message.date)}</div>
-                        <div className="chatitem-seen">
-                          {item.from === user_id ? (
-                            <Fragment>
-                              {item?.sending ? (
-                                <AiFillClockCircle />
-                              ) : item.seen ? (
-                                <IoCheckmarkDoneOutline />
-                              ) : (
-                                <IoCheckmarkOutline />
-                              )}
-                            </Fragment>
-                          ) : null}
-                        </div>
+            <Fragment key={Math.round(Math.random() * 9999999999)}>
+              <div className="chatdate">
+                <span>{item.date}</span>
+                <div className="line" />
+              </div>
+              {item.messages.map((message) => (
+                <div
+                  className={`chatitem ${messages.from === decoded?._id ? 'you' : 'it'}`}
+                  key={message?._id}
+                >
+                  <div className="chatitem-message">
+                    <div className="message">{message.message.text}</div>
+                    <div className="chatitem-btm-msg">
+                      <div className="chatitem-date">{getChatDate(message.date)}</div>
+                      <div className="chatitem-seen">
+                        {message.from === decoded?._id ? (
+                          <Fragment>
+                            {message?.sending ? (
+                              <AiFillClockCircle />
+                            ) : message.seen ? (
+                              <IoCheckmarkDoneOutline />
+                            ) : (
+                              <IoCheckmarkOutline />
+                            )}
+                          </Fragment>
+                        ) : null}
                       </div>
                     </div>
                   </div>
-                ))
-              )}
+                </div>
+              ))}
             </Fragment>
           ))
         )}
