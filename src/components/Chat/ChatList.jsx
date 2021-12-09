@@ -1,88 +1,37 @@
 import { Container } from './ChatList.styled';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { IoCheckmarkDoneOutline, IoCheckmarkOutline } from 'react-icons/io5';
 import { AiFillClockCircle } from 'react-icons/ai';
 import LineEllipsis from 'react-lines-ellipsis';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { socket } from '../../config/socket';
+import useTokenDecode from '../../hooks/useTokenDecode';
+
+const io = socket;
 
 const ChatList = () => {
-  const { data } = useSelector(({ main }) => main);
-  const [user_id] = useState(243524325);
-  const [chats] = useState([
-    {
-      user: {
-        ...data,
-        user_id: user_id,
-      },
-      messages: [
-        {
-          from: {
-            ...data,
-            user_id: 342394238,
-          },
-          message: 'Hi ',
-          date: Date.now(),
-          seen: true,
-        },
-        {
-          from: {
-            ...data,
-            user_id: user_id,
-          },
-          message: 'Hi',
-          date: Date.now(),
-          seen: false,
-          sending: false,
-        },
-      ],
-    },
-    {
-      user: {
-        ...data,
-        user_id: 342342432,
-      },
-      messages: [
-        {
-          from: {
-            ...data,
-            user_id: 342394238,
-          },
-          message: 'Hi ',
-          date: Date.now(),
-          seen: true,
-        },
-        {
-          from: {
-            ...data,
-            user_id: 32342342,
-          },
-          message: 'Hi',
-          date: Date.now(),
-          seen: true,
-          sending: false,
-        },
-      ],
-    },
-    {
-      user: {
-        ...data,
-        user_id: user_id,
-      },
-      messages: [],
-    },
-  ]);
-
-  const getLastMsg = (chat) => {
-    return chat?.messages[chat?.messages?.length > 0 ? chat?.messages?.length - 1 : 0];
-  };
-
-  const getUnreadMessageCount = (messages) => {
-    const getUnreadMsgs = messages.filter((item) => !item.seen && item.from.user_id !== user_id);
-    return getUnreadMsgs.length;
-  };
+  const [chats, setChats] = useState([]);
 
   const navigate = useNavigate();
+
+  let decoded = useTokenDecode((decoded) => {
+    if (!decoded?.isAdmin) {
+      navigate('/', { replace: true });
+    } else {
+      io.emit('admin-access', {});
+      io.on('admin-access-result', (data) => {
+        if (data?.access === false) {
+          navigate('/', { replace: true });
+        }
+      });
+    }
+  });
+
+  useEffect(() => {
+    io.on('send-chatlist', (data) => {
+      setChats(data);
+    });
+  }, []);
 
   return (
     <Container>
@@ -91,16 +40,17 @@ const ChatList = () => {
       </div>
       {chats.map((chat) => (
         <div
+          key={Math.floor(Math.random() * 9999999)}
           className="chat"
-          onClick={() => navigate(`/chat/${chat.user.user_id}`, { replace: true })}
+          onClick={() => navigate(`/chat/${chat.user?._id}`, { replace: true })}
         >
-          <img src={chat.user.avatar} alt="" className="avatar" />
+          <img src={chat?.user?.avatar} alt="" className="avatar" />
           <div className="centered-content">
-            <div className="username">{chat.user.username}</div>
+            <div className="username">{chat?.user?.username}</div>
             <div className="message">
               <LineEllipsis
                 className="description"
-                text={getLastMsg(chat)?.message ?? 'No Messages'}
+                text={chat.chat.last_message?.message.text ?? 'No Messages'}
                 maxLine="1"
                 ellipsis="..."
                 trimRight
@@ -109,22 +59,28 @@ const ChatList = () => {
             </div>
           </div>
           <div className="right-content">
-            {getLastMsg(chat)?.from?.user_id === user_id ? (
+            {chat.chat.last_message?.from === decoded?._id ? (
               <div className="">
-                {getLastMsg(chat)?.sending ? (
+                {chat.chat.last_message?.sending ? (
                   <AiFillClockCircle />
-                ) : getLastMsg(chat)?.seen ? (
+                ) : chat.chat.last_message?.seen ? (
                   <IoCheckmarkDoneOutline />
                 ) : (
                   <IoCheckmarkOutline />
                 )}
               </div>
-            ) : getUnreadMessageCount(chat.messages)?.length > 0 ? (
-              <div className="">{getUnreadMessageCount(chat.messages)}</div>
+            ) : chat.chat.unreads?.length > 0 ? (
+              <div className="">{chat.chat?.unreads?.length}</div>
             ) : (
               <span />
             )}
-            <div className="">4:30</div>
+            <div className="">
+              {new Date(chat.chat.last_message.date)
+                .toLocaleTimeString('fa-IR')
+                .split(':')
+                .filter((_, index) => index !== 2)
+                .join(':')}
+            </div>
           </div>
         </div>
       ))}

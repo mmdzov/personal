@@ -47,20 +47,17 @@ const Chat = () => {
   const [value, setValue] = useState('');
   const [messages, setMessages] = useState([]);
   useEffect(() => {
-    io.on('connect', (_socket) => {
-      console.log('connected');
-      io.on('get-last-messages', (data) => {
-        console.log(data);
-        if (data?.no_messages) return;
-        let d = data?.map((item) => {
-          item.message = JSON.parse(item.message);
-          return item;
-        });
-        let msgs = messageDataStructure(d);
-        setMessages(msgs);
+    io.on('get-last-messages', (data) => {
+      console.log(data);
+      if (data?.no_messages) return;
+      let d = data?.map((item) => {
+        item.message = JSON.parse(item.message);
+        return item;
       });
-      // io.removeAllListeners('get-last-messages');
+      let msgs = messageDataStructure(d);
+      setMessages(msgs);
     });
+    // io.removeAllListeners('get-last-messages');
   }, []);
 
   const handleChange = ({ target }) => {

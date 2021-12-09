@@ -6,15 +6,24 @@ const config = {
   withCredentials: true,
   transports: ['polling'],
   secure: true,
-  // auth: {
-  //   authorization: localStorage.getItem('token'),
-  // },
-  extraHeaders: {
-    authorization: localStorage.getItem('token'),
-  },
 };
 
-const socket = io(BASE_URL, config);
+const headers = {
+  authorization: localStorage.getItem('token'),
+};
+
+const socket = io(BASE_URL, {
+  ...config,
+  extraHeaders: headers,
+  
+});
+// const socketAdmin = io(`${BASE_URL}/admin`, {
+//   ...config,
+//   forceNew: true,
+//   auth: {
+//     ...headers,
+//   },
+// });
 
 class SocketNamespaces {
   chat() {
