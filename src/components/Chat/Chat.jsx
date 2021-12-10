@@ -15,14 +15,17 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { SocketNamespaces, socket } from '../../config/socket';
 import useTokenDecode from '../../hooks/useTokenDecode';
 import { customAlphabet } from 'nanoid';
+import { useSelector } from 'react-redux';
 
 const io = socket;
 
 const { TextArea } = Input;
 
 const Chat = () => {
+  const { data } = useSelector(({ main }) => main);
   const { user } = useContext(Context);
   const decoded = useTokenDecode();
+  const { uid } = useParams();
 
   const messageDataStructure = (data, mode = 'INIT') => {
     const result = data
@@ -47,17 +50,22 @@ const Chat = () => {
   const [value, setValue] = useState('');
   const [messages, setMessages] = useState([]);
   useEffect(() => {
-    io.on('get-last-messages', (data) => {
-      console.log(data);
+    io.emit('last-messages', {
+      param: uid ?? data?._id,
+    });
+    io.on('last-message-send', (data) => {
       if (data?.no_messages) return;
       let d = data?.map((item) => {
-        item.message = JSON.parse(item.message);
+        item.message = typeof item?.message === 'string' ? JSON.parse(item.message) : item.message;
         return item;
       });
       let msgs = messageDataStructure(d);
       setMessages(msgs);
     });
-    // io.removeAllListeners('get-last-messages');
+    io.removeAllListeners('get-last-messages');
+    return () => {
+      setMessages([]);
+    };
   }, []);
 
   const handleChange = ({ target }) => {
@@ -75,7 +83,25 @@ const Chat = () => {
     }
   }, [messages]);
 
-  const { uid } = useParams();
+  useEffect(() => {
+    const msgs = messages;
+    io.on('callback_message', async (data) => {
+      let currentDate = new Date().toLocaleDateString('fa-IR');
+      let result = msgs.map((item) => {
+        if (item?.date === currentDate) {
+          const msgIndex = item.messages.findIndex((msg) => msg.message_id === data.callback_id);
+          if (msgIndex >= 0) {
+            item.messages[msgIndex] = data;
+          } else {
+            item.messages.push(data);
+          }
+        }
+        return item;
+      });
+      setMessages(result);
+      io.removeAllListeners('callback_message');
+    });
+  }, [messages]);
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
@@ -107,17 +133,6 @@ const Chat = () => {
       }),
     );
 
-    io.on('callback_message', async (data) => {
-      let result = msgs.map((item) => {
-        if (item?.date === currentDate) {
-          const msgIndex = item.messages.findIndex((msg) => msg.message_id === data.callback_id);
-          item.messages[msgIndex] = data;
-        }
-        return item;
-      });
-      setMessages(result);
-      io.removeAllListeners('callback_message');
-    });
     await setValue('');
     await msgInputRef?.current?.focus();
   };
@@ -170,7 +185,7 @@ const Chat = () => {
               </div>
               {item.messages.map((message) => (
                 <div
-                  className={`chatitem ${messages.from === decoded?._id ? 'you' : 'it'}`}
+                  className={`chatitem ${message.from === decoded?._id ? 'you' : 'it'}`}
                   key={message?._id}
                 >
                   <div className="chatitem-message">

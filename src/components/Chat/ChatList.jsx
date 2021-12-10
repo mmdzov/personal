@@ -6,6 +6,8 @@ import LineEllipsis from 'react-lines-ellipsis';
 import { useNavigate } from 'react-router-dom';
 import { socket } from '../../config/socket';
 import useTokenDecode from '../../hooks/useTokenDecode';
+import errorImg from '../utils/errorImg';
+import { Image } from 'antd';
 
 const io = socket;
 
@@ -31,6 +33,13 @@ const ChatList = () => {
     io.on('send-chatlist', (data) => {
       setChats(data);
     });
+  }, [chats]);
+
+  useEffect(() => {
+    io.emit('get-chatlist', {});
+    io.on('send-chatlist', (data) => {
+      setChats(data);
+    });
   }, []);
 
   return (
@@ -40,11 +49,12 @@ const ChatList = () => {
       </div>
       {chats.map((chat) => (
         <div
-          key={Math.floor(Math.random() * 9999999)}
+          key={chat.id}
           className="chat"
           onClick={() => navigate(`/chat/${chat.user?._id}`, { replace: true })}
         >
-          <img src={chat?.user?.avatar} alt="" className="avatar" />
+          <Image className="avatar" src={chat?.user?.avatar} fallback={errorImg} />
+
           <div className="centered-content">
             <div className="username">{chat?.user?.username}</div>
             <div className="message">
@@ -70,11 +80,11 @@ const ChatList = () => {
                 )}
               </div>
             ) : chat.chat.unreads?.length > 0 ? (
-              <div className="">{chat.chat?.unreads?.length}</div>
+              <div className="unreadMessageCount">{chat.chat?.unreads?.length}</div>
             ) : (
               <span />
             )}
-            <div className="">
+            <div className="" style={{ fontSize: '.7rem' }}>
               {new Date(chat.chat.last_message.date)
                 .toLocaleTimeString('fa-IR')
                 .split(':')

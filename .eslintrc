@@ -48,6 +48,7 @@
     "react/no-danger": "off",
     "no-plusplus": "off",
     "no-empty": "off",
+    "max-classes-per-file": "off",
     "import/no-unresolved": "off",
     "default-param-last": "off",
     "class-methods-use-this": "off",

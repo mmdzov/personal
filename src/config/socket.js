@@ -15,7 +15,6 @@ const headers = {
 const socket = io(BASE_URL, {
   ...config,
   extraHeaders: headers,
-  
 });
 // const socketAdmin = io(`${BASE_URL}/admin`, {
 //   ...config,

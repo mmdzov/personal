@@ -56,9 +56,16 @@ export const Container = styled.div`
     }
     .right-content {
       display: flex;
-      align-items: center;
+      align-items: end;
       flex-direction: column;
       justify-content: space-between;
+      .unreadMessageCount {
+        background: #3f51b5;
+        font-size: 0.7rem;
+        padding: 4px;
+        height: 22px;
+        border-radius: 100px;
+      }
     }
   }
 `;

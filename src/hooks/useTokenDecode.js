@@ -10,7 +10,7 @@ const useTokenDecode = (callback = () => {}) => {
     const decodedData = jwt.decode(token);
     setDecoded(decodedData);
     callback(decodedData);
-  }, []);
+  }, [tokenStore]);
   return decoded;
 };
 
