@@ -88,7 +88,6 @@ export const Container = styled.div`
         width: min-content;
         display: flex;
         padding: 0px 8px;
-        background: #1c1c1c;
         border-radius: 0 10px 10px 10px;
         padding-left: 9px;
         padding-top: 3px;
@@ -104,7 +103,7 @@ export const Container = styled.div`
           padding-left: unset;
           padding-left: 9px;
           border-radius: 10px 0px 10px 10px;
-          background: #607d8b;
+          background: #1c1c1c;
           overflow: hidden;
           .chatitem-btm-msg {
             direction: rtl;
@@ -112,7 +111,7 @@ export const Container = styled.div`
             padding-right: 3px;
           }
           .chatitem-seen {
-            color: black;
+            color: #b5b5b5;
           }
         }
         .message {
@@ -120,6 +119,10 @@ export const Container = styled.div`
         }
       }
       &.it {
+        .chatitem-message {
+          border: 1px solid #181818;
+          background: black;
+        }
         .chatitem-btm-msg {
           /* direction: rtl; */
           padding-right: 0px;
@@ -170,12 +173,14 @@ export const Container = styled.div`
     padding: 5px 0px;
     position: relative;
     > span {
-      font-size: 0.8rem;
-      background: #26384e;
-      padding: 3px 11px;
+      font-size: 0.7rem;
+      background: #0e0e0e;
+      padding: 2px 30px;
       border-radius: 100px;
       z-index: 9999;
+      color: #bbbbbb;
       position: relative;
+      border: 1px solid #121212;
     }
 
     .line {
@@ -183,7 +188,7 @@ export const Container = styled.div`
       height: 1px;
       top: 16px;
       position: absolute;
-      background: #26384e;
+      background: #121212;
     }
   }
 `;

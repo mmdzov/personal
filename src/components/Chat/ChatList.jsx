@@ -53,7 +53,7 @@ const ChatList = () => {
           className="chat"
           onClick={() => navigate(`/chat/${chat.user?._id}`, { replace: true })}
         >
-          <Image className="avatar" src={chat?.user?.avatar} fallback={errorImg} />
+          <Image className="avatar" src={chat?.user?.avatar ?? errorImg} fallback={errorImg} />
 
           <div className="centered-content">
             <div className="username">{chat?.user?.username}</div>
