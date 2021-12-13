@@ -17,6 +17,11 @@ export const Container = styled.div`
     margin: 0px !important;
   }
 
+  .ant-image,
+  .ant-image-error {
+    padding: 0px !important;
+  }
+
   .startChat {
     display: flex;
     flex-direction: column;
@@ -85,7 +90,7 @@ export const Container = styled.div`
     .chatitem {
       margin-bottom: 5px;
       .chatitem-message {
-        width: min-content;
+        width: fit-content;
         display: flex;
         padding: 0px 8px;
         border-radius: 0 10px 10px 10px;
