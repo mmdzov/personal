@@ -11,8 +11,8 @@ const Resume = () => {
   return (
     <Container>
       <Header />
+      <RelatedBlogs />
       <Body>
-        <RelatedBlogs />
         <Skills />
         <div className="">
           {/* {about.map((item, index) => (
