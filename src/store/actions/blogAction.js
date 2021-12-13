@@ -88,7 +88,6 @@ export const setBlogLike = (id, like) => async (dispatch, getState) => {
   const { blog } = getState().blogs;
   blog.liked = !!like;
   blog.likes = like ? blog.likes + 1 : blog.likes - 1;
-  console.log(blog.likes);
   dispatch({ type: LIKE_POST, payload: blog });
 };
 
