@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import styled from 'styled-components';
+import RelatedBlogs from '../Blog/RelatedBlogs';
 import Repos from '../github/Repos';
 import ContactUs from '../Personal/ContactUs';
 import Header from '../Personal/Header';
@@ -11,6 +12,7 @@ const Resume = () => {
     <Container>
       <Header />
       <Body>
+        <RelatedBlogs />
         <Skills />
         <div className="">
           {/* {about.map((item, index) => (
@@ -36,7 +38,7 @@ const Resume = () => {
 };
 
 const Container = styled.div`
-  padding: 10px 15px;
+  /* padding: 10px 15px; */
 
   .about {
     display: flex;

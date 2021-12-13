@@ -26,6 +26,7 @@
     "react-draft-wysiwyg": "^1.14.7",
     "react-icons": "^4.3.1",
     "react-image-crop": "^9.0.5",
+    "react-indiana-drag-scroll": "^2.1.0",
     "react-intersection-observer": "^8.33.0",
     "react-lines-ellipsis": "^0.15.0",
     "react-loading": "^2.0.3",

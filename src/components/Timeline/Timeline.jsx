@@ -106,9 +106,9 @@ const Container = styled.div`
     color: #dfdfdf;
   }
   .timeline-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    /* display: flex; */
+    /* justify-content: space-between; */
+    /* align-items: center; */
     .editpen {
       position: unset !important;
     }
