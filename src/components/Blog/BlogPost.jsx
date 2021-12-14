@@ -89,6 +89,7 @@ const BlogPost = () => {
       left: 0,
       behavior: 'smooth',
     });
+    commentSendFormInput.current?.focus();
     setReply({ ...rep, commentId });
   };
 
