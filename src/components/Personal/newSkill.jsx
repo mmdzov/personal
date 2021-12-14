@@ -99,7 +99,7 @@ const NewSkill = ({ filledSkill, setFilledSkill = () => {} }) => {
 
 const Container = styled.form`
   padding: 10px 15px;
-  background: #13182e94;
+  background: #08090d;
   margin-bottom: 20px;
   border-radius: 6px;
   /* box-shadow: 0 5px 10px 1px black; */

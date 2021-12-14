@@ -202,7 +202,8 @@ const BlogPost = () => {
                   <div className="comment-header">
                     <div className="">
                       <Image
-                        src={item?.from?.avatar}
+                        preview={false}
+                        src={item?.from?.avatar || errorImg}
                         style={{ width: 40, height: 40 }}
                         alt=""
                         fallback={errorImg}
@@ -231,9 +232,10 @@ const BlogPost = () => {
                         >
                           <div className="comment-header">
                             <Image
-                              src={reply.from.avatar}
+                              src={reply.from.avatar || errorImg}
                               style={{ width: 40, height: 40 }}
                               alt=""
+                              preview={false}
                               fallback={errorImg}
                             />
                             <div className="username">

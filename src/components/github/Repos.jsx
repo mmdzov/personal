@@ -170,7 +170,7 @@ const Container = styled.div`
       align-items: center;
       font-size: 0.8rem;
       height: 23px;
-      background: #19203e;
+      background: #0b0c12;
       padding: 0px 10px;
       border-radius: 75px;
       line-height: 2px;

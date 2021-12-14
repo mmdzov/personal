@@ -71,7 +71,7 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  background: #19203e;
+  background: #0b0c12;
   color: whitesmoke;
   overflow-y: auto;
   overflow-x: hidden;

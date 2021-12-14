@@ -64,6 +64,7 @@ export const Container = styled.div`
     /* height: 30px; */
     align-items: center;
     flex-wrap: wrap;
+    margin-bottom: 20px;
     .tag {
       padding: 0 5px;
       margin: 0 5px;

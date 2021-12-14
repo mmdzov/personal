@@ -10,7 +10,7 @@ function PrivateRoute({ children }) {
   ) : (
     <div
       style={{
-        background: '#19203e',
+        background: '#0b0c12',
         position: 'fixed',
         width: '100%',
         height: '100%',

@@ -76,6 +76,9 @@ export const getBlogsByTag = (tag) => async (dispatch) => {
 
 export const getSingleBlog = (id) => async (dispatch) => {
   const { data } = await blogRequest.getSingleBlog(id);
+  if (data?.comments && data?.comments?.length > 0) {
+    data.comments = data.comments?.reverse();
+  }
   dispatch({ type: SET_BLOG, payload: data });
 };
 
@@ -99,7 +102,7 @@ export const setCommentReply = (id, comment) => async (dispatch, getState) => {
   }
   const { blog } = getState().blogs;
   const commentIndex = blog.comments.findIndex((item) => item?.id === comment.comment_parent_id);
-  blog.comments[commentIndex].replies.push(data);
+  blog.comments[commentIndex].replies.unshift(data);
   dispatch({ type: SET_COMMENT_REPLY, payload: blog });
 };
 
