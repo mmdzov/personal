@@ -11,7 +11,7 @@ const RelatedBlogs = () => {
       <div className="sec-title">Related Posts</div>
       <Container horizontal className="scroll-container">
         {data?.related_blogs?.map((item) => (
-          <BlogItem blog={item} />
+          <BlogItem blog={item} key={item?._id} />
         ))}
       </Container>
     </div>

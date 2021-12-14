@@ -14,6 +14,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import errorImg from '../utils/errorImg';
 import useTokenDecode from '../../hooks/useTokenDecode';
+import setAlign from '../../utils/setAlign';
 
 const { TextArea } = Input;
 
@@ -117,19 +118,32 @@ const BlogPost = () => {
       <div className="header">
         <img src={blog?.image} alt="" />
         <div className="">
-          <div className="title">{blog?.title}</div>
-          <div className="description">{blog?.description}</div>
+          <div className="title" style={{ textAlign: setAlign(blog?.title) }}>
+            {blog?.title}
+          </div>
+          <div className="description" style={{ textAlign: setAlign(blog?.title) }}>
+            {blog?.description}
+          </div>
         </div>
       </div>
       <div className="tags">
         {blog?.tags?.map((item) => (
-          <div className="tag" onClick={() => handleGoTag(item?.name)}>
+          <div
+            className="tag"
+            key={item?._id}
+            onClick={() => handleGoTag(item?.name)}
+            style={{ textAlign: setAlign(blog?.description) }}
+          >
             #{item?.name}
           </div>
         ))}
       </div>
 
-      <div className="content" dangerouslySetInnerHTML={{ __html: blog?.content }} />
+      <div
+        className="content"
+        dangerouslySetInnerHTML={{ __html: blog?.content }}
+        style={{ textAlign: setAlign(blog?.content) }}
+      />
       <div className="like-date">
         <div className="likes">
           <span onClick={handleLikePost}>
@@ -166,6 +180,7 @@ const BlogPost = () => {
           id="textarea"
           className="scroll"
           ref={commentSendFormInput}
+          style={{ textAlign: setAlign(value) }}
           autoSize={{ minRows: 1, maxRows: 3 }}
         />
         <Button type="primary" onClick={handleSendComment}>
@@ -177,7 +192,7 @@ const BlogPost = () => {
         {blog?.comments !== null || blog.comments.every((item) => item !== null)
           ? blog?.comments?.length > 0
             ? blog?.comments?.map((item) => (
-                <div className="comment">
+                <div className="comment" key={item?._id || Math.floor(Math.random() * 999999)}>
                   <div className="comment-header">
                     <div className="">
                       <Image
@@ -193,7 +208,12 @@ const BlogPost = () => {
                       Reply
                     </span>
                   </div>
-                  <div className="comment-content">{item?.comment}</div>
+                  <div
+                    className="comment-content"
+                    style={{ textAlign: setAlign(item?.comment) }}
+                  >
+                    {item?.comment}
+                  </div>
                   <div className="comment-footer">
                     <div className="comment-date">
                       {new Date(item?.date).toLocaleDateString('fa-IR')} -{' '}
@@ -202,7 +222,10 @@ const BlogPost = () => {
                   </div>
                   {item?.replies?.length > 0
                     ? item?.replies?.map((reply) => (
-                        <div className="comment-reply">
+                        <div
+                          className="comment-reply"
+                          key={item?._id || Math.floor(Math.random() * 999999)}
+                        >
                           <div className="comment-header">
                             <Image
                               src={reply.from.avatar}
@@ -214,7 +237,12 @@ const BlogPost = () => {
                               {reply?.from?.username} <span>to {reply?.reply_to?.username} </span>
                             </div>
                           </div>
-                          <div className="comment-content">{reply?.comment}</div>
+                          <div
+                            className="comment-content"
+                            style={{ textAlign: setAlign(reply?.comment) }}
+                          >
+                            {reply?.comment}
+                          </div>
                           <div className="comment-footer" style={{ marginLeft: 18 }}>
                             <span
                               className="replyicon"

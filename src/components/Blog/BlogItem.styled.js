@@ -38,7 +38,7 @@ export const Container = styled.div`
     }
 
     .description {
-      max-height: 62px;
+      height: 62px;
       overflow: hidden;
       padding: 0 10px;
       font-size: 0.8rem;
@@ -65,20 +65,23 @@ export const Container = styled.div`
       }
     }
     .tags {
+      display: flex !important;
+      flex-wrap: nowrap;
       width: 100%;
-      display: flex;
-      /* height: 35px; */
-      align-items: center;
       overflow-x: auto;
       overflow-y: hidden;
+      /* height: 35px; */
+      align-items: center;
+      /* overflow: hidden; */
       padding-bottom: 10px;
       margin-top: 10px;
-      flex-wrap: wrap;
       .tag {
         color: #03a9f4;
         cursor: pointer;
         margin: 0 2px;
         padding: 0 5px;
+        white-space: nowrap;
+        font-size: 0.8rem;
       }
     }
   }

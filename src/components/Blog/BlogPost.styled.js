@@ -43,6 +43,7 @@ export const Container = styled.div`
 
       > .title {
         font-size: 1.5rem;
+        margin-bottom: 10px;
       }
       > .description {
         font-size: 0.8rem;

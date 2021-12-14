@@ -17,7 +17,7 @@ const Routes = () => {
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
         <Route path="blog" element={<Blog />} />
-        <Route path="blog/:post" caseSensitive element={<BlogPost />} />
+        <Route path="blog/:post/:title" caseSensitive element={<BlogPost />} />
         <Route path="tags" caseSensitive element={<Tags />} />
         <Route path="tags/:tag" caseSensitive element={<Tags />} />
 
