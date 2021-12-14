@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getBlogs, getBlogsByCategory } from '../../store/actions/blogAction';
 import useTokenDecode from '../../hooks/useTokenDecode';
+import { Helmet } from 'react-helmet';
 
 const { Option } = Select;
 
@@ -28,6 +29,10 @@ const Blog = () => {
 
   return (
     <Container>
+      <Helmet>
+        <title>بلاگ | Personal</title>
+        {/* <meta name="description" content='' /> */}
+      </Helmet>
       <div className="categorylist">
         <Select
           defaultValue={'all'}

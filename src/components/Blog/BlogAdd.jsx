@@ -13,6 +13,7 @@ import PostImage from '../../assets/img/post.jpg';
 import dataURLtoFile from '../../utils/dataURLToFile';
 import { useDispatch, useSelector } from 'react-redux';
 import { addBlog, getTags, setPostImage } from '../../store/actions/blogAction';
+import { Helmet } from 'react-helmet';
 
 const { TextArea, Group } = Input;
 const { Option } = Select;
@@ -68,7 +69,7 @@ const BlogAdd = () => {
     fd.append('content', content.textContent);
     fd.append('image', values.image?.file);
 
-    await dispatch(addBlog(fd,navigate));
+    await dispatch(addBlog(fd, navigate));
   };
 
   const [selectedImage, setSelectedImage] = useState({
@@ -161,6 +162,17 @@ const BlogAdd = () => {
 
   return (
     <Container>
+      {state?.data && Object.keys(state?.data)?.length > 0 ? (
+        <Helmet>
+          <title>ویرایش پست | Personal</title>
+          {/* <meta name="description" content='' /> */}
+        </Helmet>
+      ) : (
+        <Helmet>
+          <title>افزودن پست | Personal</title>
+          {/* <meta name="description" content='' /> */}
+        </Helmet>
+      )}
       {selectedImage?.src ? (
         <CropImage
           openCrop={openCrop}

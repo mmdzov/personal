@@ -17,6 +17,7 @@ import useTokenDecode from '../../hooks/useTokenDecode';
 import { customAlphabet } from 'nanoid';
 import { useSelector } from 'react-redux';
 import errorImg from '../utils/errorImg';
+import { Helmet } from 'react-helmet';
 
 const io = socket;
 
@@ -231,6 +232,10 @@ const Chat = () => {
 
   return (
     <Container>
+      <Helmet>
+        <title>چت با مدیر | Personal</title>
+        {/* <meta name="description" content='' /> */}
+      </Helmet>
       <div className="header">
         <div className="">
           {decoded?.isAdmin ? (

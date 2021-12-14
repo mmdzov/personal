@@ -8,6 +8,7 @@ import { socket } from '../../config/socket';
 import useTokenDecode from '../../hooks/useTokenDecode';
 import errorImg from '../utils/errorImg';
 import { Image } from 'antd';
+import { Helmet } from 'react-helmet';
 
 const io = socket;
 
@@ -44,6 +45,10 @@ const ChatList = () => {
 
   return (
     <Container>
+      <Helmet>
+        <title>لیست افراد | Personal</title>
+        {/* <meta name="description" content='' /> */}
+      </Helmet>
       <div className="title" onClick={() => navigate('/', { replace: true })}>
         Chatlist
       </div>

@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import errorImg from '../utils/errorImg';
 import useTokenDecode from '../../hooks/useTokenDecode';
 import setAlign from '../../utils/setAlign';
+import { Helmet } from 'react-helmet';
 
 const { TextArea } = Input;
 
@@ -110,6 +111,11 @@ const BlogPost = () => {
 
   return (
     <Container ref={containerRef}>
+      <Helmet>
+        <title>{`${blog?.title}`} | Personal</title>
+        <meta name="description" content={blog?.description} />
+      </Helmet>
+
       {decoded?.isAdmin ? (
         <div className="tools">
           <EditPen onClick={handleEditPost} />
@@ -208,10 +214,7 @@ const BlogPost = () => {
                       Reply
                     </span>
                   </div>
-                  <div
-                    className="comment-content"
-                    style={{ textAlign: setAlign(item?.comment) }}
-                  >
+                  <div className="comment-content" style={{ textAlign: setAlign(item?.comment) }}>
                     {item?.comment}
                   </div>
                   <div className="comment-footer">

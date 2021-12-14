@@ -5,6 +5,7 @@ import { Image, Input } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { searchTags, getTags, getBlogsByTag } from '../../store/actions/blogAction';
 import errorImg from '../utils/errorImg';
+import { Helmet } from 'react-helmet';
 
 const { Search } = Input;
 
@@ -22,8 +23,9 @@ const Tags = () => {
     }
   }, [urlTag]);
   const [searchLoading, setSearchLoading] = useState(false);
-  const handleGoBlogPost = (id) => {
-    navigate(`/blog/${id}`);
+  const handleGoBlogPost = (blog) => {
+    let title = blog.title.split(' ').join('-');
+    navigate(`/blog/${blog?.blog_id}/${title}`);
   };
   const handleGoTag = (tag) => {
     navigate(tag);
@@ -44,6 +46,17 @@ const Tags = () => {
 
   return (
     <Container>
+      {urlTag ? (
+        <Helmet>
+          <title>{`#${urlTag}`} | Personal</title>
+          {/* <meta name="description" content='' /> */}
+        </Helmet>
+      ) : (
+        <Helmet>
+          <title>تگ ها | Personal</title>
+          {/* <meta name="description" content='' /> */}
+        </Helmet>
+      )}
       {urlTag ? null : (
         <form onSubmit={(e) => e.preventDefault()}>
           <Search
@@ -78,12 +91,12 @@ const Tags = () => {
             <div className="urltag" key={item?._id}>
               <Image
                 className="avatar"
-                onClick={() => handleGoBlogPost(item?._id)}
+                onClick={() => handleGoBlogPost(item)}
                 src={item?.image}
                 preview={false}
                 fallback={errorImg}
               />
-              <div className="title" onClick={() => handleGoBlogPost(item?._id)}>
+              <div className="title" onClick={() => handleGoBlogPost(item)}>
                 {item?.title}
               </div>
             </div>
