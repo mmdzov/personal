@@ -54,6 +54,8 @@
     "default-param-last": "off",
     "class-methods-use-this": "off",
     "no-underscore-dangle": "off",
-    "no-param-reassign": "off"
+    "no-param-reassign": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/no-unstable-nested-components": "off"
   }
 }
