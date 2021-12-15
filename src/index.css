@@ -98,7 +98,7 @@ body {
 }
 
 .ant-modal-body {
-  direction: rtl !important;
+  /* direction: rtl !important; */
   border: unset !important;
   padding: 15px 19px !important;
 }

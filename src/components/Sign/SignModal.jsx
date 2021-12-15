@@ -253,6 +253,9 @@ const SignModal = ({ showModal = false, setShowModal }) => {
         okText={signIn ? 'Sign-in' : 'Sign-up'}
         cancelText="Cancel"
         closable={false}
+        bodyStyle={{
+          direction: 'rtl',
+        }}
         maskClosable={false}
       >
         <div className="switchSign">

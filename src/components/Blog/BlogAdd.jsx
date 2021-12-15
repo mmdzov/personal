@@ -117,11 +117,11 @@ const BlogAdd = () => {
     if (!state) return;
     if (Object.keys(state?.data)?.length > 0) {
       const { data } = state;
-      console.log(
-        data.tags.map((item) => {
-          return item.name;
-        }),
-      );
+      // console.log(
+      //   data.tags.map((item) => {
+      //     return item.name;
+      //   }),
+      // );
       setValues({
         tags: data.tags.map((item) => {
           return item.name;
@@ -211,7 +211,7 @@ const BlogAdd = () => {
             onChange={handleChangeCat}
           >
             {categories.map((item) => (
-              <Option value={item?.name} className="option">
+              <Option value={item?.name} key={item?._id} className="option">
                 {item?.name}
               </Option>
             ))}
@@ -247,7 +247,7 @@ const BlogAdd = () => {
           {post_images.length > 0 ? (
             <div className="uploads">
               {post_images.map((item) => (
-                <img src={item ?? ''} alt="" onClick={() => copyToClipboard(item)} />
+                <img src={item ?? ''} alt="" key={item} onClick={() => copyToClipboard(item)} />
               ))}
             </div>
           ) : null}

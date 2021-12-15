@@ -24,6 +24,19 @@ export const Container = styled.div`
       /* top: -40px !important; */
       top: 0px !important;
     }
+    .rdw-image-modal,
+    .rdw-embedded-modal,
+    .rdw-link-modal {
+      left: -154px !important;
+    }
+  }
+
+  @media (min-width: 561px) {
+    .rdw-image-modal,
+    .rdw-embedded-modal,
+    .rdw-link-modal {
+      left: -180px !important;
+    }
   }
 
   .post-avatar {
@@ -80,12 +93,6 @@ export const Container = styled.div`
   }
   .rdw-emoji-modal {
     left: -200px !important;
-  }
-
-  .rdw-image-modal,
-  .rdw-embedded-modal,
-  .rdw-link-modal {
-    left: 154px !important;
   }
 
   .uploads {

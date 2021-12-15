@@ -116,3 +116,11 @@ export const setComment = (id, comment) => async (dispatch, getState) => {
   blog.comments.unshift(data);
   dispatch({ type: SET_COMMENT, payload: blog });
 };
+
+export const blogDelete =
+  (id, redirect = () => {}) =>
+  async () => {
+    const { status } = await blogRequest.deleteBlog(id);
+    console.log(status);
+    redirect('/blog');
+  };

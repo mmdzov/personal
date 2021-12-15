@@ -12,7 +12,6 @@ const BlogItem = ({ blog }) => {
 
   const openBlogPost = (post) => {
     let title = post.split(' ').join('-');
-    console.log(title);
     navigate(`/blog/${blog?.blog_id}/${title}`);
   };
 

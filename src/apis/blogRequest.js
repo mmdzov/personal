@@ -66,6 +66,13 @@ class BlogRequest {
     const { data } = await privateRequest.post(`/blogs/blogpost/comment/${id}`, comment);
     return data;
   }
+
+  async deleteBlog(blog_id) {
+    const { data } = await privateRequest.post(`/admin/blog-remove`, {
+      blog_id,
+    });
+    return data;
+  }
 }
 
 export default BlogRequest;

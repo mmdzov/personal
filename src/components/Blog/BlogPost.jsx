@@ -5,6 +5,7 @@ import { Button, Image, Input } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
 import EditPen from '../utils/EditPen';
 import {
+  blogDelete,
   getSingleBlog,
   setBlogLike,
   setComment,
@@ -16,6 +17,7 @@ import errorImg from '../utils/errorImg';
 import useTokenDecode from '../../hooks/useTokenDecode';
 import setAlign from '../../utils/setAlign';
 import { Helmet } from 'react-helmet';
+import DeleteIcon from '../utils/DeleteIcon';
 
 const { TextArea } = Input;
 
@@ -108,6 +110,11 @@ const BlogPost = () => {
       },
     });
   };
+
+  const handleDeleteBlog = () => {
+    dispatch(blogDelete(blog?.blog_id, navigate));
+  };
+
   const decoded = useTokenDecode();
 
   return (
@@ -120,6 +127,7 @@ const BlogPost = () => {
       {decoded?.isAdmin ? (
         <div className="tools">
           <EditPen onClick={handleEditPost} />
+          <DeleteIcon title="Delete Blog" onClick={handleDeleteBlog} />
         </div>
       ) : null}
       <div className="header">
@@ -187,7 +195,10 @@ const BlogPost = () => {
           id="textarea"
           className="scroll"
           ref={commentSendFormInput}
-          style={{ textAlign: setAlign(value) }}
+          style={{
+            textAlign: setAlign(value),
+            direction: setAlign(value) === 'right' ? 'rtl' : 'ltr',
+          }}
           autoSize={{ minRows: 1, maxRows: 3 }}
         />
         <Button type="primary" onClick={handleSendComment}>

@@ -31,6 +31,9 @@ function CropImage({
       okText="crop"
       cancelText="close"
       closable={false}
+      bodyStyle={{
+        direction: 'rtl',
+      }}
       className="cropImgModal"
       maskClosable={false}
     >

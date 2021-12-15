@@ -12,10 +12,14 @@ export const Container = styled.div`
   .tools {
     height: 30px;
     position: relative;
+    display: flex;
+    flex-direction: row-reverse;
+
     .editpen {
       left: unset;
       right: 0;
       bottom: 0;
+      position: unset !important;
     }
   }
 
