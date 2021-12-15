@@ -223,11 +223,10 @@ export const Container = styled.div`
     }
 
     .comment-reply {
-      /* margin-bottom: 5px; */
-      margin-left: 5px;
+      margin-left: 0px;
       padding: 10px 0px;
-      padding-left: 10px;
-      border-left: 1px solid #607d8b;
+      padding-left: 8px;
+      border-left: 2px solid #e9eefbb0;
     }
 
     .comment-header {

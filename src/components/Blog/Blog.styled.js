@@ -11,10 +11,14 @@ export const Container = styled.div`
 
     .select {
       width: 120px;
-      background: #e7e7e7;
-      color: black;
-      margin: 0 10px;
-      border-radius: 5px;
+      background: transparent !important;
+      color: #3f51b5;
+      border-bottom: 1px solid #3f51b5;
+      border-radius: 0;
+    }
+
+    .ant-select-arrow {
+      color: #3f51b5;
     }
   }
   .pages {

@@ -11,13 +11,18 @@ export const Container = styled.div`
     align-items: center;
     padding: 10px;
     font-size: 1rem;
-    background: black;
-    margin: 0 5px;
+    background: #000000db;
+    margin: 0 9px;
     margin-bottom: 10px;
     color: #2196f3;
     cursor: pointer;
+    border-radius: 10px;
+    box-sizing: border-box;
+    padding-top: 14px;
+    transition: 0.4s all;
 
     .title {
+      font-size: 0.9rem;
     }
 
     .posts {
@@ -26,10 +31,22 @@ export const Container = styled.div`
     }
   }
 
+  .tag:active,
+  .tag:hover {
+    background: #3f51b5;
+    color: white;
+    transition: 0.4s all;
+  }
+
   .notfound {
     font-size: 1rem;
     padding: 76px 0px;
     color: #cdcdcd;
+  }
+
+  .ant-input-group-addon {
+    border-radius: 2px;
+    overflow: hidden;
   }
 
   .header {
@@ -81,8 +98,8 @@ export const Container = styled.div`
 
   .ant-btn.ant-btn-icon-only.ant-input-search-button {
     color: #ffffff !important;
-    border-radius: 10px !important;
-    background: #607d8b !important;
+    border-radius: 2px !important;
+    background: transparent !important;
   }
 
   .ant-input-group-addon {

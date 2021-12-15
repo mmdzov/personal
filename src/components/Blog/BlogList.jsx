@@ -28,7 +28,7 @@ const BlogList = () => {
     <Container>
       <div className="bloglist">
         {list.map((item) => (
-          <BlogItem blog={item} />
+          <BlogItem blog={item} key={item?._id} />
         ))}
       </div>
       <div className="pages">

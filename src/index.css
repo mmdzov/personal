@@ -184,6 +184,24 @@ body {
   color: white !important;
 }
 
+.ant-select-dropdown {
+  background: black !important;
+}
+
+.ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+  color: white !important;
+  background-color: #3f51b5 !important;
+}
+
+.ant-select-item-option-active:not(.ant-select-item-option-disabled) {
+  background-color: #3f51b5 !important;
+  color: white !important;
+}
+
+.ant-select-item {
+  color: white !important;
+}
+
 @font-face {
   font-family: Vazir;
   src: url('./assets/dist/Vazir-Regular.eot');
