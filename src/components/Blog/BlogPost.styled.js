@@ -23,6 +23,17 @@ export const Container = styled.div`
     }
   }
 
+  .reply-comment-container {
+    display: flex;
+    align-items: center;
+}
+    .editpen {
+      position: unset;
+      padding-bottom: 3px;
+      
+    }
+  }
+
   .header {
     margin: 20px auto;
     position: relative;

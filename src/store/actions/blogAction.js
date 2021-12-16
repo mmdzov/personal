@@ -124,3 +124,19 @@ export const blogDelete =
     console.log(status);
     redirect('/blog');
   };
+
+export const deleteReplyComment =
+  (data = { reply_comment_id: '', comment_id: '' }) =>
+  async (dispatch, getState) => {
+    const { blog } = getState().blogs;
+    const { status } = await blogRequest.deleteReplyComment({ blog_id: blog?.blog_id, ...data });
+    if (status === 0) return;
+    const commentIndex = blog.comments.findIndex((item) => item?.id === data?.comment_id);
+    const replyIndex = blog.comments[commentIndex].replies?.findIndex(
+      (item) => item.id === data?.reply_comment_id,
+    );
+    blog.comments[commentIndex].replies = blog.comments[commentIndex].replies.filter(
+      (_, index) => index !== replyIndex,
+    );
+    dispatch({ type: SET_BLOG, payload: blog });
+  };

@@ -2,10 +2,16 @@ import BlogPostReplyComment from './BlogPostReplyComment';
 import { Image } from 'antd';
 import errorImg from '../utils/errorImg';
 import setAlign from '../../utils/setAlign';
+import DeleteIcon from '../utils/DeleteIcon';
+import useTokenDecode from '../../hooks/useTokenDecode';
 
 const BlogPostComment = ({ comment, onReply = () => {} }) => {
+  const decoded = useTokenDecode();
+  const handleDeleteComment = () => {
+    console.log('deleted ');
+  };
   return (
-    <div className="comment" >
+    <div className="comment">
       <div className="comment-header">
         <div className="">
           <Image
@@ -17,10 +23,15 @@ const BlogPostComment = ({ comment, onReply = () => {} }) => {
           />
           <div className="username">{comment?.from?.username}</div>
         </div>
-        <span className="replyicon" onClick={() => onReply(comment, comment?.id)}>
-          {/* <FaReply /> */}
-          Reply
-        </span>
+        <div className="reply-comment-container">
+          {decoded?._id === comment?.from?._id || decoded?.isAdmin ? (
+            <DeleteIcon title="Delete Comment" onClick={handleDeleteComment} />
+          ) : null}
+          <span className="replyicon" onClick={() => onReply(comment, comment?.id)}>
+            {/* <FaReply /> */}
+            Reply
+          </span>
+        </div>
       </div>
       <div className="comment-content" style={{ textAlign: setAlign(comment?.comment) }}>
         {comment?.comment}
