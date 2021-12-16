@@ -4,11 +4,15 @@ import errorImg from '../utils/errorImg';
 import setAlign from '../../utils/setAlign';
 import DeleteIcon from '../utils/DeleteIcon';
 import useTokenDecode from '../../hooks/useTokenDecode';
+import { useDispatch } from 'react-redux';
+import { deleteComment } from '../../store/actions/blogAction';
 
 const BlogPostComment = ({ comment, onReply = () => {} }) => {
   const decoded = useTokenDecode();
+  const dispatch = useDispatch();
+
   const handleDeleteComment = () => {
-    console.log('deleted ');
+    dispatch(deleteComment({ comment_id: comment?.id }));
   };
   return (
     <div className="comment">
