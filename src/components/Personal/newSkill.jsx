@@ -41,6 +41,7 @@ const NewSkill = ({ filledSkill, setFilledSkill = () => {} }) => {
       dispatch(addSkill(skill));
     }
     setSkill(defaultSkill);
+    setPick(false)
   };
 
   const handleChangeColor = useCallback((e) => {

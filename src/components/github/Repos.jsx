@@ -130,17 +130,17 @@ const LoadingContainer = styled.div`
 
 const Container = styled.div`
   .seeMore {
-    height: 40px;
+    height: 35px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 100px;
+    border-radius: 10px;
     box-shadow: 2px 5px 8px -5px black;
     margin: 10px 0px;
-    border: 1px solid #00000057;
-    font-size: 1.1rem;
-    padding-bottom: 5px;
+    border: 1px solid #0000008c;
+    font-size: 0.9rem;
     cursor: pointer;
+    padding-top: 3px;
   }
   .repo {
     background: #0a0a0a;
@@ -204,9 +204,9 @@ const Container = styled.div`
           line-height: 8px;
         }
         > svg {
-          font-size: 1rem;
+          font-size: 1.5rem;
           padding: 0 4px;
-          margin-top: 3px;
+          padding-bottom: 3px;
         }
       }
     }
