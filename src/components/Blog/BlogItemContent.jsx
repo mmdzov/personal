@@ -1,4 +1,3 @@
-import setAlign from '../../utils/setAlign';
 import { useSelector } from 'react-redux';
 
 const BlogItemContent = () => {
@@ -8,7 +7,7 @@ const BlogItemContent = () => {
     <div
       className="content"
       dangerouslySetInnerHTML={{ __html: blog?.content }}
-      style={{ textAlign: setAlign(blog?.content) }}
+      // style={{ textAlign: setAlign(blog?.content) }}
     />
   );
 };
