@@ -97,3 +97,13 @@ export const verificationUser = (vc, callback) => async (dispatch) => {
     }
   } catch (e) {}
 };
+
+export const deleteSkill = (id) => async (dispatch, getState) => {
+  const { status } = await main.deleteSkill(id);
+
+  if (!status) return null;
+  const { data } = getState().main;
+  const skills = data.skills.filter((item) => item.id !== id);
+  console.log(skills);
+  dispatch({ type: CHANGE_SKILL, payload: skills });
+};

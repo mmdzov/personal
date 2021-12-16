@@ -53,6 +53,11 @@ class MainRequest {
     const result = await privateRequest.post('/admin/change-timeline', timeline);
     return result;
   }
+
+  async deleteSkill(id) {
+    const { data } = await privateRequest.post('/admin/remove-skill', { id });
+    return data;
+  }
 }
 
 export default MainRequest;

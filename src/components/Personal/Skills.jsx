@@ -2,14 +2,21 @@ import styled from 'styled-components';
 import ProgressLine from '../progress/ProgressLine';
 import { useState } from 'react';
 import EditPen from '../utils/EditPen';
+import DeleteIcon from '../utils/DeleteIcon';
 import NewSkill from './newSkill';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteSkill } from '../../store/actions/mainAction';
 
 const Skills = () => {
   const { data } = useSelector(({ main }) => main);
   const [filledSkill, setFilledSkill] = useState({});
+  const dispatch = useDispatch();
   const handleEditSkill = (skill, index) => {
     setFilledSkill({ ...skill, index });
+  };
+
+  const handleDeleteSkill = (skill) => {
+    dispatch(deleteSkill(skill?.id));
   };
 
   return (
@@ -29,7 +36,16 @@ const Skills = () => {
                 },
               ]}
             />
-            <EditPen onClick={() => handleEditSkill(item, index)} setFilledSkill={setFilledSkill} />
+            <div className="tools">
+              <DeleteIcon
+                title={`Delete Skill ${item?.name}`}
+                onClick={() => handleDeleteSkill(item)}
+              />
+              <EditPen
+                onClick={() => handleEditSkill(item, index)}
+                setFilledSkill={setFilledSkill}
+              />
+            </div>
           </div>
         ))}
       </div>
@@ -51,9 +67,17 @@ const Container = styled.div`
   }
   .skill {
     .editpen {
-      right: 0px !important;
+      position: unset;
+      /* right: 0px !important;
       left: unset !important;
-      top: -5px !important;
+      top: -5px !important; */
+    }
+
+    .tools {
+      position: absolute;
+      top: -5px;
+      right: 0px;
+      display: flex;
     }
   }
 
