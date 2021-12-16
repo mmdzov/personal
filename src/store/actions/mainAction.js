@@ -107,3 +107,14 @@ export const deleteSkill = (id) => async (dispatch, getState) => {
   console.log(skills);
   dispatch({ type: CHANGE_SKILL, payload: skills });
 };
+
+export const deleteTimeline = (id) => async (dispatch, getState) => {
+  const { status } = await main.deleteTimeline(id);
+
+  if (!status) return null;
+  const { data } = getState().main;
+  const timeline = data.timeline.filter((item) => item.id !== id);
+  console.log(timeline);
+  dispatch({ type: CHANGE_TIMELINE, payload: timeline });
+};
+

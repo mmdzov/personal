@@ -58,6 +58,11 @@ class MainRequest {
     const { data } = await privateRequest.post('/admin/remove-skill', { id });
     return data;
   }
+
+  async deleteTimeline(id) {
+    const { data } = await privateRequest.post('/admin/remove-timeline', { id });
+    return data;
+  }
 }
 
 export default MainRequest;

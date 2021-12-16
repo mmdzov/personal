@@ -3,8 +3,9 @@ import { Timeline as TL, Input, Button } from 'antd';
 import { useState } from 'react';
 import EditPen from '../utils/EditPen';
 import { useDispatch, useSelector } from 'react-redux';
-import { addTimeline, changeTimeline } from '../../store/actions/mainAction';
+import { addTimeline, changeTimeline, deleteTimeline } from '../../store/actions/mainAction';
 import useTokenDecode from '../../hooks/useTokenDecode';
+import DeleteIcon from '../utils/DeleteIcon';
 
 const { TextArea } = Input;
 
@@ -38,6 +39,10 @@ const Timeline = () => {
     setAddline({ ...item, index });
   };
 
+  const handleDeleteTimeline = (item) => {
+    dispatch(deleteTimeline(item.id));
+  };
+
   return (
     <Container className="sec">
       <div className="sec-title">Timeline</div>
@@ -45,7 +50,13 @@ const Timeline = () => {
         {data?.timeline?.map((item, index) => (
           <TL.Item label={item.date} key={index}>
             <div className="timeline-header">
-              <EditPen onClick={() => handleEditTimeline(item, index)} />
+              <div className="tools" style={{ display: 'flex' }}>
+                <DeleteIcon
+                  title={`delete Timeline ${item?.title}`}
+                  onClick={() => handleDeleteTimeline(item)}
+                />
+                <EditPen onClick={() => handleEditTimeline(item, index)} />
+              </div>
               <div className="title">{item.title}</div>
             </div>
             <div className="subtitle">{item.subtitle}</div>
