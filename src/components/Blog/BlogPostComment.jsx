@@ -4,16 +4,16 @@ import errorImg from '../utils/errorImg';
 import setAlign from '../../utils/setAlign';
 import DeleteIcon from '../utils/DeleteIcon';
 import useTokenDecode from '../../hooks/useTokenDecode';
-import { useDispatch } from 'react-redux';
-import { deleteComment } from '../../store/actions/blogAction';
+import useLanguage from '../../hooks/useLanguage';
 
 const BlogPostComment = ({ comment, onReply = () => {} }) => {
   const decoded = useTokenDecode();
-  const dispatch = useDispatch();
-
   const handleDeleteComment = () => {
-    dispatch(deleteComment({ comment_id: comment?.id }));
+    console.log('deleted ');
   };
+
+  const lang = useLanguage();
+
   return (
     <div className="comment">
       <div className="comment-header">
@@ -29,11 +29,14 @@ const BlogPostComment = ({ comment, onReply = () => {} }) => {
         </div>
         <div className="reply-comment-container">
           {decoded?._id === comment?.from?._id || decoded?.isAdmin ? (
-            <DeleteIcon title="Delete Comment" onClick={handleDeleteComment} />
+            <DeleteIcon
+              title={lang.blogpost.comments.deletecomment}
+              onClick={handleDeleteComment}
+            />
           ) : null}
           <span className="replyicon" onClick={() => onReply(comment, comment?.id)}>
             {/* <FaReply /> */}
-            Reply
+            {lang.blogpost.comments.reply}
           </span>
         </div>
       </div>

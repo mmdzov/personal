@@ -1,12 +1,14 @@
 import { Container } from './Home.styled';
 import Resume from '../Resume/Resume';
 import { Helmet } from 'react-helmet';
+import useLanguage from '../../hooks/useLanguage';
 
 const Home = () => {
+  const lang = useLanguage();
   return (
     <Container className="">
       <Helmet>
-        <title>خانه | Personal</title>
+        <title>{`${lang?.pages?.home} | Personal`}</title>
         {/* <meta name="description" content='' /> */}
       </Helmet>
       {/* <h3>Welcome</h3> */}

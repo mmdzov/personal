@@ -93,7 +93,6 @@ const Pagination = ({
             <span className="dots">{item}</span>
           ) : (
             <div
-              className=""
               key={item}
               className={item === currentPage ? 'enabled' : ''}
               onClick={() => handleJump(item)}

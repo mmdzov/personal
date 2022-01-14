@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import styled from 'styled-components';
+import useLanguage from '../../hooks/useLanguage';
 import RelatedBlogs from '../Blog/RelatedBlogs';
 import Repos from '../github/Repos';
 import ContactUs from '../Personal/ContactUs';
@@ -8,6 +9,8 @@ import Skills from '../Personal/Skills';
 import Timeline from '../Timeline/Timeline';
 
 const Resume = () => {
+  const lang = useLanguage();
+
   return (
     <Container>
       <Header />
@@ -30,8 +33,10 @@ const Resume = () => {
         </div>
       </Body>
       <div className="sec">
-        <div className="sec-title">Location</div>
-        <div className="sec-list">Iran / Khuzestan / Abadan</div>
+        <div className="sec-title">{lang.location?.title}</div>
+        <div className="sec-list">
+          {lang.location?.country} / {lang.location?.state} / {lang.location?.city}
+        </div>
       </div>
     </Container>
   );

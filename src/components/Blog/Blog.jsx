@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getBlogs, getBlogsByCategory } from '../../store/actions/blogAction';
 import useTokenDecode from '../../hooks/useTokenDecode';
 import { Helmet } from 'react-helmet';
+import useLanguage from '../../hooks/useLanguage';
 
 const { Option } = Select;
 
@@ -26,11 +27,12 @@ const Blog = () => {
   useEffect(() => {
     dispatch(getBlogs());
   }, []);
+  const lang = useLanguage()
 
   return (
     <Container>
       <Helmet>
-        <title>بلاگ | Personal</title>
+        <title>{`${lang.pages.blog} | Personal`}</title>
         {/* <meta name="description" content='' /> */}
       </Helmet>
       <div className="categorylist">

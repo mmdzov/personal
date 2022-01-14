@@ -6,6 +6,7 @@ import { Image, Input, Button } from 'antd';
 import errorImg from '../utils/errorImg';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeAvatar, changeBio, changeUsername } from '../../store/actions/mainAction';
+import useLanguage from '../../hooks/useLanguage';
 
 const { TextArea } = Input;
 
@@ -59,6 +60,8 @@ const Header = () => {
     setEditBio(false);
   };
 
+  const lang = useLanguage();
+
   return (
     <Container>
       <input
@@ -86,7 +89,7 @@ const Header = () => {
                   onChange={handleChange}
                 />
                 <Button type="primary" onClick={(e) => handleSubmit(e, 'username')}>
-                  Edit
+                  {lang.resume.edit}
                 </Button>
               </form>
             ) : (
@@ -99,7 +102,7 @@ const Header = () => {
 
       <div className="sec" style={{ marginTop: 0 }}>
         <div className="sec-title-box">
-          <div className="sec-title">Bio</div>
+          <div className="sec-title">{lang.resume.labels.bio}</div>
           <EditPen onClick={() => setEditBio((prev) => !prev)} />
         </div>
         <div className="sec-list">
@@ -110,13 +113,13 @@ const Header = () => {
                 name="bio"
                 value={values.bio?.join('\n')}
                 onChange={handleChange}
-                placeholder="Bio..."
+                placeholder={lang.resume.inputs.bio}
                 id="textarea"
                 className="scroll"
                 autoSize={{ minRows: 1, maxRows: 5 }}
               />
               <Button type="primary" onClick={(e) => handleSubmit(e, 'bio')}>
-                Edit
+                {lang.resume.edit}
               </Button>
             </form>
           ) : (
@@ -133,7 +136,10 @@ const Container = styled.div`
     .editpen {
       left: -35px !important;
       bottom: -1px !important;
-    }
+    }import useLanguage from './../../hooks/useLanguage';
+import useLanguage from './../../hooks/useLanguage';
+import useLanguage from './../../hooks/useLanguage';
+
   }
 
   .profile {

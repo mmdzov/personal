@@ -9,6 +9,7 @@ export const ADD_TIMELINE = 'ADD_TIMELINE';
 export const CHANGE_TIMELINE = 'CHANGE_TIMELINE';
 export const SET_VERIFY = 'SET_VERIFY';
 export const SET_USER = 'SET_USER';
+export const SET_LANG = 'SET_LANG';
 
 //  ? blog types
 export const GET_BLOGS = 'GET_BLOGS';

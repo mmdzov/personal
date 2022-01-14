@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { searchTags, getTags, getBlogsByTag } from '../../store/actions/blogAction';
 import errorImg from '../utils/errorImg';
 import { Helmet } from 'react-helmet';
+import useLanguage from '../../hooks/useLanguage';
 
 const { Search } = Input;
 
@@ -44,23 +45,25 @@ const Tags = () => {
     await setSearchLoading(false);
   };
 
+  const lang = useLanguage();
+
   return (
     <Container>
       {urlTag ? (
         <Helmet>
-          <title>{`#${urlTag}`} | Personal</title>
+          <title>{`#${urlTag} | Personal`}</title>
           {/* <meta name="description" content='' /> */}
         </Helmet>
       ) : (
         <Helmet>
-          <title>تگ ها | Personal</title>
+          <title>{`${lang.pages.tags} | Personal`}</title>
           {/* <meta name="description" content='' /> */}
         </Helmet>
       )}
       {urlTag ? null : (
         <form onSubmit={(e) => e.preventDefault()}>
           <Search
-            placeholder="search a tag"
+            placeholder={lang.tags.inputs.searchtag}
             loading={searchLoading}
             onChange={handleChange}
             value={search}
@@ -71,7 +74,9 @@ const Tags = () => {
       {urlTag ? (
         <div className="header">
           <div className="tagname">#{urlTag}</div>
-          <div className="resultcount">Results {list?.length}</div>
+          <div className="resultcount">
+            {lang.tags.results} {list?.length}
+          </div>
         </div>
       ) : null}
       {!searchLoading ? (
@@ -84,7 +89,7 @@ const Tags = () => {
               </div>
             ))
           ) : (
-            <div className="notfound">Sorry:(, Nothing was found</div>
+            <div className="notfound">{lang.tags.resultNotFound}</div>
           )
         ) : (
           list.map((item) => (
@@ -103,7 +108,7 @@ const Tags = () => {
           ))
         )
       ) : (
-        <div className="notfound">Loading...</div>
+        <div className="notfound">{lang.tags.loading}</div>
       )}
     </Container>
   );

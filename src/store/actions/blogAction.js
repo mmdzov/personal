@@ -49,7 +49,7 @@ export const addBlog =
   async (dispatch) => {
     const { data } = await blogRequest.addBlog(blog);
     dispatch({ type: SET_BLOG, payload: data });
-    navigate(`/blog/${data?.blog_id}/${data?.title.split(' ').join('-')}`);
+    navigate(`/blog/${data?._id}`);
   };
 
 export const unsetBlog = () => (dispatch) => {
@@ -138,18 +138,5 @@ export const deleteReplyComment =
     blog.comments[commentIndex].replies = blog.comments[commentIndex].replies.filter(
       (_, index) => index !== replyIndex,
     );
-    message.success('Reply-Comment Successfully Deleted');
-    dispatch({ type: SET_BLOG, payload: blog });
-  };
-
-export const deleteComment =
-  (data = { comment_id: '' }) =>
-  async (dispatch, getState) => {
-    const { blog } = getState().blogs;
-    const { status } = await blogRequest.deleteComment({ blog_id: blog?.blog_id, ...data });
-    if (status === 0) return;
-    const commentIndex = blog.comments.findIndex((item) => item?.id === data?.comment_id);
-    blog.comments = blog.comments.filter((_, index) => index !== commentIndex);
-    message.success('Comment Successfully Deleted');
     dispatch({ type: SET_BLOG, payload: blog });
   };

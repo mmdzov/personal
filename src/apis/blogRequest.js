@@ -78,11 +78,6 @@ class BlogRequest {
     const { data } = await privateRequest.post('/blogs/blogpost/reply-comment-remove', params);
     return data;
   }
-
-  async deleteComment(params) {
-    const { data } = await privateRequest.post('/blogs/blogpost/comment-remove', params);
-    return data;
-  }
 }
 
 export default BlogRequest;

@@ -2,26 +2,21 @@ import styled from 'styled-components';
 import ProgressLine from '../progress/ProgressLine';
 import { useState } from 'react';
 import EditPen from '../utils/EditPen';
-import DeleteIcon from '../utils/DeleteIcon';
 import NewSkill from './newSkill';
-import { useDispatch, useSelector } from 'react-redux';
-import { deleteSkill } from '../../store/actions/mainAction';
+import { useSelector } from 'react-redux';
+import useLanguage from '../../hooks/useLanguage';
 
 const Skills = () => {
   const { data } = useSelector(({ main }) => main);
   const [filledSkill, setFilledSkill] = useState({});
-  const dispatch = useDispatch();
   const handleEditSkill = (skill, index) => {
     setFilledSkill({ ...skill, index });
   };
-
-  const handleDeleteSkill = (skill) => {
-    dispatch(deleteSkill(skill?.id));
-  };
+  const lang = useLanguage();
 
   return (
     <Container className="sec">
-      <div className="sec-title">Skills</div>
+      <div className="sec-title">{lang.resume.labels.skills}</div>
       <div className="sec-list" style={{ marginTop: 20 }}>
         {data?.skills?.map((item, index) => (
           <div className="skill" style={{ position: 'relative' }} key={index}>
@@ -36,25 +31,15 @@ const Skills = () => {
                 },
               ]}
             />
-            <div className="tools">
-              <DeleteIcon
-                title={`Delete Skill ${item?.name}`}
-                onClick={() => handleDeleteSkill(item)}
-              />
-              <EditPen
-                onClick={() => handleEditSkill(item, index)}
-                setFilledSkill={setFilledSkill}
-              />
-            </div>
+            <EditPen onClick={() => handleEditSkill(item, index)} setFilledSkill={setFilledSkill} />
           </div>
         ))}
       </div>
       <NewSkill filledSkill={filledSkill} />
-      <div className="note">
-        These placed percentages are lower than my level of knowledge because I always see myself as
-        less than what I am.
+      <div className="note" style={{ textAlign: lang?.language === 'persian' ? 'right' : 'left' }}>
+        {lang.resume.skills.note1}
         <p style={{ marginBottom: '0px' }}>
-          <b>I can interact with and use any tool, library and framework related to javascript</b>
+          <b>{lang.resume.skills.note2}</b>
         </p>
       </div>
     </Container>
@@ -67,17 +52,9 @@ const Container = styled.div`
   }
   .skill {
     .editpen {
-      position: unset;
-      /* right: 0px !important;
+      right: 0px !important;
       left: unset !important;
-      top: -5px !important; */
-    }
-
-    .tools {
-      position: absolute;
-      top: -5px;
-      right: 0px;
-      display: flex;
+      top: -5px !important;
     }
   }
 

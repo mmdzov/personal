@@ -18,6 +18,7 @@ import { customAlphabet } from 'nanoid';
 import { useSelector } from 'react-redux';
 import errorImg from '../utils/errorImg';
 import { Helmet } from 'react-helmet';
+import useLanguage from '../../hooks/useLanguage';
 
 const io = socket;
 
@@ -229,11 +230,12 @@ const Chat = () => {
   };
 
   const navigate = useNavigate();
+  const lang = useLanguage();
 
   return (
     <Container>
       <Helmet>
-        <title>چت با مدیر | Personal</title>
+        <title>{`${lang.pages.chat} | Personal`}</title>
         {/* <meta name="description" content='' /> */}
       </Helmet>
       <div className="header">
@@ -262,7 +264,7 @@ const Chat = () => {
         {messages.length === 0 ? (
           <div className="startChat">
             <IoChatbubbles />
-            <span>گفتگو را آغاز کنید</span>
+            <span>{lang.chat.startconversation}</span>
           </div>
         ) : (
           messages.map((item, i) => (
@@ -308,7 +310,7 @@ const Chat = () => {
         <TextArea
           value={value}
           onChange={handleChange}
-          placeholder="please type..."
+          placeholder={lang.chat.inputs.write}
           id="textarea"
           ref={msgInputRef}
           className="scroll"

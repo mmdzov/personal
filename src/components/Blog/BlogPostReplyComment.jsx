@@ -5,10 +5,13 @@ import DeleteIcon from '../utils/DeleteIcon';
 import useTokenDecode from '../../hooks/useTokenDecode';
 import { useDispatch } from 'react-redux';
 import { deleteReplyComment } from '../../store/actions/blogAction';
+import useLanguage from '../../hooks/useLanguage';
 
 const BlogPostReplyComment = ({ comment, reply, onReply = () => {} }) => {
   const decoded = useTokenDecode();
   const dispatch = useDispatch();
+
+  const lang = useLanguage();
 
   const handleDeleteReply = () => {
     dispatch(deleteReplyComment({ reply_comment_id: reply.id, comment_id: comment.id }));
@@ -24,7 +27,10 @@ const BlogPostReplyComment = ({ comment, reply, onReply = () => {} }) => {
           fallback={errorImg}
         />
         <div className="username">
-          {reply?.from?.username} <span>to {reply?.reply_to?.username} </span>
+          {reply?.from?.username}{' '}
+          <span>
+            {lang.blogpost.comments.to} {reply?.reply_to?.username}{' '}
+          </span>
         </div>
       </div>
       <div className="comment-content" style={{ textAlign: setAlign(reply?.comment) }}>
@@ -37,7 +43,7 @@ const BlogPostReplyComment = ({ comment, reply, onReply = () => {} }) => {
           ) : null}
           <span className="replyicon" onClick={() => onReply(comment, comment?.id)}>
             {/* <FaReply /> */}
-            Reply
+            {lang.blogpost.comments.reply}
           </span>
         </div>
         <div className="comment-date">

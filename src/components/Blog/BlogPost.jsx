@@ -13,6 +13,7 @@ import BlogItemLikeDate from './BlogItemLikeDate';
 import BlogItemTags from './BlogItemTags';
 import BlogItemHeader from './BlogItemHeader';
 import BlogItemContent from './BlogItemContent';
+import useLanguage from '../../hooks/useLanguage';
 
 const BlogPost = () => {
   const { blog } = useSelector(({ blogs }) => blogs);
@@ -74,18 +75,19 @@ const BlogPost = () => {
   };
 
   const decoded = useTokenDecode();
+  const lang = useLanguage();
 
   return (
     <Container ref={containerRef}>
       <Helmet>
-        <title>{`${blog?.title}`} | Personal</title>
+        <title>{`${blog?.title} | Personal`}</title>
         <meta name="description" content={blog?.description} />
       </Helmet>
 
       {decoded?.isAdmin ? (
         <div className="tools">
           <EditPen onClick={handleEditPost} />
-          <DeleteIcon title="Delete Blog" onClick={handleDeleteBlog} />
+          <DeleteIcon title={lang.blogpost.deleteblog} onClick={handleDeleteBlog} />
         </div>
       ) : null}
       <BlogItemHeader />

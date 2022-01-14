@@ -9,6 +9,7 @@ import useTokenDecode from '../../hooks/useTokenDecode';
 import errorImg from '../utils/errorImg';
 import { Image } from 'antd';
 import { Helmet } from 'react-helmet';
+import useLanguage from '../../hooks/useLanguage';
 
 const io = socket;
 
@@ -43,14 +44,16 @@ const ChatList = () => {
     });
   }, []);
 
+  const lang = useLanguage();
+
   return (
     <Container>
       <Helmet>
-        <title>لیست افراد | Personal</title>
+        <title>{`${lang.pages.chatlist} | Personal`}</title>
         {/* <meta name="description" content='' /> */}
       </Helmet>
       <div className="title" onClick={() => navigate('/', { replace: true })}>
-        Chatlist
+        {lang.pages.chatlist}
       </div>
       {chats.map((chat) => (
         <div
@@ -65,7 +68,7 @@ const ChatList = () => {
             <div className="message">
               <LineEllipsis
                 className="description"
-                text={chat.chat.last_message?.message.text ?? 'No Messages'}
+                text={chat.chat.last_message?.message?.text ?? lang.chatlist.nomessage}
                 maxLine="1"
                 ellipsis="..."
                 trimRight

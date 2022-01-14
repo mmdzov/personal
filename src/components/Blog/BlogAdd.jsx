@@ -14,11 +14,13 @@ import dataURLtoFile from '../../utils/dataURLToFile';
 import { useDispatch, useSelector } from 'react-redux';
 import { addBlog, getTags, setPostImage } from '../../store/actions/blogAction';
 import { Helmet } from 'react-helmet';
+import useLanguage from '../../hooks/useLanguage';
 
 const { TextArea, Group } = Input;
 const { Option } = Select;
 
 const BlogAdd = () => {
+  const lang = useLanguage();
   const navigate = useNavigate();
   const { tags, categories, post_images, blog } = useSelector(({ blogs }) => blogs);
   const dispatch = useDispatch();
@@ -157,19 +159,19 @@ const BlogAdd = () => {
 
   const copyToClipboard = async (link) => {
     let result = await navigator.clipboard.writeText(link);
-    message.info('image copied to clipboard');
+    message.info(lang.blogadd.messages.clipboardcopy);
   };
 
   return (
     <Container>
       {state?.data && Object.keys(state?.data)?.length > 0 ? (
         <Helmet>
-          <title>ویرایش پست | Personal</title>
+          <title>{`${lang.pages.editpost} | Personal`}</title>
           {/* <meta name="description" content='' /> */}
         </Helmet>
       ) : (
         <Helmet>
-          <title>افزودن پست | Personal</title>
+          <title>{`${lang.pages.addpost} | Personal`}</title>
           {/* <meta name="description" content='' /> */}
         </Helmet>
       )}
@@ -189,12 +191,12 @@ const BlogAdd = () => {
             name="title"
             value={values.title}
             onChange={handleChange}
-            placeholder="title"
+            placeholder={lang.blogadd.inputs.title}
           />
           <TextArea
             value={values.description}
             onChange={handleChange}
-            placeholder="description"
+            placeholder={lang.blogadd.inputs.description}
             name="description"
             id="textarea"
             className="scroll"
@@ -203,8 +205,8 @@ const BlogAdd = () => {
         </Group>
         <Group className="group-row">
           <Select
-            defaultValue={values?.category?.name ?? 'Select category'}
-            value={values?.category?.name ?? 'Select category'}
+            defaultValue={values?.category?.name ?? lang.blogadd.inputs.defaultCategoryValue}
+            value={values?.category?.name ?? lang.blogadd.inputs.defaultCategoryValue}
             className="select"
             style={{ width: 120, background: 'white' }}
             bordered={false}
@@ -221,11 +223,11 @@ const BlogAdd = () => {
             name="new_category"
             value={values.new_category}
             onChange={handleChange}
-            placeholder="add & select cat"
+            placeholder={lang.blogadd.inputs.newcategory}
           />
         </Group>
         <Group className="post-avatar">
-          <div className="title">Post Avatar</div>
+          <div className="title">{lang.blogadd.labels.postavatar}</div>
           {values?.image?.src ? <img src={values?.image?.src} alt="" /> : null}
           <input type="file" name="image" id="image" onChange={handleSetCropAvatar} />
         </Group>
@@ -235,7 +237,7 @@ const BlogAdd = () => {
           onChange={handleTag}
           value={values.tags}
           tokenSeparators={[',']}
-          placeholder="Tags"
+          placeholder={lang.blogadd.inputs.tags}
         >
           {tags?.map((item) => (
             <Select.Option key={item?._id} value={item?.name}>
@@ -253,7 +255,7 @@ const BlogAdd = () => {
           ) : null}
           <input type="file" name="blogimage" onChange={selectImage} />
           <div className="preview">
-            <div className="title">Preview </div>
+            <div className="title">{lang.blogadd.labels.preview} </div>
             <img src={img ?? ''} alt="" />
           </div>
         </Group>
@@ -272,7 +274,7 @@ const BlogAdd = () => {
           />
         </div>
         <Button type="primary" onClick={handleSubmit} style={{ marginTop: 15 }}>
-          {state ? 'EditPost' : 'AddPost'}
+          {state ? lang.blogadd.buttons.editpost : lang.blogadd.buttons.addpost}
         </Button>
       </form>
     </Container>

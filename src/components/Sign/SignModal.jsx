@@ -8,6 +8,8 @@ import Joi from 'joi';
 import UserRequest from '../../apis/userRequest';
 import { verificationUser } from '../../store/actions/mainAction';
 import { useDispatch } from 'react-redux';
+import useLanguage from '../../hooks/useLanguage';
+import { useNavigate } from 'react-router-dom';
 
 const { Countdown } = Statistic;
 
@@ -65,6 +67,7 @@ const defaultValidateValue = {
 
 const SignModal = ({ showModal = false, setShowModal }) => {
   const [signIn, setSignIn] = useState(true);
+  const lang = useLanguage();
   const [values, setValues] = useState(defaultValue);
   const [verifyCode, setVerifyCode] = useState('');
   const [retrySign, setRetrySign] = useState(false);
@@ -170,7 +173,7 @@ const SignModal = ({ showModal = false, setShowModal }) => {
         setVerifyCode('');
         setValues(defaultValue);
         setShowModal(false);
-        message.success('You have successfully logged in.');
+        message.success(lang.sign.successlogin);
       }),
     );
   };
@@ -186,10 +189,16 @@ const SignModal = ({ showModal = false, setShowModal }) => {
     setRetrySign(false);
   };
 
+  const navigate = useNavigate();
+  const cancelSign = () => {
+    navigate('/');
+    setShowModal((prev) => !prev);
+  };
+
   if (step === 2)
     return (
       <Modal
-        title={'verify-code'}
+        title={lang.sign.verifycode}
         visible
         onOk={handleVerifyCode}
         onCancel={() => null}
@@ -199,19 +208,19 @@ const SignModal = ({ showModal = false, setShowModal }) => {
         okButtonProps={{
           disabled: retrySign,
         }}
-        okText={'Complete'}
+        okText={lang.sign.complete}
         closable={false}
         maskClosable={false}
       >
         <Form style={{ direction: 'ltr' }}>
           <div className="verifyCodeTitle">
-            A verification code has been sent to your email. Please enter it here.{' '}
+            {lang.sign.sendedcode}{' '}
             {retrySign ? (
               <span style={{ color: '#2196f3', cursor: 'pointer' }} onClick={handleRetrySign}>
-                Retry
+                {lang.sign.retry}
               </span>
             ) : null}
-            <Countdown title="Countdown" value={deadline} onFinish={finishedDeadline} />
+            <Countdown title={lang.sign.countdown} value={deadline} onFinish={finishedDeadline} />
           </div>
           <Form.Item
             style={{
@@ -222,7 +231,7 @@ const SignModal = ({ showModal = false, setShowModal }) => {
           >
             <Input
               type="tel"
-              placeholder="Verify code"
+              placeholder={lang.sign.inputs.verifycode}
               value={verifyCode}
               disabled={retrySign}
               autoComplete="false"
@@ -246,12 +255,12 @@ const SignModal = ({ showModal = false, setShowModal }) => {
         />
       ) : null}
       <Modal
-        title={signIn ? 'Sign-in' : 'Sign-up'}
+        title={signIn ? lang.sign.signin : lang.sign.signup}
         visible={showModal}
         onOk={verify}
-        onCancel={() => setShowModal((prev) => !prev)}
-        okText={signIn ? 'Sign-in' : 'Sign-up'}
-        cancelText="Cancel"
+        onCancel={cancelSign}
+        okText={signIn ? lang.sign.signin : lang.sign.signup}
+        cancelText={lang.sign.canceltext}
         closable={false}
         bodyStyle={{
           direction: 'rtl',
@@ -260,10 +269,10 @@ const SignModal = ({ showModal = false, setShowModal }) => {
       >
         <div className="switchSign">
           <Button type={signIn ? 'primary' : 'link'} onClick={() => setSign('in')}>
-            Sign-in
+            {lang.sign.signin}
           </Button>
           <Button type={signIn ? 'link' : 'primary'} onClick={() => setSign('up')}>
-            Sign-up
+            {lang.sign.signup}
           </Button>
         </div>
         <Form onSubmit={(e) => e.preventDefault()} style={{ direction: 'ltr' }}>
@@ -295,7 +304,7 @@ const SignModal = ({ showModal = false, setShowModal }) => {
                   name="username"
                   onChange={handleChange}
                   autoComplete="false"
-                  placeholder="Username"
+                  placeholder={lang.sign.inputs.username}
                 />
               </Form.Item>
             </Fragment>
@@ -309,7 +318,7 @@ const SignModal = ({ showModal = false, setShowModal }) => {
               value={values.email}
               name="email"
               onChange={handleChange}
-              placeholder="Email"
+              placeholder={lang.sign.inputs.email}
               autoComplete="false"
             />
           </Form.Item>

@@ -262,3 +262,7 @@ body {
   font-weight: 100;
   font-style: normal;
 }
+
+.ant-timeline {
+  direction: ltr;
+}

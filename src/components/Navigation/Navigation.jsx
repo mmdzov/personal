@@ -1,13 +1,15 @@
 /* eslint-disable no-unused-vars */
 import styled from 'styled-components';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import SignModal from '../Sign/SignModal';
 import { AiFillNotification } from 'react-icons/ai';
-import { IoReturnUpForward } from 'react-icons/io5';
+import { IoReturnUpForward, IoLanguage } from 'react-icons/io5';
 import { PageHeader } from 'antd';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import useTokenDecode from '../../hooks/useTokenDecode';
+import { setLang } from '../../store/actions/mainAction';
+import useLanguage from '../../hooks/useLanguage';
 
 const Navigation = () => {
   const { verified } = useSelector(({ main }) => main);
@@ -15,6 +17,7 @@ const Navigation = () => {
   const { data } = useSelector(({ main }) => main);
   const { pathname } = useLocation();
   const decoded = useTokenDecode();
+  const dispatch = useDispatch();
 
   const isActive = (page) => {
     let pg = page;
@@ -30,25 +33,75 @@ const Navigation = () => {
     navigate(-1);
   };
 
+  const [openLangMenu, setOpenLangMenu] = useState(false);
+
+  const [langs] = useState([
+    { type: 'english', name: 'English' },
+    { type: 'persian', name: 'فارسی' },
+  ]);
+
+  const handleSetLang = async (lang) => {
+    await setOpenLangMenu(false);
+    await dispatch(setLang(lang));
+  };
+
+  const handleLangMenu = () => {
+    setOpenLangMenu((prev) => !prev);
+  };
+
+  const handleCloseLang = () => {
+    setOpenLangMenu(false);
+  };
+
+  const lang = useLanguage();
+
+  useEffect(() => {
+    if (openLangMenu) {
+      const lang = document.getElementsByClassName('langs')?.[0];
+      lang?.focus();
+    }
+  }, [openLangMenu]);
+
   return (
     <Container>
       {isActive('home') === true ? (
-        <div className="signicon">
-          {!verified ? (
-            <div className="link" onClick={() => setSign(true)}>
-              Sign
-            </div>
-          ) : null}
+        <div className="toolbar" style={{ direction: 'ltr' }}>
+          <div className="lang">
+            <IoLanguage onClick={handleLangMenu} />
+            {openLangMenu ? (
+              <div className="langs" onBlur={handleCloseLang} tabIndex={'-1'}>
+                {langs.map((item) => (
+                  <div
+                    className=""
+                    onClick={() => handleSetLang(item.type)}
+                    style={{
+                      textAlign: /^[a-zA-Z]/.test(item?.name) ? 'left' : 'right',
+                    }}
+                  >
+                    {item.name}
+                  </div>
+                ))}
+              </div>
+            ) : null}
+          </div>
+          <div className="signicon">
+            {!verified ? (
+              <div className="link" onClick={() => setSign(true)}>
+                {lang?.toolbar?.sign}
+              </div>
+            ) : null}
+          </div>
         </div>
       ) : (
         <PageHeader
           className="site-page-header"
           onBack={handleGoBack}
           title={pathname?.split('/')[1]}
+          style={{ direction: 'ltr' }}
           extra={[
             !verified ? (
               <div className="link" onClick={() => setSign(true)}>
-                Sign
+                {lang?.toolbar?.sign}
               </div>
             ) : null,
           ]}
@@ -57,19 +110,19 @@ const Navigation = () => {
 
       <div className="navs" style={{ marginTop: isActive('home') === true ? 20 : 0 }}>
         <Link to="/" className={`l ${isActive('home') ? 'active' : ''} `}>
-          Home
+          {lang?.navbar?.home}
         </Link>
         <Link
           to={decoded?.isAdmin ? '/chatlist' : '/chat'}
           className={`l ${isActive('chat') ? 'active' : ''} `}
         >
-          Chat
+          {lang?.navbar?.chat}
         </Link>
         <Link to="/blog" className={`l ${isActive('blog') ? 'active' : ''} `}>
-          Blog
+          {lang?.navbar?.blog}
         </Link>
         <Link to="/tags" className={`l ${isActive('tags') ? 'active' : ''} `}>
-          Tags
+          {lang?.navbar?.tags}
         </Link>
       </div>
       {/* <Link to="/notification" className="notification">
@@ -89,8 +142,48 @@ const Container = styled.div`
   /* justify-content: space-between; */
   flex-direction: column;
 
-  .signicon {
+  .toolbar {
     width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 40px;
+  }
+
+  .langs {
+    font-size: 0.8rem;
+    position: absolute;
+    left: 10px;
+    top: 40px;
+    width: 130px;
+    display: flex;
+    flex-direction: column;
+    background: #181818;
+    border-radius: 5px;
+    > div {
+      padding: 7px 10px;
+
+      &:active,
+      &:hover {
+        background: #101010;
+        transition: 0.2s ease-in-out;
+      }
+    }
+    overflow: hidden;
+  }
+
+  .lang {
+    font-size: 1.3rem;
+    margin-top: 5px;
+    margin-left: 10px;
+    padding: 5px;
+    color: #bdbdbd;
+    cursor: pointer;
+    align-items: center;
+    display: flex;
+  }
+
+  .signicon {
     justify-content: end;
     max-height: 40px;
     align-items: center;

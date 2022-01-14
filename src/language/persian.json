@@ -1,0 +1,148 @@
+{
+  "language": "persian",
+  "toolbar": {
+    "sign": "ثبت نام"
+  },
+  "navbar": {
+    "home": "خانه",
+    "chat": "چت",
+    "blog": "بلاگ",
+    "tags": "تگ ها"
+  },
+  "pages": {
+    "home": "خانه",
+    "blog": "بلاگ",
+    "tags": "تگ ها",
+    "editpost": "ویرایش پست",
+    "addpost": "افزودن پست",
+    "chatlist": "لیست افراد",
+    "chat": "چت با مدیر"
+  },
+  "blogadd": {
+    "labels": {
+      "postavatar": "آواتار پست",
+      "preview": "پیش نمایش"
+    },
+    "buttons": {
+      "editpost": "ویرایش پست",
+      "addpost": "افزودن پست"
+    },
+    "inputs": {
+      "newcategory": "افزودن و انتخاب دسته بندی",
+      "title": "عنوان",
+      "description": "توضیحات",
+      "defaultCategoryValue": "انتخاب دسته",
+      "tags": "تگ ها"
+    },
+    "messages": {
+      "clipboardcopy": "تصویر در کلیپ بورد کپی شد"
+    }
+  },
+  "blogpost": {
+    "deleteblog": "حذف بلاگ",
+    "sendcomment": {
+      "inputs": {
+        "comment": "نظر..."
+      },
+      "buttons": {
+        "send": "ارسال"
+      },
+      "replyto": "ارسال به ",
+      "addacomment": "افزودن یک نظر ",
+      "comment": "نظر"
+    },
+    "comments": {
+      "reply": "ریپلای",
+      "deletecomment": "حذف نظر",
+      "to": "به"
+    }
+  },
+  "deleteicon": {
+    "oktext": "بله",
+    "canceltext": "خیر",
+    "areyousure": "آیا مطمئنید؟"
+  },
+  "chat": {
+    "chatwithadmin": "چت با مدیر",
+    "startconversation": "گفتگو را شروع کنید",
+    "inputs": {
+      "write": "بنویسید..."
+    }
+  },
+  "chatlist": {
+    "nomessage": "بدون پیغام"
+  },
+  "tags": {
+    "results": "نتایج",
+    "resultNotFound": "متاسفم :( نتیجه ای یافت نشد",
+    "loading": "کمی صبر کنید...",
+    "inputs": {
+      "searchtag": "جستجوی تگ"
+    }
+  },
+  "resume": {
+    "edit": "ویرایش",
+    "delete": "حذف",
+    "labels": {
+      "bio": "بیو",
+      "relatedposts": "پست های مرتبط",
+      "skills": "مهارت ها",
+      "timeline": "جدول زمانی"
+    },
+    "inputs": {
+      "bio": "بیو..."
+    },
+    "skills": {
+      "note1": "این درصدهای قرار داده شده کمتر از سطح دانش من است زیرا همیشه خودم را کمتر از آنچه هستم می بینم.",
+      "note2": "من می توانم با هر ابزار، کتابخانه و فریم ورک مرتبط با جاوا اسکریپت تعامل داشته باشم و از آن استفاده کنم",
+      "addskill": "افزودن مهارت",
+      "inputs": {
+        "knowledge": "درصد دانش",
+        "pickcolor": "انتخاب رنگ",
+        "example": "مثال"
+      },
+      "buttons": {
+        "add": "افزودن"
+      }
+    },
+    "timeline": {
+      "addtimeline": "افزودن جدول زمانی",
+      "inputs": {
+        "date": "تاریخ",
+        "title": "عنوان",
+        "subtitle": "زیرنویس"
+      },
+      "buttons": {
+        "add": "افزودن"
+      }
+    }
+  },
+  "contact": {
+    "title": "ارتباط با من",
+    "socialmedia": "رسانه های اجتماعی",
+    "call": "تماس",
+    "email": "ایمیل"
+  },
+  "location": {
+    "title": "محل",
+    "country": "ایران",
+    "state": "خوزستان",
+    "city": "آبادان"
+  },
+  "sign": {
+    "successlogin": "شما با موفقیت وارد شدید.",
+    "sendedcode": "یک کد تایید به ایمیل شما ارسال شده است. لطفا آن را در اینجا وارد کنید",
+    "retry": "تلاش دوباره",
+    "complete": "تمام",
+    "countdown": "ثانیه شماری",
+    "signin": "ورود",
+    "signup": "ثبت نام",
+    "canceltext": "لغو",
+    "verifycode": "کد تایید",
+    "inputs": {
+        "verifycode": "کد تایید",
+        "username": "نام کاربری",
+        "email": "ایمیل"
+    }
+  }
+}

@@ -1,21 +1,20 @@
-import { useContext, Fragment } from "react";
-import styled from "styled-components";
-import { IoLogoInstagram } from "react-icons/io5";
-import { FaTelegramPlane, FaGithub } from "react-icons/fa";
-import Context from "../../context/Context";
+import { useContext, Fragment } from 'react';
+import styled from 'styled-components';
+import { IoLogoInstagram } from 'react-icons/io5';
+import { FaTelegramPlane, FaGithub } from 'react-icons/fa';
+import Context from '../../context/Context';
+import useLanguage from '../../hooks/useLanguage';
 
 const ContactUs = () => {
   const { data } = useContext(Context);
+  const lang = useLanguage();
   return (
     <Fragment>
       <Container className="sec">
-        <div className="sec-title">Contact Us</div>
-        <div
-          className="sec-list"
-          style={{ padding: "0 15px", marginTop: "20px" }}
-        >
+        <div className="sec-title">{lang.contact.title}</div>
+        <div className="sec-list" style={{ padding: '0 15px', marginTop: '20px' }}>
           <div className="contact">
-            <div className="title">SocialMedia</div>
+            <div className="title">{lang.contact.socialmedia}</div>
             <div className="description">
               <a href="https://instagram.com/mmdzov" target="__blank">
                 <IoLogoInstagram />
@@ -43,7 +42,8 @@ const ContactUs = () => {
 const Container = styled.div`
   @media (min-width: 640px) {
     border-bottom: 0px !important;
-  }
+  }import useLanguage from './../../hooks/useLanguage';
+
 
   .contact {
     display: flex;

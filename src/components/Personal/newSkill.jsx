@@ -6,6 +6,7 @@ import ProgressLine from '../progress/ProgressLine';
 import { useDispatch, useSelector } from 'react-redux';
 import { addSkill, changeSkill } from '../../store/actions/mainAction';
 import useTokenDecode from '../../hooks/useTokenDecode';
+import useLanguage from '../../hooks/useLanguage';
 
 const { Group } = Input;
 
@@ -41,7 +42,6 @@ const NewSkill = ({ filledSkill, setFilledSkill = () => {} }) => {
       dispatch(addSkill(skill));
     }
     setSkill(defaultSkill);
-    setPick(false)
   };
 
   const handleChangeColor = useCallback((e) => {
@@ -49,15 +49,17 @@ const NewSkill = ({ filledSkill, setFilledSkill = () => {} }) => {
   }, []);
   const decoded = useTokenDecode();
 
+  const lang = useLanguage();
+
   if (!decoded?.isAdmin) return null;
   return (
     <Container className="newskill" onSubmit={handleSubmit} id="newSkill">
-      <div className="title">Add Skill</div>
+      <div className="title">{lang.resume.skills.addskill}</div>
       <Group>
         <Input placeholder="skill name" name="name" value={skill.name} onChange={handleChange} />
         <Input
           type="tel"
-          placeholder="knowledge"
+          placeholder={lang.resume.skills.inputs.knowledge}
           name="knowledge"
           value={skill.knowledge}
           onChange={handleChange}
@@ -65,7 +67,7 @@ const NewSkill = ({ filledSkill, setFilledSkill = () => {} }) => {
       </Group>
       <div className="color-picker">
         <div className="color-picker-title" onClick={() => setPick((prev) => !prev)}>
-          Pick Color
+          {lang.resume.skills.inputs.pickcolor}
         </div>
         {pick ? (
           <ChromePicker
@@ -79,7 +81,7 @@ const NewSkill = ({ filledSkill, setFilledSkill = () => {} }) => {
       <div className="live-demo">
         <ProgressLine
           key={~~Math.floor(Math.random() * 99999)}
-          label={skill?.name || 'Example'}
+          label={skill?.name || lang.resume.skills.inputs.example}
           backgroundColor="#ccc"
           visualParts={[
             {
@@ -91,7 +93,7 @@ const NewSkill = ({ filledSkill, setFilledSkill = () => {} }) => {
       </div>
       <div className="" style={{ textAlign: 'right', padding: '0 10px', marginBottom: '10px' }}>
         <Button type="primary" onClick={handleSubmit}>
-          Add
+          {lang.resume.skills.buttons.add}
         </Button>
       </div>
     </Container>

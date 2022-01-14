@@ -2,6 +2,7 @@ import { useState, Fragment } from 'react';
 import { IoTrash } from 'react-icons/io5';
 import useTokenDecode from '../../hooks/useTokenDecode';
 import { Modal } from 'antd';
+import useLanguage from '../../hooks/useLanguage';
 
 const DeleteIcon = ({ title, onClick }) => {
   const data = useTokenDecode();
@@ -11,20 +12,23 @@ const DeleteIcon = ({ title, onClick }) => {
     onClick();
   };
   if (!data?.isAdmin) return null;
+
+  const lang = useLanguage();
+
   return (
     <Fragment>
       <Modal
         title={title}
         visible={open}
-        okText="Yes"
-        cancelText="No"
+        okText={lang.deleteicon.oktext}
+        cancelText={lang.deleteicon.canceltext}
         onOk={handleDelete}
         bodyStyle={{
           direction: 'ltr',
         }}
         onCancel={() => setOpen(false)}
       >
-        Are You Sure ?
+        {lang.deleteicon.areyousure}
       </Modal>
       <span className="editpen" style={{ color: '#f44336' }} onClick={() => setOpen(true)}>
         <IoTrash />

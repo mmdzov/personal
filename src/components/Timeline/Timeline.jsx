@@ -3,9 +3,9 @@ import { Timeline as TL, Input, Button } from 'antd';
 import { useState } from 'react';
 import EditPen from '../utils/EditPen';
 import { useDispatch, useSelector } from 'react-redux';
-import { addTimeline, changeTimeline, deleteTimeline } from '../../store/actions/mainAction';
+import { addTimeline, changeTimeline } from '../../store/actions/mainAction';
 import useTokenDecode from '../../hooks/useTokenDecode';
-import DeleteIcon from '../utils/DeleteIcon';
+import useLanguage from '../../hooks/useLanguage';
 
 const { TextArea } = Input;
 
@@ -39,24 +39,16 @@ const Timeline = () => {
     setAddline({ ...item, index });
   };
 
-  const handleDeleteTimeline = (item) => {
-    dispatch(deleteTimeline(item.id));
-  };
+  const lang = useLanguage();
 
   return (
     <Container className="sec">
-      <div className="sec-title">Timeline</div>
+      <div className="sec-title">{lang.resume.labels.timeline}</div>
       <TL mode="alternate">
         {data?.timeline?.map((item, index) => (
           <TL.Item label={item.date} key={index}>
             <div className="timeline-header">
-              <div className="tools" style={{ display: 'flex' }}>
-                <DeleteIcon
-                  title={`delete Timeline ${item?.title}`}
-                  onClick={() => handleDeleteTimeline(item)}
-                />
-                <EditPen onClick={() => handleEditTimeline(item, index)} />
-              </div>
+              <EditPen onClick={() => handleEditTimeline(item, index)} />
               <div className="title">{item.title}</div>
             </div>
             <div className="subtitle">{item.subtitle}</div>
@@ -65,17 +57,17 @@ const Timeline = () => {
       </TL>
       {decoded?.isAdmin ? (
         <form onSubmit={(e) => e.preventDefault()}>
-          <div className="title">Add Timeline</div>
+          <div className="title">{lang.resume.timeline.addtimeline}</div>
           <Input
             type="text"
-            placeholder="date"
+            placeholder={lang.resume.timeline.inputs.date}
             value={addline.date}
             name="date"
             onChange={handleChange}
           />
           <Input
             type="text"
-            placeholder="title"
+            placeholder={lang.resume.timeline.inputs.title}
             value={addline.title}
             name="title"
             onChange={handleChange}
@@ -83,14 +75,14 @@ const Timeline = () => {
           <TextArea
             value={addline.subtitle}
             onChange={handleChange}
-            placeholder="subtitle..."
+            placeholder={lang.resume.timeline.inputs.subtitle}
             id="subtitle"
             name="subtitle"
             className="scroll"
             autoSize={{ minRows: 1, maxRows: 5 }}
           />
           <Button type="primary" onClick={handleAddTimeline}>
-            Add
+            {lang.resume.timeline.buttons.add}
           </Button>
         </form>
       ) : null}

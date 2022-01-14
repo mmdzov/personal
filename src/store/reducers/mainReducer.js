@@ -7,6 +7,7 @@ import {
   CHANGE_TIMELINE,
   CHANGE_USERNAME,
   GET_MAIN,
+  SET_LANG,
   SET_USER,
   SET_VERIFY,
 } from '../types';
@@ -14,6 +15,7 @@ import {
 const INITSTATE = {
   data: {},
   verified: false,
+  language: '',
   // token:
   // 'eyJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI2MWEzOWRjMzA4MWE2MjVmZWRkY2VmNjYiLCJpc0FkbWluIjp0cnVlLCJhdmF0YXIiOiJodHRwOi8vbG9jYWxob3N0OjQwMDAvYXBpL3VwbG9hZHMvYXZhdGFyLWVzc2Zydm9nN3kuanBnIiwidXNlcm5hbWUiOiJtb2hhbW1hZCIsImVtYWlsIjoibXpvdjkzOUBnbWFpbC5jb20iLCJfX3YiOjB9.hkyABfU_Ba_zbuUjlABm1IvSOc6p17EJcm4kTK6rdvk',
   token: '',
@@ -55,6 +57,12 @@ const mainReducer = (state = INITSTATE, action) => {
       return {
         ...state,
         token: action.payload,
+      };
+
+    case SET_LANG:
+      return {
+        ...state,
+        language: action.payload,
       };
     default:
       return state;

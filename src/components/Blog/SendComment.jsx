@@ -5,15 +5,17 @@ import { forwardRef, useState } from 'react';
 import { setComment, setCommentReply } from '../../store/actions/blogAction';
 import { useParams } from 'react-router';
 import setAlign from '../../utils/setAlign';
+import useLanguage from '../../hooks/useLanguage';
 
 const { TextArea } = Input;
 
 const SendCommentRef = forwardRef(({ value, handleChange }, ref) => {
+  const lang = useLanguage();
   return (
     <TextArea
       value={value}
       onChange={handleChange}
-      placeholder="comment..."
+      placeholder={lang.blogpost.sendcomment.inputs.comment}
       id="textarea"
       className="scroll"
       ref={ref}
@@ -27,6 +29,7 @@ const SendCommentRef = forwardRef(({ value, handleChange }, ref) => {
 });
 
 const SendComment = forwardRef(({ reply, setReply, textAreaRef, onClearReply = () => {} }, ref) => {
+  const lang = useLanguage();
   const [value, setValue] = useState('');
   const dispatch = useDispatch();
   const { post } = useParams();
@@ -60,7 +63,9 @@ const SendComment = forwardRef(({ reply, setReply, textAreaRef, onClearReply = (
   return (
     <form className="comment-send" ref={ref}>
       <div className="comment-send-title">
-        {Object.keys(reply)?.length > 0 ? `Reply to ${reply?.from?.username}` : 'Add a Comment'}
+        {Object.keys(reply)?.length > 0
+          ? `${lang.blogpost.sendcomment.replyto} ${reply?.from?.username}`
+          : lang.blogpost.sendcomment.addacomment}
         {Object.keys(reply)?.length > 0 ? (
           <span onClick={onClearReply}>
             <AiOutlineClose />
@@ -69,14 +74,14 @@ const SendComment = forwardRef(({ reply, setReply, textAreaRef, onClearReply = (
       </div>
       {Object.keys(reply)?.length > 0 ? (
         <div className="reply-to-comment">
-          <span>Comment</span>
+          <span>{lang.blogpost.sendcomment.comment}</span>
           {reply.comment}
         </div>
       ) : null}
       <SendCommentRef ref={textAreaRef} value={value} handleChange={handleChange} />
 
       <Button type="primary" onClick={handleSendComment}>
-        Send
+        {lang.blogpost.sendcomment.buttons.send}
       </Button>
     </form>
   );

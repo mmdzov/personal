@@ -13,6 +13,7 @@ import {
   SET_CURRENT_CATEGORY,
   SET_USER,
   SET_VERIFY,
+  SET_LANG,
 } from '../types';
 import BlogRequest from '../../apis/blogRequest';
 import UserRequest from '../../apis/userRequest';
@@ -98,23 +99,11 @@ export const verificationUser = (vc, callback) => async (dispatch) => {
   } catch (e) {}
 };
 
-export const deleteSkill = (id) => async (dispatch, getState) => {
-  const { status } = await main.deleteSkill(id);
-
-  if (!status) return null;
-  const { data } = getState().main;
-  const skills = data.skills.filter((item) => item.id !== id);
-  console.log(skills);
-  dispatch({ type: CHANGE_SKILL, payload: skills });
+export const setLang = (lang) => (dispatch) => {
+  dispatch({ type: SET_LANG, payload: lang });
 };
 
-export const deleteTimeline = (id) => async (dispatch, getState) => {
-  const { status } = await main.deleteTimeline(id);
-
-  if (!status) return null;
-  const { data } = getState().main;
-  const timeline = data.timeline.filter((item) => item.id !== id);
-  console.log(timeline);
-  dispatch({ type: CHANGE_TIMELINE, payload: timeline });
+export const setAutoLang = () => (dispatch) => {
+  let language = localStorage.getItem('lang');
+  dispatch({ type: SET_LANG, payload: language });
 };
-

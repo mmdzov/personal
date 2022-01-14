@@ -7,20 +7,29 @@ import axios from 'axios';
 import Routes from './Routes';
 import PostImage from './assets/img/post.jpg';
 import { useSelector, useDispatch } from 'react-redux';
-import { getMain, setAuthUser } from './store/actions/mainAction';
+import { getMain, setAuthUser, setAutoLang } from './store/actions/mainAction';
 import appWrapper from './hoc/appWrapper';
+import useLanguage from './hooks/useLanguage';
 
 function App() {
+  const { language } = useSelector(({ main }) => main);
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(setAutoLang());
     dispatch(getMain());
     dispatch(setAuthUser());
   }, []);
+
+  useEffect(() => {
+    let localStLang = localStorage.getItem('lang');
+    if (localStLang !== language) localStorage.setItem('lang', language);
+  }, [language]);
+  const lang = useLanguage();
   const [data] = useState({
     contact_us: [
-      { title: 'Call', value: '+989356597910' },
-      { title: 'Email', value: 'Mzov939@gmail.com' },
+      { title: lang.contact.call, value: '+989356597910' },
+      { title: lang.contact.email, value: 'Mzov939@gmail.com' },
     ],
   });
 
@@ -79,7 +88,8 @@ const Container = styled.div`
     @media (min-width: 799px) {
       max-width: 800px;
       margin: 0 auto !important;
-    }
+    }import useLanguage from './hooks/useLanguage';
+
     padding: 10px 10px;
     margin: 12px 0px;
     width: 100%;
