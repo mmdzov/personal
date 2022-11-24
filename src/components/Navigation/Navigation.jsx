@@ -11,7 +11,7 @@ import useTokenDecode from '../../hooks/useTokenDecode';
 import { setLang } from '../../store/actions/mainAction';
 import useLanguage from '../../hooks/useLanguage';
 
-const Navigation = () => {
+const Navigation = ({ navigation }) => {
   const { verified } = useSelector(({ main }) => main);
   const [sign, setSign] = useState(false);
   const { data } = useSelector(({ main }) => main);
@@ -96,7 +96,11 @@ const Navigation = () => {
         <PageHeader
           className="site-page-header"
           onBack={handleGoBack}
-          title={pathname?.split('/')[1]}
+          title={pathname
+            ?.split('/')[1]
+            .split('')
+            .map((item, i) => (i === 0 ? item.toUpperCase() : item.toLowerCase()))
+            .join('')}
           style={{ direction: 'ltr' }}
           extra={[
             !verified ? (
@@ -108,23 +112,26 @@ const Navigation = () => {
         />
       )}
 
-      <div className="navs" style={{ marginTop: isActive('home') === true ? 20 : 0 }}>
-        <Link to="/" className={`l ${isActive('home') ? 'active' : ''} `}>
-          {lang?.navbar?.home}
-        </Link>
-        <Link
-          to={decoded?.isAdmin ? '/chatlist' : '/chat'}
-          className={`l ${isActive('chat') ? 'active' : ''} `}
-        >
-          {lang?.navbar?.chat}
-        </Link>
-        <Link to="/blog" className={`l ${isActive('blog') ? 'active' : ''} `}>
-          {lang?.navbar?.blog}
-        </Link>
-        <Link to="/tags" className={`l ${isActive('tags') ? 'active' : ''} `}>
-          {lang?.navbar?.tags}
-        </Link>
-      </div>
+      {navigation ? (
+        <div className="navs" style={{ marginTop: isActive('home') === true ? 10 : 0 }}>
+          <Link to="/" className={`l ${isActive('home') ? 'active' : ''} `}>
+            {lang?.navbar?.home}
+          </Link>
+          <Link
+            to={decoded?.isAdmin ? '/chats' : '/chat'}
+            className={`l ${isActive('chat') ? 'active' : ''} `}
+          >
+            {lang?.navbar?.chat}
+          </Link>
+          <Link to="/blog" className={`l ${isActive('blog') ? 'active' : ''} `}>
+            {lang?.navbar?.blog}
+          </Link>
+          <Link to="/tags" className={`l ${isActive('tags') ? 'active' : ''} `}>
+            {lang?.navbar?.tags}
+          </Link>
+        </div>
+      ) : null}
+
       {/* <Link to="/notification" className="notification">
           {notifications.some((item) => item.unread) ? <span className="unreadNotifIcon" /> : null}
           <AiFillNotification />
@@ -194,21 +201,31 @@ const Container = styled.div`
   }
 
   .ant-page-header.site-page-header.ant-page-header-ghost {
+    direction: ltr;
+    padding: 0px !important;
+    background: unset !important;
+    box-shadow: unset !important;
     width: 100% !important;
-    background: #000000 !important;
-    margin-bottom: 15px !important;
+    margin-bottom: 10px !important;
+  }
 
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-    box-shadow: 0 5px 10px -3px black !important;
+  .ant-page-header-heading-left {
+    padding: 0px 0px;
+    width: 100%;
+    margin-top: 5px;
   }
 
   .ant-page-header-heading-title {
-    font-size: 1rem !important;
+    color: #c1c1c1 !important;
+    font-weight: 400;
+    font-size: 1.1rem !important;
   }
 
   .ant-page-header-back {
-    color: white !important;
+    margin: 0;
+    font-size: 1rem;
+    padding: 14px 15px;
+    color: #c1c1c1 !important;
   }
 
   .ant-page-header-back-button {
@@ -218,10 +235,6 @@ const Container = styled.div`
   .ant-page-header-heading {
     width: 100% !important;
     align-items: center;
-  }
-
-  .ant-page-header-heading-title {
-    color: white !important;
   }
 
   .header {
@@ -246,8 +259,9 @@ const Container = styled.div`
     overflow-x: auto;
     margin-bottom: 10px;
     width: 100%;
-    padding: 0 10px;
-    padding-bottom: 15px;
+    padding: 10px 7px;
+    // padding-bottom: 15px;
+    // justify-content: space-around;
   }
 
   > div {
@@ -280,16 +294,17 @@ const Container = styled.div`
   }
 
   .l {
-    padding: 0 10px;
-    margin: 0 4px;
-    height: 30px;
+    padding: 8px 20px;
+    // margin: 0 4px;
+    // height: 30px;
     /* padding-top: 1px; */
     display: flex;
     align-items: center;
-    background: black;
+    // background: black;
+    white-space: pre;
     color: #c7c7c7;
     border-radius: 4px;
-    box-shadow: 0 5px 6px -2px black;
+    // box-shadow: 0 5px 6px -2px black;
   }
 
   .active {

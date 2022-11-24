@@ -10,10 +10,21 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getMain, setAuthUser, setAutoLang } from './store/actions/mainAction';
 import appWrapper from './hoc/appWrapper';
 import useLanguage from './hooks/useLanguage';
+import Loading from './components/Loading/Loading';
+import { persistStore } from 'redux-persist';
+import { store } from './store/store';
 
 function App() {
   const { language } = useSelector(({ main }) => main);
   const dispatch = useDispatch();
+  const lang = useLanguage();
+
+  const [data, setData] = useState({
+    contact_us: [
+      { title: lang.contact.call, value: '+989356597910' },
+      { title: lang.contact.email, value: 'Mzov939@gmail.com' },
+    ],
+  });
 
   useEffect(() => {
     dispatch(setAutoLang());
@@ -24,14 +35,18 @@ function App() {
   useEffect(() => {
     let localStLang = localStorage.getItem('lang');
     if (localStLang !== language) localStorage.setItem('lang', language);
-  }, [language]);
-  const lang = useLanguage();
-  const [data] = useState({
-    contact_us: [
-      { title: lang.contact.call, value: '+989356597910' },
-      { title: lang.contact.email, value: 'Mzov939@gmail.com' },
-    ],
-  });
+    if (!localStLang) {
+      localStorage.setItem('lang', 'english');
+      dispatch(setAutoLang());
+    }
+
+    setData({
+      contact_us: [
+        { title: lang.contact.call, value: '+989356597910' },
+        { title: lang.contact.email, value: 'Mzov939@gmail.com' },
+      ],
+    });
+  }, [lang]);
 
   const [notifications] = useState([
     {
@@ -65,6 +80,7 @@ function App() {
   // useEffect(() => {
   //   getUser();
   // }, []);
+
 
   return (
     <Context.Provider value={{ data, notifications }}>
@@ -100,7 +116,7 @@ const Container = styled.div`
       font-size: 1.1rem;
       font-weight: bold;
       margin-bottom: 5px;
-      padding: 0 10px;
+      // padding: 0 10px;
       height: 30px;
       align-items: center;
       display: flex;

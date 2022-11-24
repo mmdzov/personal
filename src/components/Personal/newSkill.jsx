@@ -54,9 +54,16 @@ const NewSkill = ({ filledSkill, setFilledSkill = () => {} }) => {
   if (!decoded?.isAdmin) return null;
   return (
     <Container className="newskill" onSubmit={handleSubmit} id="newSkill">
-      <div className="title">{lang.resume.skills.addskill}</div>
-      <Group>
-        <Input placeholder="skill name" name="name" value={skill.name} onChange={handleChange} />
+      <div className="title" style={{ textAlign: lang.language === 'english' ? 'left' : 'right' }}>
+        {lang.resume.skills.addskill}
+      </div>
+      <Group style={{ direction: lang.language === 'english' ? 'rtl' : 'ltr' }}>
+        <Input
+          placeholder={lang.resume.skills.inputs.placeholder}
+          name="name"
+          value={skill.name}
+          onChange={handleChange}
+        />
         <Input
           type="tel"
           placeholder={lang.resume.skills.inputs.knowledge}
@@ -66,7 +73,11 @@ const NewSkill = ({ filledSkill, setFilledSkill = () => {} }) => {
         />
       </Group>
       <div className="color-picker">
-        <div className="color-picker-title" onClick={() => setPick((prev) => !prev)}>
+        <div
+          className="color-picker-title"
+          onClick={() => setPick((prev) => !prev)}
+          style={{ textAlign: lang.language === 'english' ? 'left' : 'right' }}
+        >
           {lang.resume.skills.inputs.pickcolor}
         </div>
         {pick ? (
@@ -80,6 +91,7 @@ const NewSkill = ({ filledSkill, setFilledSkill = () => {} }) => {
 
       <div className="live-demo">
         <ProgressLine
+          labelStyle={{ textAlign: lang.language === 'english' ? 'left' : 'right' }}
           key={~~Math.floor(Math.random() * 99999)}
           label={skill?.name || lang.resume.skills.inputs.example}
           backgroundColor="#ccc"
@@ -101,16 +113,17 @@ const NewSkill = ({ filledSkill, setFilledSkill = () => {} }) => {
 };
 
 const Container = styled.form`
-  padding: 10px 15px;
-  background: #08090d;
+  padding: 10px 0px;
+  // background: #08090d;
   margin-bottom: 20px;
   border-radius: 6px;
   /* box-shadow: 0 5px 10px 1px black; */
 
   .title {
-    font-size: 1rem;
-    text-align: left;
-    font-weight: bold;
+    font-size: .8rem;
+    color: #959595;
+    font-weight: 200;
+}
   }
   .ant-input-group {
     display: grid;
@@ -121,10 +134,13 @@ const Container = styled.form`
   }
 
   .live-demo {
+    padding: 0 12px;
+    
     .progressLabel {
-      font-size: 1.2rem;
-      text-align: left;
-      font-weight: bold;
+      font-size: .9rem;
+      margin-bottom: 15px;
+      color: #8b8b8b;
+      font-weight: 200;
     }
   }
 

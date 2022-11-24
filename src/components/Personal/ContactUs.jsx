@@ -30,7 +30,14 @@ const ContactUs = () => {
           {data?.contact_us?.map((item) => (
             <div className="contact" key={~~Math.floor(Math.random() * 99999)}>
               <div className="title">{item?.title}</div>
-              <div className="description">{item.value}</div>
+              <div
+                className="description"
+                style={{
+                  direction: lang.language === 'english' ? 'ltr' : 'ltr',
+                }}
+              >
+                {item.value}
+              </div>
             </div>
           ))}
         </div>

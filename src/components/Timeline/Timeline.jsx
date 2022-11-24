@@ -56,8 +56,23 @@ const Timeline = () => {
         ))}
       </TL>
       {decoded?.isAdmin ? (
-        <form onSubmit={(e) => e.preventDefault()}>
-          <div className="title">{lang.resume.timeline.addtimeline}</div>
+        <form
+          onSubmit={(e) => e.preventDefault()}
+          style={
+            {
+              // padding: '0 10px',
+            }
+          }
+        >
+          <div
+            className="title"
+            style={{
+              textAlign: lang.language === 'persian' ? 'right' : 'left',
+              // padding: '0 10px',
+            }}
+          >
+            {lang.resume.timeline.addtimeline}
+          </div>
           <Input
             type="text"
             placeholder={lang.resume.timeline.inputs.date}
@@ -81,7 +96,13 @@ const Timeline = () => {
             className="scroll"
             autoSize={{ minRows: 1, maxRows: 5 }}
           />
-          <Button type="primary" onClick={handleAddTimeline}>
+          <Button
+            type="primary"
+            onClick={handleAddTimeline}
+            style={{
+              marginTop: 15,
+            }}
+          >
             {lang.resume.timeline.buttons.add}
           </Button>
         </form>
@@ -119,8 +140,10 @@ const Container = styled.div`
   form {
     text-align: left;
     .title {
-      font-size: 1.1rem;
+      font-size: 0.8rem;
       margin-bottom: 15px;
+      color: #959595;
+      font-weight: 200;
     }
     > input,
     textarea {

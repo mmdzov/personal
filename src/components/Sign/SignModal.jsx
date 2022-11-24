@@ -99,9 +99,13 @@ const SignModal = ({ showModal = false, setShowModal }) => {
       serverResult = await ur.signInUser({ email: values.email });
     } else {
       const fd = new FormData();
+      if (!values?.avatar?.file) return message.error('خطا! یک تصویر پروفایل انتخاب کنید');
       fd.append('avatar', values.avatar.file, 'post.jpg');
       fd.append('username', values.username);
       fd.append('email', values.email);
+
+      console.log(values);
+
       serverResult = await ur.signUpUser(fd);
     }
     try {

@@ -2,18 +2,18 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   user-select: none;
-  max-width: 350px;
+  // max-width: 350px;
   height: 100%;
   padding: 10px;
   margin: 0 auto;
   border-radius: 10px;
-  box-shadow: 0px 4px 15px 3px black;
-  background: black;
+  // box-shadow: 0px 4px 15px 3px black;
+  // background: black;
   display: grid;
   grid-template-rows: auto 1fr auto;
   @media (max-width: 380px) {
     border-radius: 0px;
-    max-width: 100% !important;
+    // max-width: 100% !important;
     margin: 0px !important;
   }
 
@@ -69,6 +69,7 @@ export const Container = styled.div`
   }
   .chat {
     display: flex;
+    padding-top: 5px;
     align-items: flex-end;
     > textarea {
       background: #0c0c0c;
@@ -179,18 +180,19 @@ export const Container = styled.div`
     position: relative;
     > span {
       font-size: 0.7rem;
-      background: #0e0e0e;
-      padding: 2px 30px;
+      background: #3c3c3c2e;
+      padding: 3px 17px;
       border-radius: 100px;
       z-index: 9999;
-      color: #bbbbbb;
+      color: #bbb;
       position: relative;
       border: 1px solid #121212;
+      font-weight: bold;
     }
 
     .line {
       width: 100%;
-      height: 1px;
+      // height: 1px;
       top: 16px;
       position: absolute;
       background: #121212;

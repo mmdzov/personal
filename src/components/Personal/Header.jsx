@@ -101,11 +101,20 @@ const Header = () => {
       </div>
 
       <div className="sec" style={{ marginTop: 0 }}>
-        <div className="sec-title-box">
+        <div
+          className="sec-title-box"
+          style={{ position: 'unset', display: 'flex', justifyContent: 'space-between' }}
+        >
           <div className="sec-title">{lang.resume.labels.bio}</div>
-          <EditPen onClick={() => setEditBio((prev) => !prev)} />
+          <EditPen
+            onClick={() => setEditBio((prev) => !prev)}
+            style={{
+              position: 'unset',
+              // position: lang.language === 'persian' ? 'unset' : 'absolute',
+            }}
+          />
         </div>
-        <div className="sec-list">
+        <div className="sec-list" style={{ textAlign: 'center' }}>
           {editBio ? (
             <form>
               <TextArea
@@ -136,10 +145,7 @@ const Container = styled.div`
     .editpen {
       left: -35px !important;
       bottom: -1px !important;
-    }import useLanguage from './../../hooks/useLanguage';
-import useLanguage from './../../hooks/useLanguage';
-import useLanguage from './../../hooks/useLanguage';
-
+    }
   }
 
   .profile {

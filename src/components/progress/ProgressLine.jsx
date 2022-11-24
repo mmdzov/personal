@@ -10,6 +10,7 @@ const ProgressLine = ({
       color: 'white',
     },
   ],
+  labelStyle,
 }) => {
   const [widths, setWidths] = useState(
     visualParts.map(() => {
@@ -39,7 +40,9 @@ const ProgressLine = ({
 
   return (
     <>
-      <div className="progressLabel">{label}</div>
+      <div className="progressLabel" style={labelStyle}>
+        {label}
+      </div>
       <div
         className="progressVisualFull"
         style={{

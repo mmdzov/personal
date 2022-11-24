@@ -6,8 +6,8 @@ export const Container = styled.div`
   padding: 10px;
   margin: 0 auto;
   border-radius: 10px;
-  box-shadow: 0px 4px 15px 3px black;
-  background: black;
+  // box-shadow: 0px 4px 15px 3px black;
+  // background: black;
   user-select: none;
   @media (max-width: 380px) {
     border-radius: 0px;
@@ -28,8 +28,8 @@ export const Container = styled.div`
     display: grid;
     grid-template-columns: auto 1fr auto;
     margin: 10px 0px;
-    padding: 5px 10px;
-    background: #0e0e0e;
+    padding: 10px 12px;
+    background: #000000;
     border-radius: 10px;
     cursor: pointer;
     &:focus,

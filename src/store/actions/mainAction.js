@@ -105,5 +105,5 @@ export const setLang = (lang) => (dispatch) => {
 
 export const setAutoLang = () => (dispatch) => {
   let language = localStorage.getItem('lang');
-  dispatch({ type: SET_LANG, payload: language });
+  dispatch({ type: SET_LANG, payload: language || 'english' });
 };

@@ -11,7 +11,6 @@ import Tags from './components/Tags/Tags';
 import Layout from './layout/Layout';
 
 const Routes = () => {
-  
   return (
     <Switch>
       <Route path="/" element={<Layout />}>
@@ -61,16 +60,18 @@ const Routes = () => {
         }
       />
 
-      {/* //!need admin access */}
-      <Route
-        path="chatlist"
-        caseSensitive
-        element={
-          <PrivateRoute>
-            <ChatList />
-          </PrivateRoute>
-        }
-      />
+      <Route path="chats" element={<Layout navigation={false} />}>
+        {/* //!need admin access */}
+        <Route
+          index
+          caseSensitive
+          element={
+            <PrivateRoute>
+              <ChatList />
+            </PrivateRoute>
+          }
+        />
+      </Route>
 
       <Route
         path="chat/:uid"

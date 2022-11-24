@@ -10,11 +10,13 @@ import errorImg from '../utils/errorImg';
 import { Image } from 'antd';
 import { Helmet } from 'react-helmet';
 import useLanguage from '../../hooks/useLanguage';
+import ChatNotFound from './ChatNotFound';
 
 const io = socket;
 
 const ChatList = () => {
   const [chats, setChats] = useState([]);
+  const [countRefresh, setCountRefresh] = useState(0);
 
   const navigate = useNavigate();
 
@@ -32,8 +34,11 @@ const ChatList = () => {
   });
 
   useEffect(() => {
-    io.on('send-chatlist', (data) => {
+    if (countRefresh === 1) return;
+    io.removeAllListeners('admin-new-message');
+    io.on('admin-new-message', (data) => {
       setChats(data);
+      console.log(data);
     });
   }, [chats]);
 
@@ -41,24 +46,27 @@ const ChatList = () => {
     io.emit('get-chatlist', {});
     io.on('send-chatlist', (data) => {
       setChats(data);
+      setCountRefresh(1);
     });
   }, []);
 
   const lang = useLanguage();
 
+  if (chats.length === 0) return <ChatNotFound />;
   return (
     <Container>
       <Helmet>
         <title>{`${lang.pages.chatlist} | Personal`}</title>
         {/* <meta name="description" content='' /> */}
       </Helmet>
-      <div className="title" onClick={() => navigate('/', { replace: true })}>
+      {/* <div className="title" onClick={() => navigate('/', { replace: true })}>
         {lang.pages.chatlist}
-      </div>
+      </div> */}
       {chats.map((chat) => (
         <div
           key={chat.id}
           className="chat"
+          data-id={chat.id}
           onClick={() => navigate(`/chat/${chat.user?._id}`, { replace: true })}
         >
           <Image className="avatar" src={chat?.user?.avatar ?? errorImg} fallback={errorImg} />

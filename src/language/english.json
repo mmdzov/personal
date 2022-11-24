@@ -1,6 +1,149 @@
 {
   "language": "english",
   "toolbar": {
-    "sign": "Sign"
+    "sign": "Sign Up"
+  },
+  "navbar": {
+    "home": "Home",
+    "chat": "Chat",
+    "blog": "Blog",
+    "tags": "Tags"
+  },
+  "pages": {
+    "home": "Home",
+    "blog": "Blog",
+    "tags": "Tags",
+    "editpost": "Edit",
+    "addpost": "Add",
+    "chatlist": "Peoples",
+    "chat": "Chat with admin"
+  },
+  "blogadd": {
+    "labels": {
+      "postavatar": "Post Avatar",
+      "preview": "Preview"
+    },
+    "buttons": {
+      "editpost": "Edit",
+      "addpost": "Add"
+    },
+    "inputs": {
+      "newcategory": "Add & Change Category",
+      "title": "Title",
+      "description": "Description",
+      "defaultCategoryValue": "Select Category",
+      "tags": "tags"
+    },
+    "messages": {
+      "clipboardcopy": "Image was copied to the clipboard"
+    }
+  },
+  "blogpost": {
+    "deleteblog": "Delete Blog",
+    "sendcomment": {
+      "inputs": {
+        "comment": "Comment..."
+      },
+      "buttons": {
+        "send": "Send"
+      },
+      "replyto": "Send To ",
+      "addacomment": "Add A Comment ",
+      "comment": "Comment"
+    },
+    "comments": {
+      "reply": "Reply",
+      "deletecomment": "Delete Comment",
+      "to": "To"
+    }
+  },
+  "deleteicon": {
+    "oktext": "Yep",
+    "canceltext": "Nope",
+    "areyousure": "Are You Sure?"
+  },
+  "chat": {
+    "chatwithadmin": "Chat With Admin",
+    "startconversation": "Start Chat",
+    "inputs": {
+      "write": "Write..."
+    }
+  },
+  "chatlist": {
+    "nomessage": "No Message"
+  },
+  "tags": {
+    "results": "Results",
+    "resultNotFound": "Sorry :( No results found",
+    "loading": "Wait...",
+    "inputs": {
+      "searchtag": "Tag Search"
+    }
+  },
+  "resume": {
+    "edit": "Edit",
+    "delete": "Delete",
+    "labels": {
+      "bio": "Bio",
+      "relatedposts": "Related Posts",
+      "skills": "Skills",
+      "timeline": "Timeline"
+    },
+    "inputs": {
+      "bio": "Bio..."
+    },
+    "skills": {
+      "note1": "These percentages are below my level of knowledge because I always see myself as less than I am.",
+      "note2": "I can interact with and use any JavaScript-related tools, libraries, and frameworks",
+      "addskill": "Add Skills",
+      "inputs": {
+        "placeholder": "skill name",
+        "knowledge": "knowledge",
+        "pickcolor": "Pick A Color",
+        "example": "Example"
+      },
+      "buttons": {
+        "add": "Add"
+      }
+    },
+    "timeline": {
+      "addtimeline": "Add Timeline",
+      "inputs": {
+        "date": "Date",
+        "title": "Title",
+        "subtitle": "Subtitle"
+      },
+      "buttons": {
+        "add": "Add"
+      }
+    }
+  },
+  "contact": {
+    "title": "Contact",
+    "socialmedia": "SocialMedia",
+    "call": "Call",
+    "email": "Email"
+  },
+  "location": {
+    "title": "Location",
+    "country": "Iran",
+    "state": "Khuzestan",
+    "city": "Abadan"
+  },
+  "sign": {
+    "successlogin": "You have successfully logged in.",
+    "sendedcode": "A verification code has been sent to your email. Please enter it here",
+    "retry": "Retry",
+    "complete": "Complete",
+    "countdown": "Countdown",
+    "signin": "Sign In",
+    "signup": "Sign Up",
+    "canceltext": "Cancel",
+    "verifycode": "Verify Code",
+    "inputs": {
+      "verifycode": "Verify Code",
+      "username": "Username",
+      "email": "Email"
+    }
   }
 }

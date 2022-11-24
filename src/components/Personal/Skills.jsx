@@ -36,12 +36,12 @@ const Skills = () => {
         ))}
       </div>
       <NewSkill filledSkill={filledSkill} />
-      <div className="note" style={{ textAlign: lang?.language === 'persian' ? 'right' : 'left' }}>
-        {lang.resume.skills.note1}
-        <p style={{ marginBottom: '0px' }}>
-          <b>{lang.resume.skills.note2}</b>
-        </p>
-      </div>
+      {/* <div className="note" style={{ textAlign: lang?.language === 'persian' ? 'right' : 'left' }}> */}
+      {/* {lang.resume.skills.note1} */}
+      {/* <p style={{ marginBottom: '0px' }}> */}
+      {/* <b>{lang.resume.skills.note2}</b> */}
+      {/* </p> */}
+      {/* </div> */}
     </Container>
   );
 };

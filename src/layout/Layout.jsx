@@ -7,7 +7,8 @@ const Layout = ({ navigation = true }) => {
 
   return (
     <div className="" style={{ direction: language === 'persian' ? 'rtl' : 'ltr' }}>
-      {navigation ? <Navigation /> : null}
+      {/* {navigation ? <Navigation /> : null} */}
+      <Navigation navigation={navigation} />
       <Outlet />
     </div>
   );

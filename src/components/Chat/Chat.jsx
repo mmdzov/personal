@@ -44,6 +44,8 @@ const Chat = () => {
   const { data } = useSelector(({ main }) => main);
   const decoded = useTokenDecode();
   const { uid } = useParams();
+  const [unreadMessages, setUnreadMessages] = useState([]);
+  let [msgFetch, setMsgFetch] = useState(false);
 
   const messageDataStructure = (data, mode = 'INIT') => {
     const result = data
@@ -98,22 +100,36 @@ const Chat = () => {
 
   const msgRef = useRef();
   const msgInputRef = useRef();
+  const [firstTimeLoad, setFirstTimeLoad] = useState(0);
+
+  useEffect(() => {
+    setFirstTimeLoad(1);
+  }, []);
 
   useEffect(() => {
     if (messages?.length > 0) {
+      if (firstTimeLoad === 1) {
+        msgRef.current.classList.add('default-scroll');
+      }
       if (msgRef?.current) {
         msgRef.current.scroll({
           top: msgRef.current.scrollHeight,
           left: 0,
           behavior: 'auto',
         });
+
+        setFirstTimeLoad(2);
       }
+      try {
+        msgRef.current.classList.remove('default-scroll');
+      } catch (e) {}
     }
   }, [messages]);
 
   useEffect(() => {
     io.removeAllListeners('callback_message');
     io.on('callback_message', async (data) => {
+      // console.log(data);
       let currentDate = new Date().toLocaleDateString('fa-IR');
       let result = messages.map((item) => {
         if (item?.date === currentDate) {
@@ -127,12 +143,36 @@ const Chat = () => {
         return item;
       });
       setMessages(result);
+
+      let observer = {};
+
+      const callback = (entries, obs) => {
+        entries.slice(-1).forEach((entry) => {
+          if (entry.isIntersecting) {
+            const classNameChunks = entry.target.className.split(' ');
+            const isIt = classNameChunks[2] === 'it';
+            console.log(data);
+
+            if (isIt) io.emit('read-message', { message: data });
+
+            observer.disconnect();
+          }
+        });
+      };
+
+      observer = new IntersectionObserver(callback, {
+        threshold: 1,
+      });
+
+      document.querySelectorAll('.chatitem').forEach((shape) => observer.observe(shape));
     });
   }, [messages]);
 
   useEffect(() => {
+    if (setMsgFetch === true) return;
+    io.removeAllListeners('read-unread-messages');
     io.on('read-unread-messages', (unreads) => {
-      // console.log(unreads);
+      // console.log(unreads, 'unr');
       if (unreads?.length === 0) return;
       let res = messages.map((item) => {
         // ! not accepted unreads
@@ -140,11 +180,20 @@ const Chat = () => {
         // console.log(messageIndex);
         if (messageIndex >= 0) {
           item.messages[messageIndex].seen = true;
+
+          // const unrs = unreads.filter((id) => item.messages[messageIndex]?._id !== id);
+
+          // setUnreadMessages(unrs);
         }
         return item;
       });
+
+      setMsgFetch(true);
       setMessages(res);
-      io.removeAllListeners('read-unread-messages');
+      setTimeout(() => {
+        setMsgFetch(false);
+      }, 300);
+      // io.removeAllListeners('read-unread-messages');
     });
   }, [messages]);
 
@@ -180,8 +229,6 @@ const Chat = () => {
     await setValue('');
     await msgInputRef?.current?.focus();
   };
-
-  const [unreadMessages, setUnreadMessages] = useState([]);
 
   useEffect(() => {
     let destroyListener = createScrollStopListener(msgRef?.current, () => {
@@ -255,7 +302,7 @@ const Chat = () => {
 
         <div
           className="chatlistIcon"
-          onClick={() => navigate(decoded?.isAdmin ? '/chatlist' : '/', { replace: true })}
+          onClick={() => navigate(decoded?.isAdmin ? '/chats' : '/', { replace: true })}
         >
           <IoReturnUpForward />
         </div>
@@ -309,6 +356,7 @@ const Chat = () => {
       <form className="chat">
         <TextArea
           value={value}
+          onPressEnter={handleSendMessage}
           onChange={handleChange}
           placeholder={lang.chat.inputs.write}
           id="textarea"
@@ -316,7 +364,13 @@ const Chat = () => {
           className="scroll"
           autoSize={{ minRows: 1, maxRows: 3 }}
         />
-        <Button type="primary" onClick={handleSendMessage}>
+        <Button
+          type="primary"
+          onClick={handleSendMessage}
+          style={{
+            lineHeight: '10px',
+          }}
+        >
           <IoSend />
         </Button>
       </form>
