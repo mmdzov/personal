@@ -1,6 +1,7 @@
 import { io } from 'socket.io-client';
+import envs from './envs';
 
-const BASE_URL = 'http://localhost:4000';
+const BASE_URL = `${envs().baseUrl}`;
 
 const config = {
   withCredentials: true,

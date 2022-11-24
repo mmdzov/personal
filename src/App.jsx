@@ -81,7 +81,6 @@ function App() {
   //   getUser();
   // }, []);
 
-
   return (
     <Context.Provider value={{ data, notifications }}>
       <Container className="App">
