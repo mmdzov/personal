@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import styled from 'styled-components';
 import './App.css';
 import Context from './context/Context';
@@ -13,37 +13,41 @@ import useLanguage from './hooks/useLanguage';
 import Loading from './components/Loading/Loading';
 import { persistStore } from 'redux-persist';
 import { store } from './store/store';
+import { getLang } from './language/language';
 
 function App() {
   const { language } = useSelector(({ main }) => main);
   const dispatch = useDispatch();
   const lang = useLanguage();
 
+  const [loading, setLoading] = useState(true);
+
   const [data, setData] = useState({
     contact_us: [
-      { title: lang?.contact?.call || "Call", value: '+989356597910' },
-      { title: lang?.contact?.email || "Email", value: 'Mzov939@gmail.com' },
+      { title: lang?.contact?.call || 'Call', value: '+989356597910' },
+      { title: lang?.contact?.email || 'Email', value: 'Mzov939@gmail.com' },
     ],
   });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     dispatch(setAutoLang());
     dispatch(getMain());
     dispatch(setAuthUser());
+    setLoading(false);
   }, []);
 
   useEffect(() => {
     let localStLang = localStorage.getItem('lang');
-    if (localStLang !== language) localStorage.setItem('lang', language);
-    if (!localStLang) {
-      localStorage.setItem('lang', 'english');
+    const lng = language || 'english';
+    if (localStLang?.trim().length === 0) {
+      localStorage.setItem('lang', lng);
       dispatch(setAutoLang());
-    }
+    } else if (localStLang !== language) localStorage.setItem('lang', lng);
 
     setData({
       contact_us: [
-        { title: lang.contact.call, value: '+989356597910' },
-        { title: lang.contact.email, value: 'Mzov939@gmail.com' },
+        { title: getLang(lng).contact.email, value: '+989356597910' },
+        { title: getLang(lng).contact.email, value: 'Mzov939@gmail.com' },
       ],
     });
   }, [lang]);
@@ -81,6 +85,7 @@ function App() {
   //   getUser();
   // }, []);
 
+  if (loading) return <Loading />;
   return (
     <Context.Provider value={{ data, notifications }}>
       <Container className="App">
