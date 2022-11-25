@@ -21,8 +21,8 @@ function App() {
 
   const [data, setData] = useState({
     contact_us: [
-      { title: lang?.contact?.call || "تماس", value: '+989356597910' },
-      { title: lang?.contact?.email || "ایمیل", value: 'Mzov939@gmail.com' },
+      { title: lang?.contact?.call || "Call", value: '+989356597910' },
+      { title: lang?.contact?.email || "Email", value: 'Mzov939@gmail.com' },
     ],
   });
 
