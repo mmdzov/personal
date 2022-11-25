@@ -7,6 +7,8 @@ const envs = () => {
     env.baseUrl = 'https://mmdzov.com';
   }
 
+  console.log(env)
+
   return env;
 };
 
